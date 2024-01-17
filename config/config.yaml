@@ -1,0 +1,27 @@
+app:
+  name: "blog"
+  mode: "dev"
+  port: "80"
+  start_time: "2024-01-16"
+  machine_id: 1
+auth:
+  jwt_expire: 8760
+log:
+  level: "debug"
+  filename: "./logger/blog.log"
+  max_size: 1
+  max_backups: 7
+mysql:
+  host: "127.0.0.1"
+  username: "root"
+  password: "..Lzh20050807.."
+  port: "3306"
+  dbname: "blog"
+  max_open_con: 200
+  max_idle_con: 50
+redis:
+  host: "127.0.0.1"
+  port: 6379
+  db: 0
+  password: ""
+  poll_size: 100
