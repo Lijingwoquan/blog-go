@@ -12,7 +12,6 @@ import (
 func Init(mode string) (err error) {
 	// 创建编码器
 	encoder := getEncoder()
-
 	// 创建写入同步器
 	writeSyncer := getLogWriter(viper.GetString("log.filename"),
 		viper.GetInt("log.max_size"),
@@ -30,7 +29,6 @@ func Init(mode string) (err error) {
 	if mode == "dev" {
 		//开发模式,日志输出到终端
 		consoleEncoder := zapcore.NewConsoleEncoder(zap.NewDevelopmentEncoderConfig())
-
 		core = zapcore.NewTee(
 			zapcore.NewCore(encoder, writeSyncer, l),
 			//往文件去写
@@ -44,6 +42,7 @@ func Init(mode string) (err error) {
 	lg := zap.New(core, zap.AddCaller())
 	// 替换zap包中全局的logger实例，后续在其他包中只需使用zap.L()调用即可
 	zap.ReplaceGlobals(lg)
+	zap.L().Info("init logger success")
 	return
 }
 

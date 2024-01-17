@@ -1,6 +1,8 @@
 package routers
 
 import (
+	"blog/controller"
+	"blog/middlewares"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -12,11 +14,18 @@ func SetupRouter(mode string) *gin.Engine {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	r := gin.New()
-	r.GET("/", func(c *gin.Context) {
-		c.JSONP(http.StatusOK, gin.H{
-			"msg": "ok",
+
+	r.POST("/sign", controller.SignHandler)
+	r.POST("/login", controller.LoginHandler)
+
+	r.Use(middlewares.JWTAuthMiddleware())
+	{
+		r.GET("/test", func(c *gin.Context) {
+			c.JSON(http.StatusOK, gin.H{
+				"msg": "ok",
+			})
 		})
-	})
+	}
 	r.NoRoute(func(c *gin.Context) {
 		c.JSONP(http.StatusOK, gin.H{
 			"msg": "404",

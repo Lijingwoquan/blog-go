@@ -37,6 +37,7 @@ func main() {
 	//4.初始化redis
 	if err := redis.Init(); err != nil {
 		fmt.Printf("init redis failed err:%v", err)
+		return
 	}
 	defer redis.Close()
 
@@ -45,7 +46,6 @@ func main() {
 		fmt.Printf("snowflake init failed,err:%v", err)
 		return
 	}
-
 	//5.注册路由
 	r := routers.SetupRouter(viper.GetString("app.mode"))
 	err := r.Run(":8080")

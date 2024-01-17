@@ -19,6 +19,8 @@ func Init(startTime string, machineId int64) (err error) {
 	node, err = sf.NewNode(machineId)
 	return err
 }
+
+// GenID 生成唯一的uid
 func GenID() int64 {
 	return node.Generate().Int64()
 }

@@ -5,11 +5,12 @@ app:
   start_time: "2024-01-16"
   machine_id: 1
 auth:
-  jwt_expire: 8760
+  jwt_expire: 168 #一周时间
 log:
-  level: "debug"
-  filename: "./logger/blog.log"
+  level: "info"
+  filename: "/blog.log"
   max_size: 1
+  max_age: 30
   max_backups: 7
 mysql:
   host: "127.0.0.1"
