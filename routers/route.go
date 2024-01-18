@@ -15,7 +15,7 @@ func SetupRouter(mode string) *gin.Engine {
 	}
 	r := gin.New()
 
-	r.POST("/sign", controller.SignHandler)
+	r.POST("/signup", controller.SignupHandler)
 	r.POST("/login", controller.LoginHandler)
 
 	r.Use(middlewares.JWTAuthMiddleware())
