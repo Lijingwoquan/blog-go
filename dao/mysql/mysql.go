@@ -29,10 +29,24 @@ func Init() (err error) {
 	//建表操作
 	err = CreateUserTale(db)
 	if err != nil {
-		zap.L().Error("CreateUserTale(db)failed,err:%v", zap.Error(err))
+		zap.L().Error("CreateUserTale(db) failed,err:%v", zap.Error(err))
 		return err
 	}
-
+	err = CreateClassifyKindTable(db)
+	if err != nil {
+		zap.L().Error("CreateClassifyKindTable(db) failed,err:%v", zap.Error(err))
+		return err
+	}
+	err = CreateClassifyTable(db)
+	if err != nil {
+		zap.L().Error(" CreateClassifyTable(db) failed,err:%v", zap.Error(err))
+		return err
+	}
+	err = CreateEssayTable(db)
+	if err != nil {
+		zap.L().Error("CreateEssayTable(db) failed,err:%v", zap.Error(err))
+		return err
+	}
 	return
 }
 
@@ -45,6 +59,35 @@ func CreateUserTale(db *sqlx.DB) (err error) {
 			email VARCHAR(32) NOT NULL,
 			create_time timestamp default CURRENT_TIMESTAMP NULL,
 			update_time timestamp default NULL ON UPDATE CURRENT_TIMESTAMP)`
+	_, err = db.Exec(sqlStr)
+	return err
+}
+
+func CreateClassifyKindTable(db *sqlx.DB) (err error) {
+	sqlStr := `CREATE TABLE IF NOT EXISTS classifyKind(
+	ID INT AUTO_INCREMENT PRIMARY KEY,
+	classifyKindName VARCHAR(60) NOT NULL)`
+	_, err = db.Exec(sqlStr)
+	return err
+}
+
+func CreateClassifyTable(db *sqlx.DB) (err error) {
+	sqlStr := `CREATE TABLE IF NOT EXISTS classify(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	classifyKindName VARCHAR(60) NOT NULL,
+	classifyName VARCHAR(60) NOT NULL,
+	classifyRoute VARCHAR(60) NOT NULL )`
+	_, err = db.Exec(sqlStr)
+	return err
+}
+func CreateEssayTable(db *sqlx.DB) (err error) {
+	sqlStr := `CREATE TABLE IF NOT EXISTS essay(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    essayKind VARCHAR(60) NOT NULL,
+	essayName VARCHAR(60) NOT NULL,
+    essayContent TEXT NOT NULL
+)
+`
 	_, err = db.Exec(sqlStr)
 	return err
 }

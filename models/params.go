@@ -3,6 +3,17 @@ package models
 type UserParams struct {
 	Username   string `json:"username" binding:"required"`
 	Password   string `json:"password" binding:"required"`
-	RePassword string `json:"re_password" binding:"required,eqfield=Password"`
+	RePassword string `json:"rePassword" binding:"required,eqfield=Password"`
 	Email      string `json:"email" binding:"required" db:"email"`
+}
+
+type ClassifyParams struct {
+	ClassifyKind  string `json:"classifyKind" binding:"required"`
+	ClassifyName  string `json:"classifyName" binding:"required"`
+	ClassifyRoute string `json:"classifyRoute" binding:"required"`
+}
+type EssayParams struct {
+	EssayKind    string `json:"essayKind" binding:"required"`
+	EssayName    string `json:"essayName" binding:"required"`
+	EssayContent string `json:"essayContent" binding:"required"`
 }

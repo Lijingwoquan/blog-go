@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	SignupSuccess = "注册成功"
-	LoginSuccess  = "登录成功"
+	signupSuccess = "注册成功"
+	loginSuccess  = "登录成功"
 )
 
 // SignupHandler 注册
@@ -27,7 +27,7 @@ func SignupHandler(c *gin.Context) {
 		return
 	}
 	//3.返回响应
-	ResponseSuccess(c, SignupSuccess)
+	ResponseSuccess(c, signupSuccess)
 }
 
 // LoginHandler 登录
@@ -46,5 +46,5 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 	//3.返回响应
-	ResponseSuccess(c, LoginSuccess)
+	ResponseSuccess(c, loginSuccess)
 }

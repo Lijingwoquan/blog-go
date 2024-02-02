@@ -7,16 +7,25 @@ import (
 	"net/http"
 )
 
-var r *gin.Engine
-
 func SetupRouter(mode string) *gin.Engine {
 	if mode == gin.ReleaseMode {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	r := gin.New()
 
-	r.POST("/signup", controller.SignupHandler)
-	r.POST("/login", controller.LoginHandler)
+	r := gin.Default()
+
+	v1 := r.Group("/api/base")
+	{
+		v1.POST("/signup", controller.SignupHandler)
+		v1.POST("/login", controller.LoginHandler)
+		v1.GET("/index", controller.ResponseDataAboutIndex)
+	}
+
+	v2 := r.Group("/api/manager")
+	{
+		v2.POST("/addClassify", controller.AddClassifyHandler)
+		v2.POST("/addEssay", controller.AddEssayHandler)
+	}
 
 	r.Use(middlewares.JWTAuthMiddleware())
 	{
@@ -26,6 +35,7 @@ func SetupRouter(mode string) *gin.Engine {
 			})
 		})
 	}
+
 	r.NoRoute(func(c *gin.Context) {
 		c.JSONP(http.StatusOK, gin.H{
 			"msg": "404",

@@ -1,0 +1,134 @@
+{"level":"INFO","time":"2024-02-02T17:28:05.376+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T17:28:48.373+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T17:41:26.726+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T17:43:07.277+0800","caller":"logic/user.go:15","msg":"mysql.CheckUserExist(u.Username) failed","error":"用户已经存在"}
+{"level":"INFO","time":"2024-02-02T18:54:24.688+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T19:18:07.988+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:19:54.627+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:20:45.105+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:20:48.300+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:23:35.245+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:23:36.339+0800","caller":"mysql/manager.go:36","msg":"CheckClassifyKindExist(c) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"ERROR","time":"2024-02-02T19:23:36.339+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:24:06.247+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T19:24:36.319+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:24:37.468+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:25:25.027+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:25:26.414+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:27:54.948+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:27:57.896+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:28:13.052+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:28:14.707+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:28:38.286+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:28:39.031+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"ERROR","time":"2024-02-02T19:28:48.113+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:28:53.079+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:28:54.916+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:29:12.088+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:29:12.824+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:31:58.459+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:32:00.663+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:32:25.159+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:32:26.660+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '前端开发' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:33:10.921+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T19:36:19.755+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T19:40:19.342+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:40:21.948+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '?' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:40:40.203+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:40:41.763+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"Error 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '?' at line 1"}
+{"level":"INFO","time":"2024-02-02T19:41:13.437+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T19:42:38.370+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T19:43:37.656+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T19:50:34.573+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:50:36.284+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"INFO","time":"2024-02-02T19:51:07.028+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:51:08.728+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"INFO","time":"2024-02-02T19:51:29.021+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T19:51:31.040+0800","caller":"controller/manager.go:25","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"INFO","time":"2024-02-02T21:37:15.716+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T21:37:15.732+0800","caller":"mysql/mysql.go:47","msg":"CreateEssayTable(db) failed,err:%v","error":"Error 1074 (42000): Column length too big for column 'essayContent' (max = 16383); use BLOB or TEXT instead"}
+{"level":"INFO","time":"2024-02-02T21:37:37.626+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T21:37:37.634+0800","caller":"mysql/mysql.go:47","msg":"CreateEssayTable(db) failed,err:%v","error":"Error 1074 (42000): Column length too big for column 'essayContent' (max = 16383); use BLOB or TEXT instead"}
+{"level":"INFO","time":"2024-02-02T21:40:04.337+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T21:47:40.998+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T21:47:54.551+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T21:48:40.651+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T21:51:18.288+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T21:51:24.964+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T22:02:52.844+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T22:04:44.894+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T22:04:47.586+0800","caller":"controller/manager.go:43","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"INFO","time":"2024-02-02T22:05:37.451+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T22:05:40.463+0800","caller":"controller/manager.go:43","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"INFO","time":"2024-02-02T22:05:58.660+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T22:06:02.646+0800","caller":"controller/manager.go:43","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"INFO","time":"2024-02-02T22:07:05.478+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T22:07:07.289+0800","caller":"controller/manager.go:44","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-02-02T22:07:08.351+0800","caller":"controller/manager.go:44","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"INFO","time":"2024-02-02T22:07:35.343+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T22:07:41.806+0800","caller":"controller/user.go:20","msg":"c.ShouldBindJSON(&u) failed","error":"Key: 'UserParams.RePassword' Error:Field validation for 'RePassword' failed on the 'required' tag"}
+{"level":"INFO","time":"2024-02-02T22:07:53.459+0800","caller":"logic/user.go:15","msg":"mysql.CheckUserExist(u.Username) failed","error":"用户已经存在"}
+{"level":"ERROR","time":"2024-02-02T22:07:59.957+0800","caller":"controller/manager.go:26","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"ERROR","time":"2024-02-02T22:08:03.106+0800","caller":"controller/manager.go:44","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-02-02T22:08:04.415+0800","caller":"controller/manager.go:44","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"INFO","time":"2024-02-02T23:13:05.515+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T23:13:10.468+0800","caller":"controller/data.go:16","msg":"mysql.GetDataAboutClassifyKind() failed","error":"sql: Scan error on column index 0, name \"COUNT(*)\": unsupported Scan, storing driver.Value type []uint8 into type *[]string"}
+{"level":"INFO","time":"2024-02-02T23:13:41.327+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T23:13:51.034+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T23:13:53.806+0800","caller":"controller/data.go:16","msg":"mysql.GetDataAboutClassifyKind() failed","error":"non-struct dest type string with >1 columns (2)"}
+{"level":"INFO","time":"2024-02-02T23:16:40.738+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T23:17:05.977+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T23:18:30.782+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T23:23:01.789+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T23:24:13.451+0800","caller":"controller/manager.go:26","msg":"mysql.AddClassify(classify) failed","error":"Error 1364 (HY000): Field 'ClassifyRoute' doesn't have a default value"}
+{"level":"INFO","time":"2024-02-02T23:25:01.001+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T23:26:22.120+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T23:26:24.230+0800","caller":"controller/manager.go:26","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"ERROR","time":"2024-02-02T23:26:30.741+0800","caller":"controller/data.go:26","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name ClassifyName in *[]models.DataAboutClassifyDetails"}
+{"level":"INFO","time":"2024-02-02T23:29:22.891+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T23:30:05.687+0800","caller":"controller/data.go:26","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name ClassifyName in *[]models.DataAboutClassifyDetails"}
+{"level":"INFO","time":"2024-02-02T23:31:33.090+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T23:31:34.526+0800","caller":"controller/data.go:26","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name ClassifyName in *[]models.DataAboutClassifyDetails"}
+{"level":"INFO","time":"2024-02-02T23:32:12.678+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T23:33:08.647+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T23:33:37.843+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T23:33:41.903+0800","caller":"controller/data.go:26","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name classifyKindName in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-02T23:35:10.368+0800","caller":"controller/data.go:18","msg":"mysql.GetDataAboutClassifyKind() failed","error":"Error 1146 (42S02): Table 'blog.classifykind' doesn't exist"}
+{"level":"INFO","time":"2024-02-02T23:35:24.344+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T23:35:25.623+0800","caller":"mysql/manager.go:25","msg":"db.Exec(sqlStr,c.ClassifyName) failed","error":"Error 1054 (42S22): Unknown column 'ClassifyKindName' in 'field list'"}
+{"level":"ERROR","time":"2024-02-02T23:35:25.623+0800","caller":"controller/manager.go:26","msg":"mysql.AddClassify(classify) failed","error":"Error 1054 (42S22): Unknown column 'ClassifyKindName' in 'field list'"}
+{"level":"ERROR","time":"2024-02-02T23:35:27.502+0800","caller":"controller/manager.go:44","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-02-02T23:35:29.093+0800","caller":"controller/data.go:18","msg":"mysql.GetDataAboutClassifyKind() failed","error":"Error 1054 (42S22): Unknown column 'ClassifyKindName' in 'field list'"}
+{"level":"ERROR","time":"2024-02-02T23:35:36.118+0800","caller":"mysql/manager.go:25","msg":"db.Exec(sqlStr,c.ClassifyName) failed","error":"Error 1054 (42S22): Unknown column 'ClassifyKindName' in 'field list'"}
+{"level":"ERROR","time":"2024-02-02T23:35:36.118+0800","caller":"controller/manager.go:26","msg":"mysql.AddClassify(classify) failed","error":"Error 1054 (42S22): Unknown column 'ClassifyKindName' in 'field list'"}
+{"level":"ERROR","time":"2024-02-02T23:35:41.704+0800","caller":"controller/data.go:18","msg":"mysql.GetDataAboutClassifyKind() failed","error":"Error 1054 (42S22): Unknown column 'ClassifyKindName' in 'field list'"}
+{"level":"INFO","time":"2024-02-02T23:35:54.473+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T23:35:57.245+0800","caller":"controller/data.go:18","msg":"mysql.GetDataAboutClassifyKind() failed","error":"Error 1054 (42S22): Unknown column 'ClassifyKindName' in 'field list'"}
+{"level":"INFO","time":"2024-02-02T23:36:47.993+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T23:36:55.199+0800","caller":"controller/manager.go:44","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-02-02T23:37:02.536+0800","caller":"controller/data.go:26","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name classifyKindName in *[]models.DataAboutClassifyDetails"}
+{"level":"INFO","time":"2024-02-02T23:37:35.100+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-02T23:37:43.144+0800","caller":"controller/data.go:26","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name classifyKindName in *[]models.DataAboutClassifyDetails"}
+{"level":"INFO","time":"2024-02-02T23:38:17.539+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-02T23:59:59.330+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T00:00:05.957+0800","caller":"controller/data.go:19","msg":"mysql.GetDataAboutClassifyKind() failed","error":"must pass a pointer, not a value, to StructScan destination"}
+{"level":"INFO","time":"2024-02-03T00:00:50.762+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T00:00:53.659+0800","caller":"controller/data.go:26","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"must pass a pointer, not a value, to StructScan destination"}
+{"level":"INFO","time":"2024-02-03T00:01:34.558+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:01:47.833+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:08:43.877+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:11:16.364+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:12:39.703+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:12:48.410+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:13:01.775+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:13:56.230+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:16:53.786+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:17:00.074+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:19:49.384+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:19:59.961+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:21:30.586+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T00:22:32.494+0800","caller":"controller/manager.go:26","msg":"mysql.AddClassify(classify) failed","error":"Error 1406 (22001): Data too long for column 'classifyRoute' at row 1"}
+{"level":"INFO","time":"2024-02-03T00:24:27.078+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:27:50.220+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:31:46.655+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:32:51.067+0800","caller":"logger/logger.go:45","msg":"init logger success"}
