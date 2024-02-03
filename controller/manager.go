@@ -9,7 +9,8 @@ import (
 
 const (
 	addClassifySuccess = "添加分类成功"
-	addEssay           = "添加文章成功"
+	addEssaySuccess    = "添加文章成功"
+	updateSuccess      = "修改文章成功"
 )
 
 func AddClassifyHandler(c *gin.Context) {
@@ -46,5 +47,23 @@ func AddEssayHandler(c *gin.Context) {
 		return
 	}
 	//3.返回响应
-	ResponseSuccess(c, addEssay)
+	ResponseSuccess(c, addEssaySuccess)
+}
+
+func UpdateEssayHandler(c *gin.Context) {
+	//1.获取参数
+	var data = new(models.UpdateEssay)
+	if err := c.ShouldBindJSON(data); err != nil {
+		zap.L().Error("c.ShouldBindJSON(data) failed", zap.Error(err))
+		ResponseError(c, CodeParamInvalid)
+		return
+	}
+	//2.业务处理
+	if err := mysql.UpdateEssay(data); err != nil {
+		zap.L().Error("mysql.UpdateEssay(data) failed", zap.Error(err))
+		ResponseError(c, CodeServeBusy)
+		return
+	}
+	//3.返回响应
+	ResponseSuccess(c, updateSuccess)
 }

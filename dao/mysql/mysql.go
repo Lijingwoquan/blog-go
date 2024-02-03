@@ -85,7 +85,8 @@ func CreateEssayTable(db *sqlx.DB) (err error) {
     id INT AUTO_INCREMENT PRIMARY KEY,
     essayKind VARCHAR(60) NOT NULL,
 	essayName VARCHAR(60) NOT NULL,
-    essayContent TEXT NOT NULL
+    essayContent TEXT NOT NULL,
+    essayRoute VARCHAR(60) NOT NULL 
 )
 `
 	_, err = db.Exec(sqlStr)

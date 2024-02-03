@@ -132,3 +132,60 @@
 {"level":"INFO","time":"2024-02-03T00:27:50.220+0800","caller":"logger/logger.go:45","msg":"init logger success"}
 {"level":"INFO","time":"2024-02-03T00:31:46.655+0800","caller":"logger/logger.go:45","msg":"init logger success"}
 {"level":"INFO","time":"2024-02-03T00:32:51.067+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T00:38:59.458+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T01:00:46.721+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T01:00:59.881+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:22:19.878+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:24:16.392+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:24:42.043+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:26:28.368+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:27:12.344+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:28:15.058+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:30:03.320+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:31:13.478+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:32:57.392+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:33:37.355+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:34:46.809+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:36:30.795+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:36:58.463+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:38:12.882+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:39:08.717+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:41:21.139+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:41:27.248+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T20:43:20.571+0800","caller":"controller/manager.go:44","msg":"mysql.CreateEssay(essay) failed","error":"Error 1364 (HY000): Field 'essayRoute' doesn't have a default value"}
+{"level":"INFO","time":"2024-02-03T20:43:52.934+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T20:43:54.606+0800","caller":"controller/manager.go:44","msg":"mysql.CreateEssay(essay) failed","error":"sql: expected 4 arguments, got 3"}
+{"level":"INFO","time":"2024-02-03T20:45:01.298+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:53:59.107+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T20:57:00.179+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T21:34:09.964+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T21:35:56.787+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T21:37:45.343+0800","caller":"controller/manager.go:45","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-02-03T21:38:12.960+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"could not find name EssayName in &models.UpdateEssay{EssayOldName:\"算法\", EssayName:\"算法是不是最屌的\", EssayKind:\"算法嘻嘻\", EssayRoute:\"/abiutJustJoking\", EssayContent:\"算法哥无敌 努力成为算法哥\"}"}
+{"level":"INFO","time":"2024-02-03T21:39:22.393+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T21:39:24.462+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"could not find name essayContent in &models.UpdateEssay{EssayOldName:\"算法\", EssayName:\"算法是不是最屌的\", EssayKind:\"算法嘻嘻\", EssayRoute:\"/abiutJustJoking\", EssayContent:\"算法哥无敌 努力成为算法哥\"}"}
+{"level":"ERROR","time":"2024-02-03T21:40:38.677+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"could not find name essayContent in &models.UpdateEssay{EssayOldName:\"算法\", EssayName:\"算法是不是最屌的\", EssayKind:\"算法嘻嘻\", EssayRoute:\"/abiutJustJoking\", EssayContent:\"算法哥无敌 努力成为算法哥\"}"}
+{"level":"INFO","time":"2024-02-03T21:40:42.565+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T21:40:43.409+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"could not find name essayOldName in &models.UpdateEssay{EssayOldName:\"算法\", EssayName:\"算法是不是最屌的\", EssayKind:\"算法嘻嘻\", EssayRoute:\"/abiutJustJoking\", EssayContent:\"算法哥无敌 努力成为算法哥\"}"}
+{"level":"INFO","time":"2024-02-03T21:43:17.370+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T21:43:17.992+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"could not find name EssayName in &models.UpdateEssay{EssayOldName:\"算法\", EssayName:\"算法是不是最屌的\", EssayKind:\"算法嘻嘻\", EssayRoute:\"/abiutJustJoking\", EssayContent:\"算法哥无敌 努力成为算法哥\"}"}
+{"level":"INFO","time":"2024-02-03T21:46:52.111+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T21:46:56.784+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"could not find name EssayName in &models.UpdateEssay{EssayOldName:\"算法\", EssayName:\"算法是不是最屌的\", EssayKind:\"算法嘻嘻\", EssayRoute:\"/abiutJustJoking\", EssayContent:\"算法哥无敌 努力成为算法哥\"}"}
+{"level":"INFO","time":"2024-02-03T21:48:57.684+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T21:48:58.062+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"could not find name EssayName in &models.UpdateEssay{EssayOldName:\"算法\", EssayName:\"算法是不是最屌的\", EssayKind:\"算法嘻嘻\", EssayRoute:\"/abiutJustJoking\", EssayContent:\"算法哥无敌 努力成为算法哥\"}"}
+{"level":"ERROR","time":"2024-02-03T21:49:11.789+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"could not find name EssayName in &models.UpdateEssay{EssayOldName:\"算法\", EssayName:\"算法是不是最屌的\", EssayKind:\"算法嘻嘻\", EssayRoute:\"/abiutJustJoking\", EssayContent:\"算法哥无敌 努力成为算法哥\"}"}
+{"level":"INFO","time":"2024-02-03T21:51:05.938+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T21:53:17.373+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T21:54:22.601+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T21:56:54.107+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T21:58:20.189+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T21:59:09.801+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T22:00:42.018+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T22:05:52.396+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T22:05:53.072+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"expected slice but got struct"}
+{"level":"INFO","time":"2024-02-03T22:06:06.818+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T22:07:09.297+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T22:10:53.844+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"ERROR","time":"2024-02-03T22:10:56.704+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"没有找到该文章"}
+{"level":"INFO","time":"2024-02-03T22:11:46.808+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-03T22:12:20.358+0800","caller":"logger/logger.go:45","msg":"init logger success"}

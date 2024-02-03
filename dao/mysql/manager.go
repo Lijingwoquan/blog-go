@@ -68,7 +68,7 @@ func AddClassify(c *models.ClassifyParams) (err error) {
 
 // CheckEssayExist 检测文章名称是否存在
 func CheckEssayExist(c *models.EssayParams) (err error) {
-	sqlStr := `SELECT COUNT(*) FROM essay where  essayKind = ? AND  essayName = ? `
+	sqlStr := `SELECT COUNT(*) FROM essay WHERE  essayKind = ? AND  essayName = ? `
 	var count int
 	err = db.Get(&count, sqlStr, c.EssayKind, c.EssayName)
 	fmt.Println(count)
@@ -86,7 +86,7 @@ func CreateEssay(e *models.EssayParams) (err error) {
 		return err
 	}
 	//2.添加该文章
-	sqlStr := `INSERT INTO essay(essayKind,essayName, essayContent) values(?,?,?)`
-	_, err = db.Exec(sqlStr, e.EssayKind, e.EssayName, e.EssayContent)
+	sqlStr := `INSERT INTO essay(essayKind,essayName, essayContent,essayRoute) values(?,?,?,?)`
+	_, err = db.Exec(sqlStr, e.EssayKind, e.EssayName, e.EssayContent, e.EssayRoute)
 	return err
 }

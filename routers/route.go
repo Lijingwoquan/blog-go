@@ -25,6 +25,7 @@ func SetupRouter(mode string) *gin.Engine {
 	{
 		v2.POST("/addClassify", controller.AddClassifyHandler)
 		v2.POST("/addEssay", controller.AddEssayHandler)
+		v2.PUT("/updateEssay", controller.UpdateEssayHandler)
 	}
 
 	r.Use(middlewares.JWTAuthMiddleware())

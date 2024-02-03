@@ -42,7 +42,6 @@ func Init(mode string) (err error) {
 	lg := zap.New(core, zap.AddCaller())
 	// 替换zap包中全局的logger实例，后续在其他包中只需使用zap.L()调用即可
 	zap.ReplaceGlobals(lg)
-	zap.L().Info("init logger success")
 	return
 }
 
