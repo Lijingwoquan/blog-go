@@ -15,8 +15,7 @@ var mySecret = []byte("老子就是喜欢看美女怎么滴")
 // 我们这里需要额外记录username和userID字段，所以要自定义结构体
 // 如果想要保存更多信息，都可以添加到这个结构体中
 type MyClaims struct {
-	UserID   int64  `json:"user_id"`
-	Username string `json:"username"`
+	UserID int64 `json:"user_id"`
 	jwt.StandardClaims
 }
 
@@ -25,11 +24,10 @@ func GenToken(u *models.User) (string, error) {
 	// 创建一个我们自己的声明的数据
 	c := MyClaims{
 		u.UserID,
-		"username", // 自定义字段
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add( //当下时间加上一周时间
 				time.Duration(viper.GetInt("auth.jwt_expire")) * time.Hour).Unix(), // 过期时间
-			Issuer: "liuzihao", // 签发人
+			Issuer: "liuzihao-blog", // 签发人
 		},
 	}
 	// 使用指定的签名方法创建签名对象 --> 得到一个结构体

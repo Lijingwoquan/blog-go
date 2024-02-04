@@ -8,14 +8,14 @@ type UserParams struct {
 }
 
 type ClassifyParams struct {
-	ClassifyKind  string `json:"classifyKind" binding:"required"`
-	ClassifyName  string `json:"classifyName" binding:"required"`
-	ClassifyRoute string `json:"classifyRoute" binding:"required"`
+	Kind   string `json:"kind" binding:"required"`
+	Name   string `json:"name" binding:"required"`
+	Router string `json:"router" binding:"required"`
 }
 
 type EssayParams struct {
-	EssayKind    string `json:"essayKind" binding:"required"`
-	EssayName    string `json:"essayName" binding:"required"`
-	EssayContent string `json:"essayContent" binding:"required"`
-	EssayRoute   string `json:"essayRoute" binding:"required"`
+	Kind    string `json:"kind" binding:"required"`
+	Name    string `json:"name" binding:"required"`
+	Content string `json:"content" binding:"required"`
+	Router  string `json:"router" binding:"required"`
 }

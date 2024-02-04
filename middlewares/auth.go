@@ -28,7 +28,7 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		parts := strings.SplitN(authHeader, " ", 2)
 		if !(len(parts) == 2 && parts[0] == "Bearer") {
 			c.JSON(http.StatusOK, gin.H{
-				"msg": "无效的token",
+				"msg": "需要登录",
 			})
 			c.Abort()
 			return
@@ -37,7 +37,7 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		mc, err := jwt.ParseToken(parts[1])
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
-				"msg": "无效的token",
+				"msg": "需要登录",
 			})
 			c.Abort()
 			return

@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"blog/dao/mysql"
+	"blog/logic"
 	"blog/models"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -22,7 +22,7 @@ func AddClassifyHandler(c *gin.Context) {
 		return
 	}
 	//2.业务处理
-	err := mysql.AddClassify(classify)
+	err := logic.AddClassify(classify)
 	if err != nil {
 		zap.L().Error("mysql.AddClassify(classify) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
@@ -41,7 +41,7 @@ func AddEssayHandler(c *gin.Context) {
 		return
 	}
 	//2.业务处理
-	if err := mysql.CreateEssay(essay); err != nil {
+	if err := logic.CreateEssay(essay); err != nil {
 		zap.L().Error("mysql.CreateEssay(essay) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
@@ -59,7 +59,7 @@ func UpdateEssayHandler(c *gin.Context) {
 		return
 	}
 	//2.业务处理
-	if err := mysql.UpdateEssay(data); err != nil {
+	if err := logic.UpdateEssay(data); err != nil {
 		zap.L().Error("mysql.UpdateEssay(data) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return

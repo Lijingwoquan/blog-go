@@ -15,12 +15,12 @@ const (
 // CheckClassifyKindExist 检查分类种类存不存在
 func CheckClassifyKindExist(c *models.ClassifyParams) (err error) {
 	var row int
-	sqlStr := `SELECT COUNT(*) FROM classifyKind WHERE ClassifyKindName = ?`
-	err = db.Get(&row, sqlStr, c.ClassifyKind)
+	sqlStr := `SELECT COUNT(*) FROM classifyKind WHERE name = ?`
+	err = db.Get(&row, sqlStr, c.Kind)
 	if row == 0 {
 		//创建这个classifyKind
-		sqlStr = `INSERT INTO classifyKind(ClassifyKindName) VALUES (?)`
-		_, err = db.Exec(sqlStr, c.ClassifyKind)
+		sqlStr = `INSERT INTO classifyKind(name) VALUES (?)`
+		_, err = db.Exec(sqlStr, c.Kind)
 		if err != nil {
 			zap.L().Error("db.Exec(sqlStr,c.ClassifyName) failed", zap.Error(err))
 			return
@@ -33,9 +33,9 @@ func CheckClassifyKindExist(c *models.ClassifyParams) (err error) {
 
 // CheckClassifyExist 检查分类名存不存在
 func CheckClassifyExist(c *models.ClassifyParams) (err error) {
-	sqlStr := `SELECT COUNT(*) FROM classify WHERE ClassifyName = ?`
+	sqlStr := `SELECT COUNT(*) FROM classify WHERE name = ?`
 	var count int
-	err = db.Get(&count, sqlStr, c.ClassifyName)
+	err = db.Get(&count, sqlStr, c.Name)
 	if err != nil {
 		return err
 	}
@@ -47,19 +47,8 @@ func CheckClassifyExist(c *models.ClassifyParams) (err error) {
 
 // AddClassify 添加新分类
 func AddClassify(c *models.ClassifyParams) (err error) {
-	//1.先查ClassifyKind里面有没有这个分类 没有就创建 有的话就返回
-	err = CheckClassifyKindExist(c)
-	if err != nil {
-		return err
-	}
-	//2.再查classify里面有没有这个classifyName
-	err = CheckClassifyExist(c)
-	if err != nil {
-		return err
-	}
-	//3.在classify表里面添加数据
-	sqlStr := `INSERT INTO classify(ClassifyKindName, ClassifyName,ClassifyRoute) VALUES(?,?,?)`
-	_, err = db.Exec(sqlStr, c.ClassifyKind, c.ClassifyName, c.ClassifyRoute)
+	sqlStr := `INSERT INTO classify(kind, name,router) VALUES(?,?,?)`
+	_, err = db.Exec(sqlStr, c.Kind, c.Name, c.Router)
 	if err != nil {
 		return err
 	}
@@ -68,9 +57,9 @@ func AddClassify(c *models.ClassifyParams) (err error) {
 
 // CheckEssayExist 检测文章名称是否存在
 func CheckEssayExist(c *models.EssayParams) (err error) {
-	sqlStr := `SELECT COUNT(*) FROM essay WHERE  essayKind = ? AND  essayName = ? `
+	sqlStr := `SELECT COUNT(*) FROM essay WHERE  kind = ? AND  name = ? `
 	var count int
-	err = db.Get(&count, sqlStr, c.EssayKind, c.EssayName)
+	err = db.Get(&count, sqlStr, c.Kind, c.Name)
 	fmt.Println(count)
 	if count > 0 {
 		return errors.New(essayExist)
@@ -80,13 +69,21 @@ func CheckEssayExist(c *models.EssayParams) (err error) {
 
 // CreateEssay 添加新文章
 func CreateEssay(e *models.EssayParams) (err error) {
-	//1.检测该文章是否已经存在
-	err = CheckEssayExist(e)
-	if err != nil {
-		return err
-	}
-	//2.添加该文章
-	sqlStr := `INSERT INTO essay(essayKind,essayName, essayContent,essayRoute) values(?,?,?,?)`
-	_, err = db.Exec(sqlStr, e.EssayKind, e.EssayName, e.EssayContent, e.EssayRoute)
+	sqlStr := `INSERT INTO essay(kind,name, content,router) values(?,?,?,?)`
+	_, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Router)
 	return err
+}
+
+// UpdateEssay 更新文章
+func UpdateEssay(data *models.UpdateEssay) (err error) {
+	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,router = ? WHERE name = ?`
+	result, err := db.Exec(sqlStr, data.Name, data.Kind, data.Content, data.Router, data.OldName)
+	if err != nil {
+		return
+	}
+	rowsAffected, err := result.RowsAffected()
+	if rowsAffected == 0 {
+		return errors.New(essayNotExist)
+	}
+	return
 }

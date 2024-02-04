@@ -189,3 +189,118 @@
 {"level":"ERROR","time":"2024-02-03T22:10:56.704+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"没有找到该文章"}
 {"level":"INFO","time":"2024-02-03T22:11:46.808+0800","caller":"logger/logger.go:45","msg":"init logger success"}
 {"level":"INFO","time":"2024-02-03T22:12:20.358+0800","caller":"logger/logger.go:45","msg":"init logger success"}
+{"level":"INFO","time":"2024-02-04T12:36:27.181+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T12:36:27.181+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:20:19.609+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:20:19.609+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:21:55.411+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:21:55.412+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:22:14.063+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:22:14.063+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:22:25.434+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:22:25.434+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:26:00.393+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:26:00.393+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:26:08.363+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:26:08.364+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:27:34.715+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:27:34.715+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:27:56.516+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:27:56.516+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:28:35.465+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-02-04T13:28:35.466+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"登陆失败"}
+{"level":"INFO","time":"2024-02-04T13:29:02.443+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-02-04T13:29:02.444+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"登陆失败"}
+{"level":"INFO","time":"2024-02-04T13:29:40.786+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-02-04T13:29:40.786+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"登陆失败"}
+{"level":"INFO","time":"2024-02-04T13:54:45.378+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-02-04T13:54:45.378+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"登陆失败"}
+{"level":"INFO","time":"2024-02-04T13:54:52.281+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-02-04T13:54:52.281+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"登陆失败"}
+{"level":"INFO","time":"2024-02-04T13:55:06.714+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-02-04T13:55:06.715+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"登陆失败"}
+{"level":"INFO","time":"2024-02-04T13:55:32.026+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:55:32.026+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:55:38.783+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:55:38.783+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:56:05.600+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:56:05.600+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:56:45.399+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:56:45.399+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:57:21.766+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:57:21.770+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:57:28.781+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:57:28.781+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:57:39.084+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:57:39.084+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:58:02.368+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:58:02.368+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:58:20.538+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:58:20.538+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:58:39.239+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:58:39.239+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:58:42.278+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:58:42.279+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:59:31.087+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:59:31.091+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:59:33.275+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:59:33.275+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T13:59:52.887+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T13:59:52.887+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T14:00:04.028+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T14:00:04.029+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T14:00:09.535+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T14:00:09.535+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T14:00:32.865+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T14:00:32.865+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T14:00:44.584+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T14:00:44.584+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T14:00:57.679+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T14:00:57.679+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T14:01:07.101+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T14:01:07.101+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T14:01:36.302+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T14:01:36.302+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T14:01:57.211+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T14:01:57.211+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T14:02:11.568+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T14:02:11.568+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T14:02:32.898+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T14:02:32.898+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T14:02:36.263+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T14:02:36.263+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T14:02:43.169+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T14:02:43.169+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T23:00:10.219+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T23:00:10.219+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T23:00:58.077+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T23:00:58.077+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T23:01:09.027+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T23:01:09.027+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T23:01:23.776+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T23:01:23.776+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T23:02:54.807+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T23:02:54.807+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-04T23:03:09.371+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T23:03:09.371+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-04T23:54:02.989+0800","caller":"mysql/manager.go:25","msg":"db.Exec(sqlStr,c.ClassifyName) failed","error":"Error 1054 (42S22): Unknown column 'ClassifyKindName' in 'field list'"}
+{"level":"ERROR","time":"2024-02-04T23:54:02.989+0800","caller":"controller/manager.go:27","msg":"mysql.AddClassify(classify) failed","error":"Error 1054 (42S22): Unknown column 'ClassifyKindName' in 'field list'"}
+{"level":"ERROR","time":"2024-02-04T23:57:30.469+0800","caller":"controller/manager.go:57","msg":"c.ShouldBindJSON(data) failed","error":"Key: 'UpdateEssay.OldName' Error:Field validation for 'OldName' failed on the 'required' tag\nKey: 'UpdateEssay.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'UpdateEssay.Content' Error:Field validation for 'Content' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-05T00:01:46.528+0800","caller":"controller/manager.go:39","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Route' Error:Field validation for 'Route' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-05T00:06:33.637+0800","caller":"controller/manager.go:20","msg":"c.ShouldBindJSON(classify) failed","error":"Key: 'ClassifyParams.Router' Error:Field validation for 'Router' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-05T00:06:46.700+0800","caller":"controller/manager.go:20","msg":"c.ShouldBindJSON(classify) failed","error":"Key: 'ClassifyParams.Router' Error:Field validation for 'Router' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-05T00:07:37.397+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-05T00:08:29.215+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"没有找到该文章"}
+{"level":"ERROR","time":"2024-02-05T00:08:47.344+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-05T00:08:55.477+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-05T00:09:04.505+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-05T00:09:16.069+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-05T00:09:47.153+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-05T00:09:48.404+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-05T00:09:58.629+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-05T00:10:02.482+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-05T00:10:04.799+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-05T00:10:10.093+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"没有找到该文章"}
+{"level":"ERROR","time":"2024-02-05T00:10:15.826+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-05T00:10:29.625+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}
+{"level":"ERROR","time":"2024-02-05T00:10:41.515+0800","caller":"controller/data.go:24","msg":"mysql.mysql.GetDataAboutClassifyKind() failed","error":"missing destination name router in *[]models.DataAboutClassifyDetails"}

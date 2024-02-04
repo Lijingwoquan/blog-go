@@ -34,33 +34,41 @@ func ResponseDataAboutIndex(c *gin.Context) {
 	var classifyNameIncludeEssayMap = make(map[string][]models.ClassifyIncludeEssay)
 
 	for _, include := range *classifyNameIncludeEssay {
-		classifyNameIncludeEssayMap[include.EssayKind] = append(classifyNameIncludeEssayMap[include.EssayKind], models.ClassifyIncludeEssay{
-			EssayName:  include.EssayName,
-			EssayKind:  include.EssayKind,
-			EssayRoute: include.EssayRoute,
+		classifyNameIncludeEssayMap[include.Kind] = append(classifyNameIncludeEssayMap[include.Kind], models.ClassifyIncludeEssay{
+			Name:   include.Name,
+			Kind:   include.Kind,
+			Router: include.Router,
 		})
 	}
 	//整合ClassifyKind和ClassifyName
 	DataDetailMap := make(map[string][]models.DataAboutClassifyDetails)
 	for _, detail := range *classifyDetails {
-		if _, ok := classifyNameIncludeEssayMap[detail.ClassifyName]; ok { //得到了该分类的所有文章
+		if _, ok := classifyNameIncludeEssayMap[detail.Name]; ok { //得到了该分类的所有文章
 			data := models.DataAboutClassifyDetails{
-				ClassifyKindName: detail.ClassifyKindName,
-				ClassifyName:     detail.ClassifyName,
-				ClassifyRoute:    detail.ClassifyRoute,
-				ClassifyEssay:    classifyNameIncludeEssayMap[detail.ClassifyName],
+				Kind:   detail.Kind,
+				Name:   detail.Name,
+				Router: detail.Router,
+				Essay:  classifyNameIncludeEssayMap[detail.Name],
 			}
 
-			DataDetailMap[detail.ClassifyKindName] = append(DataDetailMap[detail.ClassifyKindName], data)
+			DataDetailMap[detail.Kind] = append(DataDetailMap[detail.Kind], data)
 		}
 	}
 	// 4. 初始化 DataAboutIndex 切片
-	DataAboutIndex := make([]models.DataAboutIndex, len(*classifyKind))
+	DataAboutIndexMenu := make([]models.DataAboutIndexMenu, len(*classifyKind))
 
 	// 5. 将 classify 和 classify 相对应写成【map，map】格式
 	for i := 0; i < len(*classifyKind); i++ {
-		DataAboutIndex[i].ClassifyKindName = (*classifyKind)[i]
-		DataAboutIndex[i].ClassifyDetails = DataDetailMap[(*classifyKind)[i]]
+		DataAboutIndexMenu[i].ClassifyKind = (*classifyKind)[i]
+		DataAboutIndexMenu[i].ClassifyDetails = DataDetailMap[(*classifyKind)[i]]
+	}
+
+	//6.得到该用户的信息
+	var userInfo = new(models.UserInfo)
+
+	var DataAboutIndex = models.DataAboutIndex{
+		DataAboutIndexMenu: DataAboutIndexMenu,
+		UserInfo:           *userInfo,
 	}
 	ResponseSuccess(c, DataAboutIndex)
 }

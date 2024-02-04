@@ -1,27 +1,33 @@
 package models
 
 type DataAboutIndex struct {
-	ClassifyKindName string                     `json:"classifyKind"`
-	ClassifyDetails  []DataAboutClassifyDetails `json:"classifyDetails"`
+	DataAboutIndexMenu []DataAboutIndexMenu `json:"dataAboutIndexMenu"`
+	UserInfo           `json:"userInfo"`
+}
+
+type DataAboutIndexMenu struct {
+	ClassifyKind    string                     `json:"classifyKind"`
+	ClassifyDetails []DataAboutClassifyDetails `json:"classifyDetails"`
 }
 
 type DataAboutClassifyDetails struct {
-	ClassifyKindName string                 `json:"classifyKind" db:"classifyKindName"`
-	ClassifyName     string                 `json:"classifyName"  db:"classifyName"`
-	ClassifyRoute    string                 `json:"classifyRoute" db:"classifyRoute"`
-	ClassifyEssay    []ClassifyIncludeEssay `json:"classifyEssay" db:"essayName"`
+	Kind   string                 `json:"Kind" db:"kind"`
+	Name   string                 `json:"name"  db:"name"`
+	Router string                 `json:"router" db:"router"`
+	Essay  []ClassifyIncludeEssay `json:"essay" db:"name"`
 }
 
 type ClassifyIncludeEssay struct {
-	EssayName  string `json:"essayName" db:"essayName"`
-	EssayKind  string `json:"essayKind" db:"essayKind"`
-	EssayRoute string `json:"essayRoute" db:"essayRoute"`
+	Name   string `json:"name" db:"name"`
+	Kind   string `json:"kind" db:"kind"`
+	Router string `json:"router" db:"router"`
+	//文章内容不传过去了 单独写一个接口来获取单个文章的数据
 }
 
 type UpdateEssay struct {
-	EssayOldName string `json:"essayOldName" db:"essayName" binding:"required"`
-	EssayName    string `json:"essayName" db:"essayName" binding:"required"`
-	EssayKind    string `json:"essayKind" db:"essayKind"`
-	EssayRoute   string `json:"essayRoute" db:"essayRoute"`
-	EssayContent string `json:"essayContent" db:"essayContent" binding:"required"`
+	OldName string `json:"oldName" db:"name" binding:"required"`
+	Name    string `json:"name" db:"name" binding:"required"`
+	Kind    string `json:"kind" db:"kind"`
+	Router  string `json:"router" db:"route"`
+	Content string `json:"content" db:"content" binding:"required"`
 }

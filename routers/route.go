@@ -11,14 +11,15 @@ func SetupRouter(mode string) *gin.Engine {
 	if mode == gin.ReleaseMode {
 		gin.SetMode(gin.ReleaseMode)
 	}
-
+	gin.DisableConsoleColor()
 	r := gin.Default()
 
 	v1 := r.Group("/api/base")
 	{
 		v1.POST("/signup", controller.SignupHandler)
 		v1.POST("/login", controller.LoginHandler)
-		v1.GET("/index", controller.ResponseDataAboutIndex)
+		// 使用中间件的路由
+		v1.GET("/index", middlewares.JWTAuthMiddleware(), controller.ResponseDataAboutIndex)
 	}
 
 	v2 := r.Group("/api/manager")

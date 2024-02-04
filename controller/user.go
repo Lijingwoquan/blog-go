@@ -46,5 +46,5 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 	//3.返回响应
-	ResponseSuccess(c, loginSuccess)
+	ResponseSuccess(c, u.Token)
 }

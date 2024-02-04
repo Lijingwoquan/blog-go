@@ -65,8 +65,9 @@ func CreateUserTale(db *sqlx.DB) (err error) {
 
 func CreateClassifyKindTable(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS classifyKind(
-	ID INT AUTO_INCREMENT PRIMARY KEY,
-	classifyKindName VARCHAR(60) NOT NULL)`
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(60) NOT NULL,
+	router VARCHAR(60) NOT NULL )`
 	_, err = db.Exec(sqlStr)
 	return err
 }
@@ -74,19 +75,19 @@ func CreateClassifyKindTable(db *sqlx.DB) (err error) {
 func CreateClassifyTable(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS classify(
 	id INT AUTO_INCREMENT PRIMARY KEY,
-	classifyKindName VARCHAR(60) NOT NULL,
-	classifyName VARCHAR(60) NOT NULL,
-	classifyRoute VARCHAR(60) NOT NULL )`
+	kind VARCHAR(60) NOT NULL,
+	name VARCHAR(60) NOT NULL,
+	router VARCHAR(60) NOT NULL )`
 	_, err = db.Exec(sqlStr)
 	return err
 }
 func CreateEssayTable(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS essay(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    essayKind VARCHAR(60) NOT NULL,
-	essayName VARCHAR(60) NOT NULL,
-    essayContent TEXT NOT NULL,
-    essayRoute VARCHAR(60) NOT NULL 
+    kind VARCHAR(60) NOT NULL,
+	name VARCHAR(60) NOT NULL,
+	content TEXT NOT NULL,
+    router VARCHAR(60) NOT NULL 
 )
 `
 	_, err = db.Exec(sqlStr)

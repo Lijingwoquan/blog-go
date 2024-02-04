@@ -47,7 +47,6 @@ func Login(u *models.User) (err error) {
 		zap.L().Error("jwt.GenToken(u) failed", zap.Error(err))
 		return err
 	}
-
 	//将token保存
 	u.Token = token
 	return err

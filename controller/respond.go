@@ -26,9 +26,9 @@ var CodeMsgMap = map[codes]string{
 }
 
 type Response struct {
-	Code codes
-	Msg  interface{}
-	Data interface{}
+	Code codes       `json:"code"`
+	Msg  interface{} `json:"msg"`
+	Data interface{} `json:"data"`
 }
 
 // Msg --> code 的msg方法返回字符串
@@ -48,7 +48,7 @@ func ResponseError(c *gin.Context, code codes) {
 		Msg:  code.Msg(),
 		Data: nil,
 	}
-	c.JSON(http.StatusOK, rd)
+	c.JSON(http.StatusInternalServerError, rd)
 }
 
 func ResponseSuccess(c *gin.Context, data interface{}) {
