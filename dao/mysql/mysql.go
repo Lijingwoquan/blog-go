@@ -67,7 +67,7 @@ func CreateClassifyKindTable(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS classifyKind(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(60) NOT NULL,
-	router VARCHAR(60) NOT NULL )`
+	icon VARCHAR(60) NOT NULL)`
 	_, err = db.Exec(sqlStr)
 	return err
 }
@@ -87,6 +87,7 @@ func CreateEssayTable(db *sqlx.DB) (err error) {
     kind VARCHAR(60) NOT NULL,
 	name VARCHAR(60) NOT NULL,
 	content TEXT NOT NULL,
+	Introduction VARCHAR(180) NOT NULL,
     router VARCHAR(60) NOT NULL 
 )
 `

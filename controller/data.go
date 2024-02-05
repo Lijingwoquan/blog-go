@@ -9,58 +9,62 @@ import (
 
 func ResponseDataAboutIndex(c *gin.Context) {
 	//进入页面之后 得到各大分类种类以及相应的名称
-	//1.查classifyKind
-	var classifyKind = new([]string)
+	//1.查classifyKind和icon
+	var classify = new([]models.DataAboutClassify)
+
 	var err error
-	err = mysql.GetDataAboutClassifyKind(classifyKind)
+	err = mysql.GetDataAboutClassifyKind(classify)
 	if err != nil {
-		zap.L().Error("mysql.GetDataAboutClassifyKind() failed", zap.Error(err))
+		zap.L().Error("mysql.GetDataAboutClassifyKind(classify) failed", zap.Error(err))
 		return
 	}
-	//2.查DataAboutClassifyDetails
+	//2.查classifyDetails
 	var classifyDetails = new([]models.DataAboutClassifyDetails)
 	err = mysql.GetDataAboutClassifyDetails(classifyDetails)
 	if err != nil {
-		zap.L().Error("mysql.mysql.GetDataAboutClassifyKind() failed", zap.Error(err))
+		zap.L().Error("mysql.GetDataAboutClassifyDetails(classifyDetails) failed", zap.Error(err))
 		return
 	}
 
-	//查ClassifyEssayName
-	var classifyNameIncludeEssay = new([]models.ClassifyIncludeEssay)
-	err = mysql.GetDataAboutClassifyEssayName(classifyNameIncludeEssay)
-
+	//查essayDetail
+	var essaysDetail = new([]models.DataAboutEssay)
+	err = mysql.GetDataAboutClassifyEssayMsg(essaysDetail)
 	// 3. 使用 map 优化循环 --> 整合数据
 	//整合ClassifyName和ClassifyEssay
-	var classifyNameIncludeEssayMap = make(map[string][]models.ClassifyIncludeEssay)
+	var essaysDetailMap = make(map[string][]models.DataAboutEssay)
 
-	for _, include := range *classifyNameIncludeEssay {
-		classifyNameIncludeEssayMap[include.Kind] = append(classifyNameIncludeEssayMap[include.Kind], models.ClassifyIncludeEssay{
-			Name:   include.Name,
-			Kind:   include.Kind,
-			Router: include.Router,
+	for _, essay := range *essaysDetail {
+		essaysDetailMap[essay.Kind] = append(essaysDetailMap[essay.Kind], models.DataAboutEssay{
+			Name:         essay.Name,
+			Kind:         essay.Kind,
+			Router:       essay.Router,
+			Introduction: essay.Introduction,
+			ID:           essay.ID,
 		})
 	}
 	//整合ClassifyKind和ClassifyName
 	DataDetailMap := make(map[string][]models.DataAboutClassifyDetails)
 	for _, detail := range *classifyDetails {
-		if _, ok := classifyNameIncludeEssayMap[detail.Name]; ok { //得到了该分类的所有文章
+		if _, ok := essaysDetailMap[detail.Name]; ok { //得到了该分类的所有文章
 			data := models.DataAboutClassifyDetails{
 				Kind:   detail.Kind,
 				Name:   detail.Name,
 				Router: detail.Router,
-				Essay:  classifyNameIncludeEssayMap[detail.Name],
+				Essay:  essaysDetailMap[detail.Name],
+				ID:     detail.ID,
 			}
 
 			DataDetailMap[detail.Kind] = append(DataDetailMap[detail.Kind], data)
 		}
 	}
 	// 4. 初始化 DataAboutIndex 切片
-	DataAboutIndexMenu := make([]models.DataAboutIndexMenu, len(*classifyKind))
+	DataAboutIndexMenu := make([]models.DataAboutIndexMenu, len(*classify))
 
 	// 5. 将 classify 和 classify 相对应写成【map，map】格式
-	for i := 0; i < len(*classifyKind); i++ {
-		DataAboutIndexMenu[i].ClassifyKind = (*classifyKind)[i]
-		DataAboutIndexMenu[i].ClassifyDetails = DataDetailMap[(*classifyKind)[i]]
+	for i := 0; i < len(*classify); i++ {
+		DataAboutIndexMenu[i].ClassifyKind = (*classify)[i].ClassifyKind
+		DataAboutIndexMenu[i].Icon = (*classify)[i].Icon
+		DataAboutIndexMenu[i].ClassifyDetails = DataDetailMap[(*classify)[i].ClassifyKind]
 	}
 
 	//6.得到该用户的信息
