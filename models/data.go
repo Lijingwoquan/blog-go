@@ -9,6 +9,7 @@ type DataAboutIndexMenu struct {
 	DataAboutClassify
 	ClassifyDetails []DataAboutClassifyDetails `json:"classifyDetails"`
 }
+
 type DataAboutClassify struct {
 	ClassifyKind string `json:"classifyKind" db:"name"`
 	Icon         string `json:"icon" db:"icon"`
@@ -38,3 +39,5 @@ type UpdateEssay struct {
 	Router  string `json:"router" db:"route"`
 	Content string `json:"content" db:"content" binding:"required"`
 }
+
+type EssayContent string

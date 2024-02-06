@@ -25,3 +25,8 @@ func GetDataAboutClassifyEssayMsg(data *[]models.DataAboutEssay) (err error) {
 	err = db.Select(data, sqlStr)
 	return
 }
+func GetEssayData(data *models.EssayContent, id int) (err error) {
+	sqlStr := `SELECT content FROM essay where id = ?`
+	err = db.Get(data, sqlStr, id)
+	return
+}

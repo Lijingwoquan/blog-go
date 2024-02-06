@@ -20,6 +20,7 @@ func SetupRouter(mode string) *gin.Engine {
 		v1.POST("/login", controller.LoginHandler)
 		// 使用中间件的路由
 		v1.GET("/index", middlewares.JWTAuthMiddleware(), controller.ResponseDataAboutIndex)
+		v1.GET("/essay", middlewares.JWTAuthMiddleware(), controller.ResponseDataAboutEssay)
 	}
 
 	v2 := r.Group("/api/manager")

@@ -2,9 +2,11 @@ package controller
 
 import (
 	"blog/dao/mysql"
+	"blog/logic"
 	"blog/models"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+	"strconv"
 )
 
 func ResponseDataAboutIndex(c *gin.Context) {
@@ -75,4 +77,19 @@ func ResponseDataAboutIndex(c *gin.Context) {
 		UserInfo:           *userInfo,
 	}
 	ResponseSuccess(c, DataAboutIndex)
+}
+
+func ResponseDataAboutEssay(c *gin.Context) {
+	//1.参数处理
+	query := c.Query("id")
+	id, _ := strconv.Atoi(query)
+	//2.业务处理
+	var essay = new(models.EssayContent)
+	err := logic.GetEssayData(essay, id)
+	if err != nil {
+		zap.L().Error("logic.GetEssayData(essay, id) failed", zap.Error(err))
+		return
+	}
+	//3.返回响应
+	ResponseSuccess(c, essay)
 }
