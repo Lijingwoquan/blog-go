@@ -11,10 +11,11 @@ type ClassifyParams struct {
 	Kind   string `json:"kind" binding:"required"`
 	Name   string `json:"name" binding:"required"`
 	Router string `json:"router" binding:"required"`
+	Icon   string `json:"icon" binding:"omitempty"`
 }
 
 type EssayParams struct {
-	Kind         string `json:"kind" binding:"required"`
+	Kind         string `json:"kind" binding:"required" `
 	Name         string `json:"name" binding:"required"`
 	Introduction string `json:"introduction" binding:"required"`
 	Content      string `json:"content" binding:"required"`

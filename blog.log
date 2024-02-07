@@ -2,3 +2,35 @@
 {"level":"ERROR","time":"2024-02-05T13:45:04.333+0800","caller":"controller/user.go:44","msg":"logic.Login() failed","error":"sql: no rows in result set"}
 {"level":"ERROR","time":"2024-02-05T13:45:53.931+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"没有找到该文章"}
 {"level":"ERROR","time":"2024-02-07T00:29:43.205+0800","caller":"controller/data.go:90","msg":"logic.GetEssayData(essay, id) failed","error":"sql: expected 0 arguments, got 1"}
+{"level":"ERROR","time":"2024-02-07T00:59:07.700+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"missing destination name content in *models.EssayData"}
+{"level":"ERROR","time":"2024-02-07T20:34:30.923+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-07T20:34:40.212+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-07T20:48:06.486+0800","caller":"controller/manager.go:39","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Introduction' Error:Field validation for 'Introduction' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-07T20:48:58.162+0800","caller":"controller/manager.go:45","msg":"mysql.CreateEssay(essay) failed","error":"Error 1364 (HY000): Field 'Introduction' doesn't have a default value"}
+{"level":"ERROR","time":"2024-02-07T20:49:13.920+0800","caller":"controller/manager.go:45","msg":"mysql.CreateEssay(essay) failed","error":"Error 1364 (HY000): Field 'Introduction' doesn't have a default value"}
+{"level":"ERROR","time":"2024-02-07T20:50:36.541+0800","caller":"controller/manager.go:45","msg":"mysql.CreateEssay(essay) failed","error":"Error 1364 (HY000): Field 'Introduction' doesn't have a default value"}
+{"level":"ERROR","time":"2024-02-07T20:51:31.821+0800","caller":"controller/manager.go:45","msg":"mysql.CreateEssay(essay) failed","error":"Error 1136 (21S01): Column count doesn't match value count at row 1"}
+{"level":"ERROR","time":"2024-02-07T20:53:09.438+0800","caller":"controller/manager.go:57","msg":"c.ShouldBindJSON(data) failed","error":"Key: 'UpdateEssay.OldName' Error:Field validation for 'OldName' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-07T20:59:04.784+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"没有找到该文章"}
+{"level":"ERROR","time":"2024-02-07T21:10:24.864+0800","caller":"controller/manager.go:20","msg":"c.ShouldBindJSON(classify) failed","error":"invalid character '}' looking for beginning of object key string"}
+{"level":"ERROR","time":"2024-02-07T21:12:42.079+0800","caller":"controller/manager.go:27","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"ERROR","time":"2024-02-07T21:14:04.430+0800","caller":"controller/manager.go:27","msg":"mysql.AddClassify(classify) failed","error":""}
+{"level":"ERROR","time":"2024-02-07T21:14:57.007+0800","caller":"controller/manager.go:27","msg":"mysql.AddClassify(classify) failed","error":"该分类为新创建分类,需要指定icon"}
+{"level":"ERROR","time":"2024-02-07T21:53:03.605+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"missing destination name createdTime in *models.EssayData"}
+{"level":"ERROR","time":"2024-02-07T21:53:05.479+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"missing destination name createdTime in *models.EssayData"}
+{"level":"ERROR","time":"2024-02-07T21:53:06.066+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"missing destination name createdTime in *models.EssayData"}
+{"level":"ERROR","time":"2024-02-07T21:53:06.561+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"missing destination name createdTime in *models.EssayData"}
+{"level":"ERROR","time":"2024-02-07T21:53:23.603+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"missing destination name updateTime in *models.EssayData"}
+{"level":"ERROR","time":"2024-02-07T21:53:28.300+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"missing destination name updateTime in *models.EssayData"}
+{"level":"ERROR","time":"2024-02-07T21:53:36.827+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"missing destination name updateTime in *models.EssayData"}
+{"level":"ERROR","time":"2024-02-07T21:53:59.743+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"missing destination name updateTime in *models.EssayData"}
+{"level":"ERROR","time":"2024-02-07T21:55:52.470+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"missing destination name updateTime in *models.EssayData"}
+{"level":"ERROR","time":"2024-02-07T21:56:35.860+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"Error 1054 (42S22): Unknown column 'updateTime' in 'field list'"}
+{"level":"ERROR","time":"2024-02-07T21:56:39.507+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"Error 1054 (42S22): Unknown column 'updateTime' in 'field list'"}
+{"level":"ERROR","time":"2024-02-07T22:00:59.198+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"Error 1054 (42S22): Unknown column 'updateTime' in 'field list'"}
+{"level":"ERROR","time":"2024-02-07T22:02:23.120+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"Error 1292 (22007): Incorrect datetime value: '2024-02-07 22:02:23.1136452 +0800 CST m=+1.115775701' for column 'updatedTime' at row 1"}
+{"level":"ERROR","time":"2024-02-07T22:02:25.092+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"Error 1292 (22007): Incorrect datetime value: '2024-02-07 22:02:25.092158 +0800 CST m=+3.094288501' for column 'updatedTime' at row 1"}
+{"level":"ERROR","time":"2024-02-07T22:02:56.029+0800","caller":"controller/manager.go:63","msg":"mysql.UpdateEssay(data) failed","error":"Error 1292 (22007): Incorrect datetime value: '2024-02-07 22:02:56.0248081 +0800 CST m=+0.902249601' for column 'updatedTime' at row 1"}
+{"level":"ERROR","time":"2024-02-07T23:20:28.902+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-07T23:20:30.028+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T00:52:44.784+0800","caller":"controller/user.go:62","msg":"logic.Logout(token) failed","error":"Error 1054 (42S22): Unknown column 'remain' in 'field list'"}

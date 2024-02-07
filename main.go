@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
+	"time"
 )
 
 func main() {
@@ -44,6 +45,25 @@ func main() {
 		fmt.Printf("snowflake init failed,err:%v", err)
 		return
 	}
+	ticker := time.NewTicker(time.Hour * 24)
+	defer ticker.Stop()
+	go func() {
+		defer func() {
+			if r := recover(); r != nil {
+				// 处理 panic，可以记录日志或采取其他措施
+				zap.L().Error("Recover from panic in ticker goroutine", zap.Any("panic", r))
+			}
+		}()
+
+		for range ticker.C {
+			// 清理过期的 token
+			err := mysql.CleanupInvalidTokens()
+			if err != nil {
+				zap.L().Error("cleanupExpiredTokens(db) failed", zap.Error(err))
+			}
+		}
+	}()
+
 	//5.注册路由
 	r := routers.SetupRouter(viper.GetString("app.mode"))
 	err := r.Run(":8080")
@@ -51,4 +71,5 @@ func main() {
 		fmt.Printf("run server failed,err:%v", err)
 		return
 	}
+
 }

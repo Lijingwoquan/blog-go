@@ -2,14 +2,13 @@ package controller
 
 import (
 	"blog/dao/mysql"
-	"blog/logic"
 	"blog/models"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"strconv"
 )
 
-func ResponseDataAboutIndex(c *gin.Context) {
+func ResponseDataAboutIndexHandler(c *gin.Context) {
 	//进入页面之后 得到各大分类种类以及相应的名称
 	//1.查classifyKind和icon
 	var classify = new([]models.DataAboutClassify)
@@ -42,6 +41,8 @@ func ResponseDataAboutIndex(c *gin.Context) {
 			Router:       essay.Router,
 			Introduction: essay.Introduction,
 			ID:           essay.ID,
+			CreatedTime:  essay.CreatedTime,
+			UpdatedTime:  essay.UpdatedTime,
 		})
 	}
 	//整合ClassifyKind和ClassifyName
@@ -79,13 +80,13 @@ func ResponseDataAboutIndex(c *gin.Context) {
 	ResponseSuccess(c, DataAboutIndex)
 }
 
-func ResponseDataAboutEssay(c *gin.Context) {
+func ResponseDataAboutEssayHandler(c *gin.Context) {
 	//1.参数处理
 	query := c.Query("id")
 	id, _ := strconv.Atoi(query)
 	//2.业务处理
-	var essay = new(models.EssayContent)
-	err := logic.GetEssayData(essay, id)
+	var essay = new(models.EssayData)
+	err := mysql.GetEssayData(essay, id)
 	if err != nil {
 		zap.L().Error("logic.GetEssayData(essay, id) failed", zap.Error(err))
 		return

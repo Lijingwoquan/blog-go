@@ -47,6 +47,11 @@ func Init() (err error) {
 		zap.L().Error("CreateEssayTable(db) failed,err:%v", zap.Error(err))
 		return err
 	}
+	err = CreateInvalidToken(db)
+	if err != nil {
+		zap.L().Error("CreateInvalidToken(db) failed,err:%v", zap.Error(err))
+		return err
+	}
 	return
 }
 
@@ -81,6 +86,7 @@ func CreateClassifyTable(db *sqlx.DB) (err error) {
 	_, err = db.Exec(sqlStr)
 	return err
 }
+
 func CreateEssayTable(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS essay(
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -88,9 +94,20 @@ func CreateEssayTable(db *sqlx.DB) (err error) {
 	name VARCHAR(60) NOT NULL,
 	content TEXT NOT NULL,
 	Introduction VARCHAR(180) NOT NULL,
-    router VARCHAR(60) NOT NULL 
+    router VARCHAR(60) NOT NULL ,
+    createdTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 `
+	_, err = db.Exec(sqlStr)
+	return err
+}
+
+func CreateInvalidToken(db *sqlx.DB) (err error) {
+	sqlStr := `CREATE TABLE IF NOT EXISTS tokenInvalid(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+	token VARCHAR(160) NOT NULL,
+	expiration  INT NOT NULL)`
 	_, err = db.Exec(sqlStr)
 	return err
 }

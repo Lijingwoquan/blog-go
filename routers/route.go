@@ -19,8 +19,9 @@ func SetupRouter(mode string) *gin.Engine {
 		v1.POST("/signup", controller.SignupHandler)
 		v1.POST("/login", controller.LoginHandler)
 		// 使用中间件的路由
-		v1.GET("/index", middlewares.JWTAuthMiddleware(), controller.ResponseDataAboutIndex)
-		v1.GET("/essay", middlewares.JWTAuthMiddleware(), controller.ResponseDataAboutEssay)
+		v1.GET("/index", middlewares.JWTAuthMiddleware(), controller.ResponseDataAboutIndexHandler)
+		v1.GET("/essay", middlewares.JWTAuthMiddleware(), controller.ResponseDataAboutEssayHandler)
+		v1.POST("/logout", middlewares.JWTAuthMiddleware(), controller.LogoutHandler)
 	}
 
 	v2 := r.Group("/api/manager")
@@ -28,15 +29,6 @@ func SetupRouter(mode string) *gin.Engine {
 		v2.POST("/addClassify", controller.AddClassifyHandler)
 		v2.POST("/addEssay", controller.AddEssayHandler)
 		v2.PUT("/updateEssay", controller.UpdateEssayHandler)
-	}
-
-	r.Use(middlewares.JWTAuthMiddleware())
-	{
-		r.GET("/test", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{
-				"msg": "ok",
-			})
-		})
 	}
 
 	r.NoRoute(func(c *gin.Context) {

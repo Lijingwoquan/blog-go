@@ -5,11 +5,11 @@ import (
 	"blog/models"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+	"strings"
 )
 
 const (
 	signupSuccess = "注册成功"
-	loginSuccess  = "登录成功"
 )
 
 // SignupHandler 注册
@@ -47,4 +47,26 @@ func LoginHandler(c *gin.Context) {
 	}
 	//3.返回响应
 	ResponseSuccess(c, u.Token)
+}
+
+// LogoutHandler 退出登录
+func LogoutHandler(c *gin.Context) {
+	//1.参数验证 --> 得到相应的token
+	authHeader := c.Request.Header.Get("Authorization")
+	parts := strings.SplitN(authHeader, " ", 2)
+	//得到token
+	token := parts[1]
+	//2.业务处理 --> 将该token储存在数据库中
+	err := logic.Logout(token)
+	if err != nil {
+		zap.L().Error("logic.Logout(token) failed", zap.Error(err))
+		return
+	}
+	//3.返回响应
+	ResponseSuccess(c, CodeSuccess)
+}
+
+// UpdateUserMsgHandler 修改用户信息
+func UpdateUserMsgHandler(c *gin.Context) {
+
 }

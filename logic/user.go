@@ -51,3 +51,11 @@ func Login(u *models.User) (err error) {
 	u.Token = token
 	return err
 }
+
+func Logout(token string) (err error) {
+	//1.得到token还剩余的时间
+	MyClaims, err := jwt.ParseToken(token)
+	//2.将该token储存在数据库中
+	err = mysql.Logout(token, MyClaims.ExpiresAt)
+	return
+}

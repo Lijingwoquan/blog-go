@@ -29,7 +29,8 @@ type DataAboutEssay struct {
 	Router       string `json:"router" db:"router"`
 	Introduction string `json:"introduction" db:"introduction"`
 	ID           int    `json:"id" db:"id"`
-	//文章内容不传过去了 单独写一个接口来获取单个文章的数据
+	CreatedTime  string `json:"createdTime" db:"createdTime"`
+	UpdatedTime  string `json:"updatedTime" db:"updatedTime"`
 }
 
 type UpdateEssay struct {
@@ -40,4 +41,11 @@ type UpdateEssay struct {
 	Content string `json:"content" db:"content" binding:"required"`
 }
 
-type EssayContent string
+type EssayData struct {
+	Name         string `json:"name" db:"name"`
+	Kind         string `json:"kind" db:"kind"`
+	Introduction string `json:"introduction" db:"introduction"`
+	Content      string `json:"content" db:"content"`
+	CreatedTime  string `json:"createdTime" db:"createdTime"`
+	UpdatedTime  string `json:"updatedTime" db:"updatedTime"`
+}

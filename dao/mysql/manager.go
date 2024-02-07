@@ -5,9 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"go.uber.org/zap"
+	"time"
 )
 
 const (
+	NeedIcon      = "该分类为新创建分类,需要指定icon"
 	classifyExist = "该分类已存在"
 	essayExist    = "该文章已存在"
 )
@@ -18,9 +20,13 @@ func CheckClassifyKindExist(c *models.ClassifyParams) (err error) {
 	sqlStr := `SELECT COUNT(*) FROM classifyKind WHERE name = ?`
 	err = db.Get(&row, sqlStr, c.Kind)
 	if row == 0 {
+		//这里就必须携带icon
+		if c.Icon == "" {
+			return errors.New(NeedIcon)
+		}
 		//创建这个classifyKind
-		sqlStr = `INSERT INTO classifyKind(name) VALUES (?)`
-		_, err = db.Exec(sqlStr, c.Kind)
+		sqlStr = `INSERT INTO classifyKind(name,icon) VALUE (?,?)`
+		_, err = db.Exec(sqlStr, c.Kind, c.Icon)
 		if err != nil {
 			zap.L().Error("db.Exec(sqlStr,c.ClassifyName) failed", zap.Error(err))
 			return
@@ -69,15 +75,19 @@ func CheckEssayExist(c *models.EssayParams) (err error) {
 
 // CreateEssay 添加新文章
 func CreateEssay(e *models.EssayParams) (err error) {
-	sqlStr := `INSERT INTO essay(kind,name, content,router) values(?,?,?,?)`
-	_, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Router)
+	sqlStr := `INSERT INTO essay(kind,name, content,router,Introduction) values(?,?,?,?,?)`
+	_, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Router, e.Introduction)
 	return err
 }
 
 // UpdateEssay 更新文章
 func UpdateEssay(data *models.UpdateEssay) (err error) {
-	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,router = ? WHERE name = ?`
-	result, err := db.Exec(sqlStr, data.Name, data.Kind, data.Content, data.Router, data.OldName)
+	updateTime := time.Now()
+	formattedTime := updateTime.Format("2006-01-02 15:04:05")
+	fmt.Println(formattedTime)
+	//fmt.Println(updateTime)
+	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,router = ?,updatedTime=? WHERE name = ?`
+	result, err := db.Exec(sqlStr, data.Name, data.Kind, data.Content, data.Router, formattedTime, data.OldName)
 	if err != nil {
 		return
 	}

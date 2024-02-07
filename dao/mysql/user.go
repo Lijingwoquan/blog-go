@@ -8,7 +8,10 @@ import (
 	"errors"
 )
 
-const secret = "liuzihao.online"
+const (
+	secret         = "liuzihao.online"
+	tokenIsInvalid = "token存在于黑名单中"
+)
 
 func CheckUserExist(username string, email string) (err error) {
 	//用户名
@@ -69,4 +72,21 @@ func Login(u *models.User) (err error) {
 		return errors.New("登陆失败")
 	}
 	return err
+}
+
+func Logout(token string, remain int64) (err error) {
+	//1.将该token存放在黑名单
+	sqlStr := `INSERT INTO tokenInvalid(token, expiration) VALUES(?,?)`
+	_, err = db.Exec(sqlStr, token, remain)
+	return err
+}
+
+func CheckTokenIfInvalid(token string) (err error) {
+	sqlStr := `SELECT count(token) FROM tokenInvalid where token = ?`
+	var count int8
+	err = db.Get(&count, sqlStr, token)
+	if count > 0 {
+		return errors.New(tokenIsInvalid)
+	}
+	return nil
 }

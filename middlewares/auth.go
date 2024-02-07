@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"blog/controller"
+	"blog/dao/mysql"
 	"blog/pkg/jwt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -33,6 +34,14 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 			c.Abort()
 			return
 		}
+		if err := JWTInvalidToken(parts[1]); err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"msg": "需要登录",
+			})
+			c.Abort()
+			return
+		}
+
 		// parts[1]是获取到的tokenString，我们使用之前定义好的解析JWT的函数来解析它
 		mc, err := jwt.ParseToken(parts[1])
 		if err != nil {
@@ -47,4 +56,10 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 
 		c.Next() // 后续的处理请求的函数中 可以用过c.Get(CtxUserIDKey) 来获取当前请求的用户信息
 	}
+}
+
+func JWTInvalidToken(token string) (err error) {
+	//1.查看token是否在数据库中
+	err = mysql.CheckTokenIfInvalid(token)
+	return err
 }
