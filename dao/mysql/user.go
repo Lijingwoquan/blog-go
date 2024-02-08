@@ -37,6 +37,30 @@ func CheckUserExist(username string, email string) (err error) {
 	return err
 }
 
+func CheckUserExist2(username string, email string) (err error) {
+	//用户名
+	sqlStr := `select count(username) from users where username = ? `
+	var count int8
+	//db.Get(&count, sqlStr, username) --> 将
+	if err := db.Get(&count, sqlStr, username); err != nil {
+		return err
+	}
+	if count > 1 {
+		return errors.New("用户已经存在")
+	}
+
+	//邮箱
+	sqlStr = `select count(user_id) from users where email =?`
+	count = 0
+	if err := db.Get(&count, sqlStr, email); err != nil {
+		return err
+	}
+	if count > 1 {
+		return errors.New("用户已经存在")
+	}
+	return err
+}
+
 func InsertUser(user *models.User) (err error) {
 	sqlStr := `INSERT INTO users (username,password,email,user_id)  values(?,?,?,?)`
 	user.Password = encryptPassword(user.Password)
@@ -59,16 +83,17 @@ func encryptPassword(oPassword string) string {
 }
 
 func Login(u *models.User) (err error) {
-	user := new(models.User)
+	oldPassword := *(&u.Password)
 	sqlStr := `select user_id,username,password from users where username = ?`
-	err = db.Get(user, sqlStr, u.Username)
+	err = db.Get(u, sqlStr, u.Username)
 	if errors.Is(err, sql.ErrNoRows) {
 		return err
 	} else if err != nil {
 		return err
 	}
-	encryptedPassword := encryptPassword(u.Password)
-	if encryptedPassword != user.Password {
+	encryptedPassword := encryptPassword(oldPassword)
+
+	if encryptedPassword != u.Password {
 		return errors.New("登陆失败")
 	}
 	return err
@@ -89,4 +114,20 @@ func CheckTokenIfInvalid(token string) (err error) {
 		return errors.New(tokenIsInvalid)
 	}
 	return nil
+}
+
+func UpdateUserMsg(user *models.UserParams, id int64) (err error) {
+	err = CheckUserExist2(user.Username, user.Email)
+	if err != nil {
+		return err
+	}
+	sqlStr := `UPDATE users SET username = ?,password = ?,email = ? where user_id = ?`
+	_, err = db.Exec(sqlStr, user.Username, user.Password, user.Email, id)
+	return err
+}
+
+func GetUserMsg(user *models.UserParams, id int64) (err error) {
+	sqlStr := `SELECT username,email FROM users where user_id = ?`
+	err = db.Get(user, sqlStr, id)
+	return
 }

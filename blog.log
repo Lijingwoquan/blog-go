@@ -34,3 +34,91 @@
 {"level":"ERROR","time":"2024-02-07T23:20:28.902+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
 {"level":"ERROR","time":"2024-02-07T23:20:30.028+0800","caller":"controller/data.go:89","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
 {"level":"ERROR","time":"2024-02-08T00:52:44.784+0800","caller":"controller/user.go:62","msg":"logic.Logout(token) failed","error":"Error 1054 (42S22): Unknown column 'remain' in 'field list'"}
+{"level":"ERROR","time":"2024-02-08T21:28:50.198+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: expected 0 arguments, got 1"}
+{"level":"ERROR","time":"2024-02-08T21:28:55.378+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: expected 0 arguments, got 1"}
+{"level":"ERROR","time":"2024-02-08T21:29:52.556+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"expected slice but got ptr"}
+{"level":"ERROR","time":"2024-02-08T21:30:29.743+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"scannable dest type ptr with >1 columns (3) in result"}
+{"level":"ERROR","time":"2024-02-08T21:31:18.592+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"missing destination name user_id in *models.UserParams"}
+{"level":"ERROR","time":"2024-02-08T21:31:52.201+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T21:32:20.729+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T21:33:03.879+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T21:33:08.259+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T21:33:24.795+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T21:36:11.755+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T21:36:20.148+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T21:37:01.985+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T21:37:48.889+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-08T21:46:29.767+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T21:46:29.771+0800","caller":"controller/user.go:46","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T21:46:46.904+0800","caller":"logic/user.go:30","msg":"mysql.InsertUser() failed","error":"Error 1264 (22003): Out of range value for column 'user_id' at row 1"}
+{"level":"ERROR","time":"2024-02-08T21:56:52.942+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"INFO","time":"2024-02-08T22:00:13.586+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-02-08T22:00:13.590+0800","caller":"controller/user.go:46","msg":"logic.Login() failed","error":"登陆失败"}
+{"level":"INFO","time":"2024-02-08T22:00:21.788+0800","caller":"logic/user.go:39","msg":"mysql.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-02-08T22:00:21.788+0800","caller":"controller/user.go:46","msg":"logic.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-02-08T22:01:39.432+0800","caller":"controller/user.go:46","msg":"logic.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-02-08T22:03:18.065+0800","caller":"controller/user.go:46","msg":"logic.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-02-08T22:03:39.963+0800","caller":"controller/user.go:46","msg":"logic.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-02-08T22:05:58.749+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:15:35.122+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:15:54.676+0800","caller":"controller/data.go:81","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:16:12.234+0800","caller":"controller/data.go:81","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:16:54.081+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:17:11.835+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:19:40.709+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:19:54.632+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:22:49.411+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:24:26.767+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:25:23.889+0800","caller":"controller/data.go:81","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:26:49.711+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:27:58.108+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:33:19.843+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:33:37.674+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:35:07.191+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:35:36.584+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:35:56.756+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:38:14.227+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:38:17.951+0800","caller":"controller/data.go:79","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:49:32.008+0800","caller":"controller/data.go:81","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:49:40.555+0800","caller":"controller/data.go:81","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:50:29.181+0800","caller":"controller/data.go:81","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:50:49.183+0800","caller":"controller/data.go:81","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:51:09.667+0800","caller":"controller/data.go:81","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:52:38.612+0800","caller":"controller/data.go:81","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:53:16.067+0800","caller":"controller/data.go:81","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:53:36.566+0800","caller":"controller/data.go:81","msg":"mysql.GetUserMsg(userPrams,id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-02-08T22:56:20.389+0800","caller":"controller/user.go:78","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-08T22:56:21.939+0800","caller":"controller/user.go:78","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-08T22:56:25.836+0800","caller":"controller/user.go:78","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-08T23:07:26.213+0800","caller":"controller/user.go:65","msg":"logic.Logout(token) failed","error":"Error 1406 (22001): Data too long for column 'token' at row 1"}
+{"level":"ERROR","time":"2024-02-08T23:08:13.693+0800","caller":"controller/user.go:66","msg":"logic.Logout(token) failed","error":"Error 1406 (22001): Data too long for column 'token' at row 1"}
+{"level":"ERROR","time":"2024-02-08T23:13:56.109+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-08T23:14:58.676+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-08T23:16:59.610+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:04:16.666+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:04:37.684+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:04:46.112+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:04:47.650+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:04:48.691+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:04:52.733+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:05:21.288+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:06:47.026+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:07:16.240+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:07:22.004+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:07:32.020+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:07:32.803+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:07:40.699+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:07:41.719+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"EOF"}
+{"level":"ERROR","time":"2024-02-09T01:20:18.240+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"Key: 'UserParams.Password' Error:Field validation for 'Password' failed on the 'required' tag\nKey: 'UserParams.RePassword' Error:Field validation for 'RePassword' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-09T01:20:31.212+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"Key: 'UserParams.Password' Error:Field validation for 'Password' failed on the 'required' tag\nKey: 'UserParams.RePassword' Error:Field validation for 'RePassword' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-09T01:26:34.910+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"Key: 'UserParams.RePassword' Error:Field validation for 'RePassword' failed on the 'eqfield' tag\nKey: 'UserParams.Email' Error:Field validation for 'Email' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-09T01:31:02.382+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"Key: 'UserParams.RePassword' Error:Field validation for 'RePassword' failed on the 'eqfield' tag\nKey: 'UserParams.Email' Error:Field validation for 'Email' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-09T01:31:03.754+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"Key: 'UserParams.RePassword' Error:Field validation for 'RePassword' failed on the 'eqfield' tag\nKey: 'UserParams.Email' Error:Field validation for 'Email' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-09T01:32:39.363+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"Key: 'UserParams.RePassword' Error:Field validation for 'RePassword' failed on the 'eqfield' tag\nKey: 'UserParams.Email' Error:Field validation for 'Email' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-09T01:34:31.295+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"Key: 'UserParams.RePassword' Error:Field validation for 'RePassword' failed on the 'eqfield' tag\nKey: 'UserParams.Email' Error:Field validation for 'Email' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-02-09T01:34:53.148+0800","caller":"controller/user.go:79","msg":"c.ShouldBindJSON(user) failed","error":"Key: 'UserParams.RePassword' Error:Field validation for 'RePassword' failed on the 'eqfield' tag"}
+{"level":"ERROR","time":"2024-02-09T01:36:02.201+0800","caller":"controller/user.go:88","msg":"logic.UpdateUserMsg(fmt.Sprintf(\"%s\",id)) failed","error":"用户已经存在"}
+{"level":"ERROR","time":"2024-02-09T01:37:16.228+0800","caller":"controller/user.go:88","msg":"logic.UpdateUserMsg(fmt.Sprintf(\"%s\",id)) failed","error":"用户已经存在"}
+{"level":"ERROR","time":"2024-02-09T01:37:41.158+0800","caller":"controller/user.go:88","msg":"logic.UpdateUserMsg(fmt.Sprintf(\"%s\",id)) failed","error":"sql: expected 4 arguments, got 5"}
+{"level":"ERROR","time":"2024-02-09T01:37:42.221+0800","caller":"controller/user.go:88","msg":"logic.UpdateUserMsg(fmt.Sprintf(\"%s\",id)) failed","error":"sql: expected 4 arguments, got 5"}
+{"level":"ERROR","time":"2024-02-09T01:38:35.875+0800","caller":"controller/user.go:46","msg":"logic.Login() failed","error":"登陆失败"}

@@ -36,10 +36,8 @@ func Signup(u *models.UserParams) (err error) {
 func Login(u *models.User) (err error) {
 	//1.判断账号密码是否正确
 	if err = mysql.Login(u); err != nil {
-		zap.L().Info("mysql.Login() failed", zap.Error(err))
 		return err
 	}
-
 	//2. jwt生成token
 	var token string
 	token, err = jwt.GenToken(u)
@@ -57,5 +55,11 @@ func Logout(token string) (err error) {
 	MyClaims, err := jwt.ParseToken(token)
 	//2.将该token储存在数据库中
 	err = mysql.Logout(token, MyClaims.ExpiresAt)
+	return
+}
+
+func UpdateUserMsg(user *models.UserParams, id int64) (err error) {
+	//从数据库中修改数据
+	err = mysql.UpdateUserMsg(user, id)
 	return
 }

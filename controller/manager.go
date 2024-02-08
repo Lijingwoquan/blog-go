@@ -10,7 +10,7 @@ import (
 const (
 	addClassifySuccess = "添加分类成功"
 	addEssaySuccess    = "添加文章成功"
-	updateSuccess      = "修改文章成功"
+	updateEssaySuccess = "修改文章成功"
 )
 
 func AddClassifyHandler(c *gin.Context) {
@@ -65,5 +65,5 @@ func UpdateEssayHandler(c *gin.Context) {
 		return
 	}
 	//3.返回响应
-	ResponseSuccess(c, updateSuccess)
+	ResponseSuccess(c, updateEssaySuccess)
 }

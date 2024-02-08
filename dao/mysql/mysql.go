@@ -57,7 +57,7 @@ func Init() (err error) {
 
 func CreateUserTale(db *sqlx.DB) (err error) {
 	sqlStr := `	CREATE TABLE IF NOT EXISTS users (
-			id BIGINT AUTO_INCREMENT PRIMARY KEY,
+			id Int AUTO_INCREMENT PRIMARY KEY,
 			user_id BIGINT NOT NULL ,
 			username VARCHAR(24) NOT NULL,
 			password VARCHAR(96) NOT NULL,
@@ -106,7 +106,7 @@ func CreateEssayTable(db *sqlx.DB) (err error) {
 func CreateInvalidToken(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS tokenInvalid(
     id INT AUTO_INCREMENT PRIMARY KEY,
-	token VARCHAR(160) NOT NULL,
+	token text NOT NULL,
 	expiration  INT NOT NULL)`
 	_, err = db.Exec(sqlStr)
 	return err
