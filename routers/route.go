@@ -40,9 +40,14 @@ func SetupRouter(mode string) *gin.Engine {
 
 	v3 := r.Group("/api/manager")
 	{
-		v3.POST("/addClassify", controller.AddClassifyHandler)
+		v3.POST("/addClassify", controller.AddClassifyHandler) //ok
 		v3.POST("/addEssay", controller.AddEssayHandler)
-		v3.PUT("/updateEssay", controller.UpdateEssayHandler)
+
+		v3.PUT("/updateKind", controller.UpdateKindHandler)         //ok
+		v3.PUT("/updateClassify", controller.UpdateClassifyHandler) //ok
+
+		v3.PUT("/updateEssayMsg", controller.UpdateEssayMSgHandler)
+		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler) //ok
 	}
 
 	r.NoRoute(func(c *gin.Context) {

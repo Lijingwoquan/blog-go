@@ -34,9 +34,40 @@ func CreateEssay(e *models.EssayParams) (err error) {
 	return
 }
 
-// UpdateEssay 更新文章逻辑
-func UpdateEssay(u *models.UpdateEssay) (err error) {
+// UpdateEssayMsg 更新文章逻辑
+func UpdateEssayMsg(u *models.UpdateEssayMSg) (err error) {
 	//更新数据
-	err = mysql.UpdateEssay(u)
+	err = mysql.UpdateEssayMsg(u)
+	return
+}
+
+// UpdateKind 更新总纲逻辑
+func UpdateKind(k *models.UpdateKindParams) (err error) {
+	//1.根据id查询到oldKind
+	oldName, err := mysql.CheckKind(k.ID)
+	if err != nil {
+		return err
+	}
+	//2.更新Kind的kind和classify的name
+	err = mysql.UpdateKind(oldName, k)
+	return
+}
+
+// UpdateClassify 更新分类信息逻辑
+func UpdateClassify(c *models.UpdateClassifyParams) (err error) {
+	//1.先由id查询得到oldName
+	oldName, err := mysql.CheckClassifyName(c.ID)
+	if err != nil {
+		return
+	}
+	//2.由传进来的id查询数据库 进行更新
+	err = mysql.UpdateClassify(oldName, c)
+	return
+}
+
+// DeleteEssay 删除文章逻辑
+func DeleteEssay(id int) (err error) {
+	//1.从mysql里面删除该文章
+	err = mysql.DeleteEssay(id)
 	return
 }

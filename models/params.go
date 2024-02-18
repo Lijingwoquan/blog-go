@@ -21,3 +21,15 @@ type EssayParams struct {
 	Content      string `json:"content" binding:"required"`
 	Router       string `json:"router" binding:"required"`
 }
+
+type UpdateKindParams struct {
+	Name string `json:"name" binding:"required" db:"name"`
+	Icon string `json:"icon" binding:"required" db:"icon"`
+	ID   int    `json:"id" binding:"required" db:"id"`
+}
+
+type UpdateClassifyParams struct {
+	Name   string `json:"name" binding:"required" db:"name"`
+	Router string `json:"router" binding:"required" db:"router"`
+	ID     int    `json:"id" binding:"required" db:"id"`
+}

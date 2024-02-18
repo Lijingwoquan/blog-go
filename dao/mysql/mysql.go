@@ -32,7 +32,7 @@ func Init() (err error) {
 		zap.L().Error("CreateUserTale(db) failed,err:%v", zap.Error(err))
 		return err
 	}
-	err = CreateClassifyKindTable(db)
+	err = CreateKindTable(db)
 	if err != nil {
 		zap.L().Error("CreateClassifyKindTable(db) failed,err:%v", zap.Error(err))
 		return err
@@ -68,8 +68,8 @@ func CreateUserTale(db *sqlx.DB) (err error) {
 	return err
 }
 
-func CreateClassifyKindTable(db *sqlx.DB) (err error) {
-	sqlStr := `CREATE TABLE IF NOT EXISTS classifyKind(
+func CreateKindTable(db *sqlx.DB) (err error) {
+	sqlStr := `CREATE TABLE IF NOT EXISTS kind(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(60) NOT NULL,
 	icon VARCHAR(60) NOT NULL)`

@@ -8,11 +8,6 @@ import (
 	"errors"
 )
 
-const (
-	secret         = "liuzihao.online"
-	tokenIsInvalid = "token存在于黑名单中"
-)
-
 func CheckUserExist(username string, email string) (err error) {
 	//用户名
 	sqlStr := `select count(username) from users where username = ? `

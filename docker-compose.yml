@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ..Lzh20050807..
+      MYSQL_DATABASE: blog
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # 注意这里的路径映射
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    command: --init-file=/docker-entrypoint-initdb.d/init.sql  # 使用 --init-file 参数执行 SQL 脚本
+
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+  blog:
+    build:
+      context: .
+      dockerfile: Dockerfile  # 指定你的 Dockerfile 文件路径
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+      - redis
+volumes:
+  mysql_data:
+  redis_data:

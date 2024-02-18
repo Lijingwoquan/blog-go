@@ -5,27 +5,24 @@ import (
 	"time"
 )
 
-const (
-	essayNotExist = "没有找到该文章"
-)
-
-func GetDataAboutClassifyKind(data *[]models.DataAboutClassify) (err error) {
-	sqlStr := `SELECT name,icon FROM classifyKind `
+func GetDataAboutKind(data *[]models.DataAboutKind) (err error) {
+	sqlStr := `SELECT name,icon,id FROM kind `
 	err = db.Select(data, sqlStr)
 	return
 }
 
-func GetDataAboutClassifyDetails(data *[]models.DataAboutClassifyDetails) (err error) {
+func GetDataAboutClassifyDetails(data *[]models.DataAboutClassify) (err error) {
 	sqlStr := `SELECT kind,name,router,id FROM classify`
 	err = db.Select(data, sqlStr)
 	return
 }
 
 func GetDataAboutClassifyEssayMsg(data *[]models.DataAboutEssay) (err error) {
-	sqlStr := `SELECT name,kind,router,introduction,id,createdTime,updatedTime FROM essay`
+	sqlStr := `SELECT name,kind,router,introduction,id,createdTime FROM essay  ORDER BY id DESC`
 	err = db.Select(data, sqlStr)
 	return
 }
+
 func GetEssayData(data *models.EssayData, id int) (err error) {
 	sqlStr := `SELECT content,name,introduction,kind,createdTime,updatedTime FROM essay where id = ?`
 	err = db.Get(data, sqlStr, id)

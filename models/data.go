@@ -6,17 +6,18 @@ type DataAboutIndex struct {
 }
 
 type DataAboutIndexMenu struct {
-	DataAboutClassify
-	ClassifyDetails []DataAboutClassifyDetails `json:"classifyDetails"`
+	DataAboutKind
+	Classify []DataAboutClassify `json:"classifyDetails"`
+}
+
+type DataAboutKind struct {
+	ClassifyKind string `json:"classifyKind" db:"name"`
+	Icon         string `json:"icon" db:"icon"`
+	Id           int    `json:"id" db:"id"`
 }
 
 type DataAboutClassify struct {
-	ClassifyKind string `json:"classifyKind" db:"name"`
-	Icon         string `json:"icon" db:"icon"`
-}
-
-type DataAboutClassifyDetails struct {
-	Kind   string           `json:"Kind" db:"kind"`
+	Kind   string           `json:"kind" db:"kind"`
 	Name   string           `json:"name"  db:"name"`
 	Router string           `json:"router" db:"router"`
 	ID     int              `json:"id" db:"id"`
@@ -30,14 +31,18 @@ type DataAboutEssay struct {
 	Introduction string `json:"introduction" db:"introduction"`
 	ID           int    `json:"id" db:"id"`
 	CreatedTime  string `json:"createdTime" db:"createdTime"`
-	UpdatedTime  string `json:"updatedTime" db:"updatedTime"`
+	Page         int    `json:"page"` //返回文章对应的页面 实现分页操作
 }
 
-type UpdateEssay struct {
-	OldName string `json:"oldName" db:"name" binding:"required"`
-	Name    string `json:"name" db:"name" binding:"required"`
-	Kind    string `json:"kind" db:"kind"`
-	Router  string `json:"router" db:"route"`
+type UpdateEssayMSg struct {
+	Name   string `json:"name" db:"name" binding:"required"`
+	Kind   string `json:"kind" db:"kind"`
+	Router string `json:"router" db:"route"`
+	Id     int    `json:"id" db:"id" binding:"required"`
+}
+
+type UpdateEssayContent struct {
+	Id      int    `json:"id" db:"id" binding:"required"`
 	Content string `json:"content" db:"content" binding:"required"`
 }
 
