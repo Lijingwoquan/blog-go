@@ -75,11 +75,26 @@ func CreateEssay(e *models.EssayParams) (err error) {
 }
 
 // UpdateEssayMsg 更新文章
-func UpdateEssayMsg(data *models.UpdateEssayMSg) (err error) {
+func UpdateEssayMsg(data *models.UpdateEssayMsg) (err error) {
 	updateTime := time.Now()
 	formattedTime := updateTime.Format("2006-01-02 15:04:05")
 	sqlStr := `UPDATE essay SET name= ?,kind = ? ,router = ?,updatedTime=? WHERE id = ?`
 	result, err := db.Exec(sqlStr, data.Name, data.Kind, data.Router, formattedTime, data.Id)
+	if err != nil {
+		return
+	}
+	rowsAffected, err := result.RowsAffected()
+	if rowsAffected == 0 {
+		return errors.New(essayNotExist)
+	}
+	return
+}
+
+func UpdateEssayContent(data *models.UpdateEssayContent) (err error) {
+	updateTime := time.Now()
+	formattedTime := updateTime.Format("2006-01-02 15:04:05")
+	sqlStr := `UPDATE essay SET content=?,updatedTime=? WHERE id = ?`
+	result, err := db.Exec(sqlStr, data.Content, formattedTime, data.Id)
 	if err != nil {
 		return
 	}

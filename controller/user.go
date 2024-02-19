@@ -48,7 +48,9 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 	//3.返回响应
-	ResponseSuccess(c, u.Token)
+	ResponseSuccess(c, gin.H{
+		"token": u.Token,
+	})
 }
 
 // LogoutHandler 退出登录

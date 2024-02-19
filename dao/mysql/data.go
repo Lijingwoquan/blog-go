@@ -18,7 +18,7 @@ func GetDataAboutClassifyDetails(data *[]models.DataAboutClassify) (err error) {
 }
 
 func GetDataAboutClassifyEssayMsg(data *[]models.DataAboutEssay) (err error) {
-	sqlStr := `SELECT name,kind,router,introduction,id,createdTime FROM essay  ORDER BY id DESC`
+	sqlStr := `SELECT name,kind,router,introduction,id,createdTime FROM essay WHERE name!='init'  ORDER BY id DESC`
 	err = db.Select(data, sqlStr)
 	return
 }

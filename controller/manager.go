@@ -21,7 +21,6 @@ const (
 func AddClassifyHandler(c *gin.Context) {
 	//1.参数处理
 	var classify = new(models.ClassifyParams)
-	fmt.Println(classify)
 	if err := c.ShouldBindJSON(classify); err != nil {
 		zap.L().Error("c.ShouldBindJSON(classify) failed", zap.Error(err))
 		ResponseError(c, CodeParamInvalid)
@@ -98,7 +97,7 @@ func UpdateClassifyHandler(c *gin.Context) {
 
 func UpdateEssayMSgHandler(c *gin.Context) {
 	//1.获取参数
-	var data = new(models.UpdateEssayMSg)
+	var data = new(models.UpdateEssayMsg)
 	if err := c.ShouldBindJSON(data); err != nil {
 		zap.L().Error("c.ShouldBindJSON(data) failed", zap.Error(err))
 		ResponseError(c, CodeParamInvalid)
@@ -114,9 +113,27 @@ func UpdateEssayMSgHandler(c *gin.Context) {
 	ResponseSuccess(c, updateEssaySuccess)
 }
 
+func UpdateEssayContentHandler(c *gin.Context) {
+	//1.获取参数
+	var data = new(models.UpdateEssayContent)
+	if err := c.ShouldBindJSON(data); err != nil {
+		zap.L().Error("c.ShouldBindJSON(data) failed", zap.Error(err))
+		ResponseError(c, CodeParamInvalid)
+		return
+	}
+	//2.业务处理
+	if err := logic.UpdateEssayContent(data); err != nil {
+		zap.L().Error("mysql.UpdateEssayContent(data) failed", zap.Error(err))
+		ResponseError(c, CodeServeBusy)
+		return
+	}
+	//3.返回响应
+	ResponseSuccess(c, updateEssaySuccess)
+}
 func DeleteEssayHandler(c *gin.Context) {
 	//1.获取参数
 	idS := c.Query("id")
+	fmt.Println(idS)
 	id, err := strconv.Atoi(idS)
 	if err != nil {
 		zap.L().Error(" strconv.Atoi(idS) failed,err:", zap.Error(err))

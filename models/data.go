@@ -2,7 +2,6 @@ package models
 
 type DataAboutIndex struct {
 	DataAboutIndexMenu []DataAboutIndexMenu `json:"dataAboutIndexMenu"`
-	UserInfo           `json:"userInfo"`
 }
 
 type DataAboutIndexMenu struct {
@@ -34,7 +33,7 @@ type DataAboutEssay struct {
 	Page         int    `json:"page"` //返回文章对应的页面 实现分页操作
 }
 
-type UpdateEssayMSg struct {
+type UpdateEssayMsg struct {
 	Name   string `json:"name" db:"name" binding:"required"`
 	Kind   string `json:"kind" db:"kind"`
 	Router string `json:"router" db:"route"`

@@ -22,7 +22,7 @@ func ResponseDataAboutIndexHandler(c *gin.Context) {
 	}
 	//2.查classifyDetails
 	var classifyDetails = new([]models.DataAboutClassify)
-	err = mysql.GetDataAboutClassifyDetails(classifyDetails)
+	err = mysql.GetDataAboutClassifyDetails(classifyDetails) //得到了所有的分类
 	if err != nil {
 		zap.L().Error("mysql.GetDataAboutClassifyDetails(classifyDetails) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
@@ -38,9 +38,12 @@ func ResponseDataAboutIndexHandler(c *gin.Context) {
 		return
 	}
 	// 3. 使用 map 优化循环 --> 整合数据
-	//整合ClassifyName和ClassifyEssay
+	//整合classify和essay
 	var essaysDetailMap = make(map[string][]models.DataAboutEssay)
-
+	//初始化map
+	for _, classify := range *classifyDetails {
+		essaysDetailMap[classify.Name] = []models.DataAboutEssay{} // 初始化为空的切片
+	}
 	for _, essay := range *essaysDetail {
 		essaysDetailMap[essay.Kind] = append(essaysDetailMap[essay.Kind], models.DataAboutEssay{
 			Name:         essay.Name,
@@ -93,26 +96,9 @@ func ResponseDataAboutIndexHandler(c *gin.Context) {
 		DataAboutIndexMenu[i].Classify = KindAndClassifyMap[(*kindDetails)[i].ClassifyKind]
 	}
 
-	//6.得到该用户的信息
-	var userInfo = new(models.UserInfo)
-	var userPrams = new(models.UserParams)
-	id := getUserId(c)
-	err = mysql.GetUserMsg(userPrams, id)
-	if err != nil {
-		zap.L().Error("mysql.GetUserMsg(userPrams,id) failed", zap.Error(err))
-		ResponseError(c, CodeServeBusy)
-		return
-	}
-	userInfo = &models.UserInfo{
-		UserID:   id,
-		Username: userPrams.Username,
-		Email:    userPrams.Email,
-	}
-
 	//7.整合数据
 	var DataAboutIndex = models.DataAboutIndex{
 		DataAboutIndexMenu: DataAboutIndexMenu,
-		UserInfo:           *userInfo,
 	}
 	ResponseSuccess(c, DataAboutIndex)
 }

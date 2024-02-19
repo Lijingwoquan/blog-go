@@ -35,9 +35,15 @@ func CreateEssay(e *models.EssayParams) (err error) {
 }
 
 // UpdateEssayMsg 更新文章逻辑
-func UpdateEssayMsg(u *models.UpdateEssayMSg) (err error) {
+func UpdateEssayMsg(u *models.UpdateEssayMsg) (err error) {
 	//更新数据
 	err = mysql.UpdateEssayMsg(u)
+	return
+}
+
+func UpdateEssayContent(u *models.UpdateEssayContent) (err error) {
+	//更新数据
+	err = mysql.UpdateEssayContent(u)
 	return
 }
 

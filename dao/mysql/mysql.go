@@ -93,7 +93,7 @@ func CreateEssayTable(db *sqlx.DB) (err error) {
     kind VARCHAR(60) NOT NULL,
 	name VARCHAR(60) NOT NULL,
 	content TEXT NOT NULL,
-	Introduction VARCHAR(180) NOT NULL,
+	introduction VARCHAR(180) NOT NULL,
     router VARCHAR(60) NOT NULL ,
     createdTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP

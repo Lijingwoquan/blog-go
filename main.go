@@ -9,7 +9,6 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/go-redis/redis"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"time"
@@ -29,13 +28,13 @@ func main() {
 			fmt.Printf(" zap.L().Sync() failed,err:%v", err)
 		}
 	}()
-	// Wait for MySQL
-	//if err := waitForMySQL(); err != nil {
-	//	fmt.Printf("Error waiting for MySQL: %v\n", err)
-	//	return
-	//}
+	//Wait for MySQL
+	if err := waitForMySQL(); err != nil {
+		fmt.Printf("Error waiting for MySQL: %v\n", err)
+		return
+	}
 
-	// Wait for Redis
+	////Wait for Redis
 	//if err := waitForRedis(); err != nil {
 	//	fmt.Printf("Error waiting for Redis: %v\n", err)
 	//	return
@@ -89,7 +88,7 @@ func main() {
 }
 
 func waitForMySQL() error {
-	dsn := "root:..Lzh20050807..@tcp(mysql)/blog"
+	dsn := "root:liuzihao520@tcp(mysql)/blog"
 	for i := 0; i < 30; i++ { // 尝试等待的次数，可以根据实际情况调整
 		db, err := sql.Open("mysql", dsn)
 		if err != nil {
@@ -109,22 +108,22 @@ func waitForMySQL() error {
 	return errors.New("timed out waiting for MySQL")
 }
 
-func waitForRedis() error {
-	client := redis.NewClient(&redis.Options{
-		Addr:     "redis:6379",
-		Password: "", // 如果有密码，请设置密码
-		DB:       0,
-	})
-
-	for {
-		err := client.Ping().Err()
-		if err == nil {
-			fmt.Println("Redis is ready!")
-			return nil
-		}
-
-		fmt.Println("Error pinging Redis:", err)
-		fmt.Println("Waiting for Redis...")
-		time.Sleep(2 * time.Second)
-	}
-}
+//func waitForRedis() error {
+//	client := redis.NewClient(&redis.Options{
+//		Addr:     "redis:6379",
+//		Password: "", // 如果有密码，请设置密码
+//		DB:       0,
+//	})
+//
+//	for {
+//		err := client.Ping().Err()
+//		if err == nil {
+//			fmt.Println("Redis is ready!")
+//			return nil
+//		}
+//
+//		fmt.Println("Error pinging Redis:", err)
+//		fmt.Println("Waiting for Redis...")
+//		time.Sleep(2 * time.Second)
+//	}
+//}
