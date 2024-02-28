@@ -18,7 +18,7 @@ func SetupRouter(mode string) *gin.Engine {
 
 	// 创建新的CORS中间件
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://1.94.61.121:80"} //
+	config.AllowOrigins = []string{"http://localhost:5173", "http://localhost:81"}
 	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
 	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
 	r.Use(cors.New(config))

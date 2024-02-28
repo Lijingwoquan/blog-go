@@ -4,7 +4,7 @@ services:
   mysql:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: liuzihao520
+      MYSQL_ROOT_PASSWORD:  liuzihao520
       MYSQL_DATABASE: blog
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # 注意这里的路径映射

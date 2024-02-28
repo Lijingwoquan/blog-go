@@ -29,10 +29,10 @@ func main() {
 		}
 	}()
 	//Wait for MySQL
-	if err := waitForMySQL(); err != nil {
-		fmt.Printf("Error waiting for MySQL: %v\n", err)
-		return
-	}
+	//if err := waitForMySQL(); err != nil {
+	//	fmt.Printf("Error waiting for MySQL: %v\n", err)
+	//	return
+	//}
 
 	////Wait for Redis
 	//if err := waitForRedis(); err != nil {
