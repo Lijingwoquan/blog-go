@@ -13,9 +13,9 @@ log:
   max_age: 30
   max_backups: 7
 mysql:
-  host: "127.0.0.1"
+  host: mysql
   username: "root"
-  password: ..Lzh20050807..
+  password: liuzihao520
   port: "3306"
   dbname: "blog"
   max_open_con: 200

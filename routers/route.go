@@ -5,7 +5,6 @@ import (
 	"blog/middlewares"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func SetupRouter(mode string) *gin.Engine {
@@ -15,14 +14,13 @@ func SetupRouter(mode string) *gin.Engine {
 	gin.DisableConsoleColor()
 	r := gin.Default()
 	//r.Use(cors.Default()) --> 这里没有Authorization！！！妈的被坑惨了
-
 	// 创建新的CORS中间件
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://localhost:5173", "http://localhost:81"}
+	config.AllowOrigins = []string{"*"}
 	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
 	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
 	r.Use(cors.New(config))
-
+	r.Static("/img", "/app/statics/img")
 	v1 := r.Group("/api/base")
 	{
 		// 使用中间件的路由
@@ -49,9 +47,10 @@ func SetupRouter(mode string) *gin.Engine {
 		v3.PUT("/updateEssayContent", controller.UpdateEssayContentHandler)
 		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler) //ok
 	}
+	r.POST("/api/manager/uploadImg", controller.UploadImgHandler)
 
 	r.NoRoute(func(c *gin.Context) {
-		c.JSONP(http.StatusOK, gin.H{
+		c.JSONP(404, gin.H{
 			"msg": "404",
 		})
 	})
