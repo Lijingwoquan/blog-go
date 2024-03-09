@@ -39,13 +39,13 @@ func SetupRouter(mode string) *gin.Engine {
 	v3 := r.Group("/api/manager")
 	v3.Use(middlewares.JWTAuthMiddleware())
 	{
-		v3.POST("/addClassify", controller.AddClassifyHandler) //ok
+		v3.POST("/addClassify", controller.AddClassifyHandler)
 		v3.POST("/addEssay", controller.AddEssayHandler)
-		v3.PUT("/updateKind", controller.UpdateKindHandler)         //ok
-		v3.PUT("/updateClassify", controller.UpdateClassifyHandler) //ok
+		v3.PUT("/updateKind", controller.UpdateKindHandler)
+		v3.PUT("/updateClassify", controller.UpdateClassifyHandler)
 		v3.PUT("/updateEssayMsg", controller.UpdateEssayMSgHandler)
 		v3.PUT("/updateEssayContent", controller.UpdateEssayContentHandler)
-		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler) //ok
+		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler)
 	}
 	r.POST("/api/manager/uploadImg", controller.UploadImgHandler)
 
