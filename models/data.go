@@ -34,10 +34,11 @@ type DataAboutEssay struct {
 }
 
 type UpdateEssayMsg struct {
-	Name   string `json:"name" db:"name" binding:"required"`
-	Kind   string `json:"kind" db:"kind"`
-	Router string `json:"router" db:"route"`
-	Id     int    `json:"id" db:"id" binding:"required"`
+	Name         string `json:"name" db:"name" binding:"required"`
+	Introduction string `json:"introduction" db:"introduction"`
+	Kind         string `json:"kind" db:"kind"`
+	Router       string `json:"router" db:"route"`
+	Id           int    `json:"id" db:"id" binding:"required"`
 }
 
 type UpdateEssayContent struct {

@@ -56,7 +56,22 @@ func Init() (err error) {
 }
 
 func CreateUserTale(db *sqlx.DB) (err error) {
-	sqlStr := `	CREATE TABLE IF NOT EXISTS users (
+	tx, err := db.Beginx()
+	if err != nil {
+		return
+	}
+	defer func() {
+		if p := recover(); p != nil {
+			_ = tx.Rollback()
+			panic(p)
+		} else if err != nil {
+			_ = tx.Rollback()
+		} else {
+			err = tx.Commit()
+		}
+	}()
+	//建表操作
+	sqlStr1 := `	CREATE TABLE IF NOT EXISTS users (
 			id Int AUTO_INCREMENT PRIMARY KEY,
 			user_id BIGINT NOT NULL ,
 			username VARCHAR(24) NOT NULL,
@@ -64,8 +79,16 @@ func CreateUserTale(db *sqlx.DB) (err error) {
 			email VARCHAR(32) NOT NULL,
 			create_time timestamp default CURRENT_TIMESTAMP NULL,
 			update_time timestamp default NULL ON UPDATE CURRENT_TIMESTAMP)`
-	_, err = db.Exec(sqlStr)
-	return err
+	_, err = tx.Exec(sqlStr1)
+	if err != nil {
+		return err
+	}
+	//插入管理员
+	password := encryptPassword("..Lzh20050807..")
+
+	sqlStr2 := `INSERT INTO users (username,password,email,user_id) SELECT 2115883273,?,'2115883273@qq.com',520888666 WHERE NOT EXISTS(SELECT 1 FROM users WHERE username = 2115883273)`
+	_, err = tx.Exec(sqlStr2, password)
+	return
 }
 
 func CreateKindTable(db *sqlx.DB) (err error) {
@@ -97,8 +120,7 @@ func CreateEssayTable(db *sqlx.DB) (err error) {
     router VARCHAR(60) NOT NULL ,
     createdTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
-`
+	)`
 	_, err = db.Exec(sqlStr)
 	return err
 }

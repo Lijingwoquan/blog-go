@@ -69,17 +69,36 @@ func CheckEssayExist(c *models.EssayParams) (err error) {
 
 // CreateEssay 添加新文章
 func CreateEssay(e *models.EssayParams) (err error) {
-	sqlStr := `INSERT INTO essay(kind,name, content,router,Introduction) values(?,?,?,?,?)`
-	_, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Router, e.Introduction)
+	formattedTime, err := getChineseTime()
+	if err != nil {
+		zap.L().Error("time.LoadLocation(\"Asia/Shanghai\") failed", zap.Error(err))
+		return err
+	}
+	sqlStr := `INSERT INTO essay(kind,name, content,router,Introduction,createdTime,updatedTime) values(?,?,?,?,?,?,?)`
+	_, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Router, e.Introduction, formattedTime, formattedTime)
 	return err
 }
 
-// UpdateEssayMsg 更新文章
+func getChineseTime() (t string, err error) {
+	//加载中国时区
+	loc, err := time.LoadLocation("Asia/Shanghai")
+	if err != nil {
+		return
+	}
+	T := time.Now().In(loc)
+	t = T.Format("2006-01-02 15:04:05")
+	return
+}
+
+// UpdateEssayMsg 更新文章基本信息
 func UpdateEssayMsg(data *models.UpdateEssayMsg) (err error) {
-	updateTime := time.Now()
-	formattedTime := updateTime.Format("2006-01-02 15:04:05")
-	sqlStr := `UPDATE essay SET name= ?,kind = ? ,router = ?,updatedTime=? WHERE id = ?`
-	result, err := db.Exec(sqlStr, data.Name, data.Kind, data.Router, formattedTime, data.Id)
+	formattedTime, err := getChineseTime()
+	if err != nil {
+		zap.L().Error("time.LoadLocation(\"Asia/Shanghai\") failed", zap.Error(err))
+		return err
+	}
+	sqlStr := `UPDATE essay SET name= ?,kind = ? ,introduction=?,router = ?,updatedTime=? WHERE id = ?`
+	result, err := db.Exec(sqlStr, data.Name, data.Kind, data.Introduction, data.Router, formattedTime, data.Id)
 	if err != nil {
 		return
 	}
@@ -90,9 +109,13 @@ func UpdateEssayMsg(data *models.UpdateEssayMsg) (err error) {
 	return
 }
 
+// UpdateEssayContent 更新文章内容
 func UpdateEssayContent(data *models.UpdateEssayContent) (err error) {
-	updateTime := time.Now()
-	formattedTime := updateTime.Format("2006-01-02 15:04:05")
+	formattedTime, err := getChineseTime()
+	if err != nil {
+		zap.L().Error("time.LoadLocation(\"Asia/Shanghai\") failed", zap.Error(err))
+		return err
+	}
 	sqlStr := `UPDATE essay SET content=?,updatedTime=? WHERE id = ?`
 	result, err := db.Exec(sqlStr, data.Content, formattedTime, data.Id)
 	if err != nil {
@@ -129,6 +152,9 @@ func UpdateKind(oldName string, k *models.UpdateKindParams) (err error) {
 	//更新classify的name
 	sqlStr1 := `UPDATE kind SET name =?,icon=? WHERE  id = ?`
 	_, err = tx.Exec(sqlStr1, k.Name, k.Icon, k.ID)
+	if err != nil {
+		return err
+	}
 	//更新符合classify的kind
 	sqlStr2 := `UPDATE  classify SET kind = ? WHERE kind = ?`
 	_, err = tx.Exec(sqlStr2, k.Name, oldName)
@@ -159,6 +185,9 @@ func UpdateClassify(oldName string, c *models.UpdateClassifyParams) (err error) 
 	//更新classify的name
 	sqlStr1 := `UPDATE classify SET name=?,router=? WHERE  id = ?`
 	_, err = tx.Exec(sqlStr1, c.Name, c.Router, c.ID)
+	if err != nil {
+		return err
+	}
 	//更新符合classifyName的essay
 	sqlStr2 := `UPDATE  essay SET kind = ? WHERE kind = ?`
 	_, err = tx.Exec(sqlStr2, c.Name, oldName)

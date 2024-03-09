@@ -29,7 +29,7 @@ services:
       - mysql
       - redis
     volumes:
-      - ./statics/img:/app/statics/img  # 将本地图片文件夹挂载到容器中的对应路径
+      - ../blog/statics/img:/app/statics/img  # 将本地图片文件夹挂载到容器中的对应路径
 volumes:
   mysql_data:
   redis_data:
