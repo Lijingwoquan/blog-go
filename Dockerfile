@@ -15,13 +15,14 @@ WORKDIR /build
 COPY . .
 
 # 下载依赖 将我们的代码编译成二进制可执行文件 bluebell_app
-RUN go mod download && \
-    go build -o blog .
+RUN go mod download
+
+RUN go build -o blog .
 
 ###################
 # 接下来创建一个小镜像
 ###################
-FROM scratch
+FROM debian:stretch-slim
 
 COPY ./config /config
 COPY --from=builder /build/blog /
