@@ -16,7 +16,7 @@ func SetupRouter(mode string) *gin.Engine {
 	//r.Use(cors.Default()) --> 这里没有Authorization！！！妈的被坑惨了
 	// 创建新的CORS中间件
 	config := cors.DefaultConfig()
-	config.AllowOrigins = []string{"http://liuzihao.online"}
+	config.AllowOrigins = []string{"*"}
 	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
 	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
 	r.Use(cors.New(config))
