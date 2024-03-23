@@ -23,7 +23,6 @@ RUN go build -o blog .
 # 接下来创建一个小镜像
 ###################
 FROM debian:stretch-slim
-
 COPY ./config /config
 COPY --from=builder /build/blog /
 

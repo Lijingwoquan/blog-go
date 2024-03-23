@@ -6,13 +6,12 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: liuzihao520
       MYSQL_DATABASE: blog
+      LANG: C.UTF-8
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # 注意这里的路径映射
       - mysql_data:/var/lib/mysql
     ports:
       - "3307:3306"
-    command: --init-file=/docker-entrypoint-initdb.d/init.sql  # 使用 --init-file 参数执行 SQL 脚本
-
   redis:
     image: redis:latest
     volumes:
@@ -29,7 +28,7 @@ services:
       - mysql
       - redis
     volumes:
-      - ../blog/statics/img:/app/statics/img  # 将本地图片文件夹挂载到容器中的对应路径
+      - ../blog-statics//img:/app/statics/img  # 将本地图片文件夹挂载到容器中的对应路径
 volumes:
   mysql_data:
   redis_data:
