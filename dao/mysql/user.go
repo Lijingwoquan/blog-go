@@ -60,9 +60,6 @@ func InsertUser(user *models.User) (err error) {
 	sqlStr := `INSERT INTO users (username,password,email,user_id)  values(?,?,?,?)`
 	user.Password = encryptPassword(user.Password)
 	_, err = db.Exec(sqlStr, user.Username, user.Password, user.Email, user.UserID)
-	if err != nil {
-		return err
-	}
 	return err
 }
 

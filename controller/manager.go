@@ -123,7 +123,7 @@ func UpdateEssayContentHandler(c *gin.Context) {
 	}
 	//2.业务处理
 	if err := logic.UpdateEssayContent(data); err != nil {
-		zap.L().Error("mysql.UpdateEssayContent(data) failed", zap.Error(err))
+		zap.L().Error("mysql.UpdateEssayContent(data) failed,err:", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
 	}
@@ -162,7 +162,6 @@ func UploadImgHandler(c *gin.Context) {
 	if err := c.SaveUploadedFile(f, dst); err != nil {
 		zap.L().Error("c.SaveUploadedFile(f, dst) failed,err:", zap.Error(err))
 		return
-	} else {
-		ResponseSuccess(c, "成功")
 	}
+	ResponseSuccess(c, "成功")
 }
