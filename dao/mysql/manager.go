@@ -25,17 +25,24 @@ func CheckClassifyKindExist(c *models.ClassifyParams) (err error) {
 			zap.L().Error("db.Exec(sqlStr,c.ClassifyName) failed", zap.Error(err))
 			return
 		}
-	} else {
-		return
 	}
 	return err
 }
 
-// CheckClassifyExist 检查分类名存不存在
+// CheckClassifyExist 检查分类存不存在
 func CheckClassifyExist(c *models.ClassifyParams) (err error) {
-	sqlStr := `SELECT COUNT(*) FROM classify WHERE name = ?`
+	sqlStr1 := `SELECT COUNT(*) FROM classify WHERE name = ?`
 	var count int
-	err = db.Get(&count, sqlStr, c.Name)
+	err = db.Get(&count, sqlStr1, c.Name)
+	if err != nil {
+		return err
+	}
+	if count > 0 {
+		return errors.New(classifyExist)
+	}
+	count = 0
+	sqlStr2 := `SELECT COUNT(*) FROM classify WHERE router = ?`
+	err = db.Get(&count, sqlStr2, c.Router)
 	if err != nil {
 		return err
 	}
@@ -55,12 +62,21 @@ func AddClassify(c *models.ClassifyParams) (err error) {
 	return
 }
 
-// CheckEssayExist 检测文章名称是否存在
+// CheckEssayExist 检测文章是否存在
 func CheckEssayExist(c *models.EssayParams) (err error) {
-	sqlStr := `SELECT COUNT(*) FROM essay WHERE  kind = ? AND  name = ? `
+	sqlStr1 := `SELECT COUNT(*) FROM essay WHERE  kind = ? AND  name = ? `
 	var count int
-	err = db.Get(&count, sqlStr, c.Kind, c.Name)
+	err = db.Get(&count, sqlStr1, c.Kind, c.Name)
 	fmt.Println(count)
+	if count > 0 {
+		return errors.New(essayExist)
+	}
+	count = 0
+	sqlStr2 := `SELECT COUNT(*) FROM essay WHERE router = ?`
+	err = db.Get(&count, sqlStr2, c.Router)
+	if err != nil {
+		return err
+	}
 	if count > 0 {
 		return errors.New(essayExist)
 	}

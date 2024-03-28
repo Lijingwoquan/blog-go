@@ -8,6 +8,8 @@ import (
 	"errors"
 )
 
+const ()
+
 func CheckUserExist(username string, email string) (err error) {
 	//用户名
 	sqlStr := `select count(username) from users where username = ? `
@@ -17,7 +19,7 @@ func CheckUserExist(username string, email string) (err error) {
 		return err
 	}
 	if count > 0 {
-		return errors.New("用户已经存在")
+		return errors.New(userExist)
 	}
 
 	//邮箱
@@ -27,7 +29,7 @@ func CheckUserExist(username string, email string) (err error) {
 		return err
 	}
 	if count > 0 {
-		return errors.New("用户已经存在")
+		return errors.New(userExist)
 	}
 	return err
 }
@@ -41,7 +43,7 @@ func CheckUserExist2(username string, email string) (err error) {
 		return err
 	}
 	if count > 1 {
-		return errors.New("用户已经存在")
+		return errors.New(userExist)
 	}
 
 	//邮箱
@@ -51,7 +53,7 @@ func CheckUserExist2(username string, email string) (err error) {
 		return err
 	}
 	if count > 1 {
-		return errors.New("用户已经存在")
+		return errors.New(userExist)
 	}
 	return err
 }

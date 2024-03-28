@@ -2,6 +2,7 @@ package mysql
 
 const (
 	secret         = "liuzihao.online"
+	userExist      = "用户已经存在"
 	needIcon       = "该分类为新创建分类,需要指定icon"
 	tokenIsInvalid = "token存在于黑名单中"
 	classifyExist  = "该分类已存在"
