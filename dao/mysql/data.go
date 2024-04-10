@@ -28,6 +28,7 @@ func GetEssayData(data *models.EssayData, id int) (err error) {
 	err = db.Get(data, sqlStr, id)
 	return
 }
+
 func CleanupInvalidTokens() (err error) {
 	now := time.Now()
 	sqlStr := `DELETE FROM tokenInvalid WHERE expiration < ? `

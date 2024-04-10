@@ -46,8 +46,8 @@ func SetupRouter(mode string) *gin.Engine {
 		v3.PUT("/updateEssayMsg", controller.UpdateEssayMSgHandler)
 		v3.PUT("/updateEssayContent", controller.UpdateEssayContentHandler)
 		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler)
+		v3.POST("/uploadImg", controller.UploadImgHandler)
 	}
-	r.POST("/api/manager/uploadImg", controller.UploadImgHandler)
 
 	r.NoRoute(func(c *gin.Context) {
 		c.JSONP(404, gin.H{
