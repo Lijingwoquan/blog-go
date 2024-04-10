@@ -49,8 +49,10 @@ type UpdateEssayContent struct {
 type EssayData struct {
 	Name         string `json:"name" db:"name"`
 	Kind         string `json:"kind" db:"kind"`
+	Eid          int64  `db:"eid"`
 	Introduction string `json:"introduction" db:"introduction"`
 	Content      string `json:"content" db:"content"`
+	VisitedTimes int64  `json:"visitedTimes" db:"visitedTimes"`
 	CreatedTime  string `json:"createdTime" db:"createdTime"`
 	UpdatedTime  string `json:"updatedTime" db:"updatedTime"`
 }

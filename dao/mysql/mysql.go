@@ -113,15 +113,16 @@ func CreateClassifyTable(db *sqlx.DB) (err error) {
 func CreateEssayTable(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS essay(
     id INT AUTO_INCREMENT PRIMARY KEY,
+    eid BIGINT NOT NULL ,
     kind VARCHAR(60) NOT NULL,
 	name VARCHAR(60) NOT NULL,
 	content TEXT NOT NULL,
 	introduction VARCHAR(180) NOT NULL,
     router VARCHAR(60) NOT NULL ,
-	times BIGINT NOT NULL DEFAULT 0,
+	visitedTimes BIGINT NOT NULL DEFAULT 0 ,
     createdTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-	)`
+    )`
 	_, err = db.Exec(sqlStr)
 	return err
 }

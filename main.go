@@ -2,6 +2,7 @@ package main
 
 import (
 	"blog/dao/mysql"
+	"blog/dao/redis"
 	"blog/logger"
 	"blog/pkg/snowflake"
 	"blog/routers"
@@ -29,10 +30,10 @@ func main() {
 		}
 	}()
 	//Wait for MySQL
-	if err := waitForMySQL(); err != nil {
-		fmt.Printf("Error waiting for MySQL: %v\n", err)
-		return
-	}
+	//if err := waitForMySQL(); err != nil {
+	//	fmt.Printf("Error waiting for MySQL: %v\n", err)
+	//	return
+	//}
 
 	////Wait for Redis
 	//if err := waitForRedis(); err != nil {
@@ -46,12 +47,12 @@ func main() {
 		return
 	}
 
-	////4.初始化redis
-	//if err := redis.Init(); err != nil {
-	//	fmt.Printf("init redis failed err:%v", err)
-	//	return
-	//}
-	//defer redis.Close()
+	//4.初始化redis
+	if err := redis.Init(); err != nil {
+		fmt.Printf("init redis failed err:%v", err)
+		return
+	}
+	defer redis.Close()
 
 	//初始化雪花算法
 	if err := snowflake.Init(viper.GetString("app.start_time"), viper.GetInt64("app.machine_id")); err != nil {

@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"blog/dao/redis"
 	"blog/models"
 	"time"
 )
@@ -24,8 +25,13 @@ func GetDataAboutClassifyEssayMsg(data *[]models.DataAboutEssay) (err error) {
 }
 
 func GetEssayData(data *models.EssayData, id int) (err error) {
-	sqlStr := `SELECT content,name,introduction,kind,createdTime,updatedTime FROM essay where id = ?`
+	//在这里得到次数并添加
+	sqlStr := `SELECT content,name,eid,introduction,kind,createdTime,updatedTime FROM essay where id = ?`
 	err = db.Get(data, sqlStr, id)
+	if err != nil {
+		return err
+	}
+	data.VisitedTimes, err = redis.GetVisitedTimes(data.Eid)
 	return
 }
 

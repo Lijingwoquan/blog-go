@@ -1,7 +1,9 @@
 package mysql
 
 import (
+	"blog/dao/redis"
 	"blog/models"
+	"blog/pkg/snowflake"
 	"errors"
 	"fmt"
 	"go.uber.org/zap"
@@ -90,8 +92,12 @@ func CreateEssay(e *models.EssayParams) (err error) {
 		zap.L().Error("time.LoadLocation(\"Asia/Shanghai\") failed", zap.Error(err))
 		return err
 	}
-	sqlStr := `INSERT INTO essay(kind,name, content,router,Introduction,createdTime,updatedTime) values(?,?,?,?,?,?,?)`
-	_, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Router, e.Introduction, formattedTime, formattedTime)
+	eid := snowflake.GenID()
+	if err := redis.InitVisitedTimes(eid); err != nil {
+		return err
+	}
+	sqlStr := `INSERT INTO essay(kind,name,content,router,Introduction,createdTime,updatedTime,eid) values(?,?,?,?,?,?,?,?)`
+	_, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Router, e.Introduction, formattedTime, formattedTime, eid)
 	return err
 }
 
