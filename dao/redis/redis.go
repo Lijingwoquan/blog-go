@@ -20,11 +20,9 @@ func Init() (err error) {
 		PoolSize: viper.GetInt("redis.pool_size"),
 	})
 	_, err = client.Ping().Result()
-	if err != nil {
-		return err
-	}
 	return err
 }
+
 func Close() {
 	err := client.Close()
 	if err != nil {

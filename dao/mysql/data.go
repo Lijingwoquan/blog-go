@@ -3,6 +3,7 @@ package mysql
 import (
 	"blog/dao/redis"
 	"blog/models"
+	"fmt"
 	"time"
 )
 
@@ -31,7 +32,7 @@ func GetEssayData(data *models.EssayData, id int) (err error) {
 	if err != nil {
 		return err
 	}
-	data.VisitedTimes, err = redis.GetVisitedTimes(data.Eid)
+	data.VisitedTimes, err = redis.GetVisitedTimes(fmt.Sprintf("%d", data.Eid))
 	return
 }
 
@@ -40,4 +41,15 @@ func CleanupInvalidTokens() (err error) {
 	sqlStr := `DELETE FROM tokenInvalid WHERE expiration < ? `
 	_, err = db.Exec(sqlStr, now)
 	return err
+}
+
+func SaveVisitedTimes(visitedTimesChangedMap *map[int64]int64) (err error) {
+	for eid, vt := range *visitedTimesChangedMap {
+		sqlStr := `UPDATE essay SET visitedTimes = ? WHERE eid = ?`
+		_, err := db.Exec(sqlStr, vt, eid)
+		if err != nil {
+			return fmt.Errorf("_, err := db.Exec(sqlStr, vt, eid) in SaveVisitedTimes failed,err:%v", err)
+		}
+	}
+	return nil
 }
