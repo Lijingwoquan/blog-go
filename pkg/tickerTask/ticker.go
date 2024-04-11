@@ -9,6 +9,7 @@ import (
 
 func Init() {
 	go cleanupInvalidTokensTask()
+	go saveVisitedTimesTask()
 }
 
 func cleanupInvalidTokensTask() error {

@@ -41,5 +41,10 @@ func GetChangedVisitedTimes() (*map[int64]int64, error) {
 		}
 		visitedTimesChangedMap[eida] = vt
 	}
+	//删除这个集合
+	_, err = client.Del(getRedisKey("visited:eids")).Result()
+	if err != nil {
+		return nil, fmt.Errorf("client.Del(getRedisKey(\"visited:eids\")).Result() failed,err:%v", err)
+	}
 	return &visitedTimesChangedMap, nil
 }
