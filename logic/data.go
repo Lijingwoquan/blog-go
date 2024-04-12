@@ -7,6 +7,10 @@ import (
 	"fmt"
 )
 
+const (
+	maxEssaySumForPage = 5
+)
+
 // ResponseDataAboutIndex 返回首页数据
 func ResponseDataAboutIndex(DataAboutIndex *models.DataAboutIndex) (err error) {
 	//进入页面之后 得到各大分类种类以及相应的名称
@@ -92,7 +96,7 @@ func sortClassifyAndEssay(classifyAndEssayMap map[string][]models.DataAboutEssay
 		var count = 0
 		for i, v := range essayArr {
 			count++
-			if count > 5 {
+			if count > maxEssaySumForPage {
 				page++
 				count = 0
 			}
