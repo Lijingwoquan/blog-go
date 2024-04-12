@@ -57,8 +57,7 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 	}
 }
 
-func JWTInvalidToken(token string) (err error) {
+func JWTInvalidToken(token string) error {
 	//1.查看token是否在数据库中
-	err = mysql.CheckTokenIfInvalid(token)
-	return err
+	return mysql.CheckTokenIfInvalid(token)
 }
