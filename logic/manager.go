@@ -30,7 +30,7 @@ func CreateEssay(e *models.EssayParams) (err error) {
 	//2.添加该文章
 	var eid int64
 	//mysql处理数据
-	if err, eid = mysql.CreateEssay(e); err != nil {
+	if eid, err = mysql.CreateEssay(e); err != nil {
 		return fmt.Errorf("mysql.CreateEssay(e) failed,err:%v", err)
 	}
 	//redis处理数据

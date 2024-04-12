@@ -27,35 +27,36 @@ func GetEssayData(data *models.EssayData, id int) error {
 	return db.Get(data, sqlStr, id)
 }
 
-func CleanupInvalidTokens() (err error) {
+func CleanupInvalidTokens() error {
 	now := time.Now()
 	sqlStr := `DELETE FROM tokenInvalid WHERE expiration < ? `
-	_, err = db.Exec(sqlStr, now)
+	_, err := db.Exec(sqlStr, now)
 	return err
 }
 
 func SaveVisitedTimes(visitedTimesChangedMap map[int64]int64) error {
-	tx, err := db.Begin()
+	tx, err := db.Beginx()
 	if err != nil {
-		return fmt.Errorf("db.Begin() failed,err:%v", err)
+		return err
 	}
+	defer func() {
+		if p := recover(); p != nil {
+			_ = tx.Rollback()
+			panic(p)
+		} else if err != nil {
+			_ = tx.Rollback()
+		} else {
+			err = tx.Commit()
+		}
+	}()
 
 	sqlStr := `UPDATE essay SET visitedTimes = ? WHERE eid = ?`
 
 	for eid, vt := range visitedTimesChangedMap {
-		_, err := tx.Exec(sqlStr, vt, eid)
-		if err != nil {
-			if err = tx.Rollback(); err != nil {
-				return fmt.Errorf("tx.Rollback() failed,err:%v", err)
-			}
-			return fmt.Errorf("tx.Exec(sqlStr,vt,eid) failed,err:%v", err)
+		if _, err := tx.Exec(sqlStr, vt, eid); err != nil {
+			return err
 		}
 	}
-
-	if err = tx.Commit(); err != nil {
-		return fmt.Errorf("tx.Commit() failed,err:%v", err)
-	}
-
 	return nil
 }
 

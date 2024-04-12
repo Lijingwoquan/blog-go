@@ -8,8 +8,6 @@ import (
 	"errors"
 )
 
-const ()
-
 func CheckUserExist(username string, email string) (err error) {
 	//用户名
 	sqlStr := `select count(username) from users where username = ? `
@@ -55,7 +53,7 @@ func CheckUserExist2(username string, email string) (err error) {
 	if count > 1 {
 		return errors.New(userExist)
 	}
-	return err
+	return nil
 }
 
 func InsertUser(user *models.User) (err error) {
@@ -88,9 +86,9 @@ func Login(u *models.User) (err error) {
 	encryptedPassword := encryptPassword(oldPassword)
 
 	if encryptedPassword != u.Password {
-		return errors.New("登陆失败")
+		return errors.New(loginFailed)
 	}
-	return err
+	return nil
 }
 
 func Logout(token string, remain int64) (err error) {
@@ -120,8 +118,7 @@ func UpdateUserMsg(user *models.UserParams, id int64) (err error) {
 	return err
 }
 
-func GetUserMsg(user *models.UserParams, id int64) (err error) {
+func GetUserMsg(user *models.UserParams, id int64) error {
 	sqlStr := `SELECT username,email FROM users where user_id = ?`
-	err = db.Get(user, sqlStr, id)
-	return
+	return db.Get(user, sqlStr, id)
 }

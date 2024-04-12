@@ -55,10 +55,10 @@ func Init() (err error) {
 	return
 }
 
-func CreateUserTale(db *sqlx.DB) (err error) {
+func CreateUserTale(db *sqlx.DB) error {
 	tx, err := db.Beginx()
 	if err != nil {
-		return
+		return err
 	}
 	defer func() {
 		if p := recover(); p != nil {
@@ -71,7 +71,7 @@ func CreateUserTale(db *sqlx.DB) (err error) {
 		}
 	}()
 	//建表操作
-	sqlStr1 := `	CREATE TABLE IF NOT EXISTS users (
+	sqlStr1 := `CREATE TABLE IF NOT EXISTS users (
 			id Int AUTO_INCREMENT PRIMARY KEY,
 			user_id BIGINT NOT NULL ,
 			username VARCHAR(24) NOT NULL,
@@ -88,7 +88,7 @@ func CreateUserTale(db *sqlx.DB) (err error) {
 
 	sqlStr2 := `INSERT INTO users (username,password,email,user_id) SELECT 2115883273,?,'2115883273@qq.com',520888666 WHERE NOT EXISTS(SELECT 1 FROM users WHERE username = 2115883273)`
 	_, err = tx.Exec(sqlStr2, password)
-	return
+	return nil
 }
 
 func CreateKindTable(db *sqlx.DB) (err error) {

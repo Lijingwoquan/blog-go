@@ -10,25 +10,23 @@ func GetVisitedTimes(eid string) (int64, error) {
 	var vt int64
 	key := getRedisKey(KeyVisitedTimes)
 	//先检查键是否存在
-	exist, err := client.HExists(key, eid).Result()
-	if err != nil {
+	var exist bool
+	var err error
+	if exist, err = client.HExists(key, eid).Result(); err != nil {
 		return 0, fmt.Errorf("exist,err := client.HExists(pre,eid).Result() failed,err:%v", err)
 	}
 	if !exist {
-		vt, err = mysql.GetVisitedTimesFromMySQL(eid)
-		if err != nil {
+		if vt, err = mysql.GetVisitedTimesFromMySQL(eid); err != nil {
 			return 0, fmt.Errorf("err,vt = mysql.GetHashValue() failed,err:%v", err)
 		}
 	}
 
-	vt, err = client.HIncrBy(key, eid, 1).Result()
-	if err != nil {
+	if vt, err = client.HIncrBy(key, eid, 1).Result(); err != nil {
 		return 0, fmt.Errorf("get visited times failed: %v", err)
 	}
 
 	//将访问的文章加入到集合中
-	_, err = client.SAdd(getRedisKey(KeyChangeVisitedTimes), eid).Result()
-	if err != nil {
+	if _, err = client.SAdd(getRedisKey(KeyChangeVisitedTimes), eid).Result(); err != nil {
 		return 0, fmt.Errorf("client.SAdd(getRedisKey(KeyChangeVisitedTimes),eid).Result() failed,err:%v", err)
 	}
 	return vt, nil
