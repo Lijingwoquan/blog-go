@@ -40,7 +40,7 @@ func InitVisitedTimes(eid int64) error {
 	return err
 }
 
-func GetChangedVisitedTimes() (*map[int64]int64, error) {
+func GetChangedVisitedTimes() (map[int64]int64, error) {
 	pre := getRedisKey(KeyVisitedTimes)
 	eids, err := client.SMembers(getRedisKey(KeyChangeVisitedTimes)).Result()
 	if err != nil {
@@ -60,5 +60,5 @@ func GetChangedVisitedTimes() (*map[int64]int64, error) {
 	if err != nil {
 		return nil, fmt.Errorf("client.Del(getRedisKey(\"visited:eids\")).Result() failed,err:%v", err)
 	}
-	return &visitedTimesChangedMap, nil
+	return visitedTimesChangedMap, nil
 }

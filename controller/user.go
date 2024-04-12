@@ -63,8 +63,7 @@ func LogoutHandler(c *gin.Context) {
 	token := parts[1]
 
 	//2.业务处理 --> 将该token储存在数据库中
-	err := logic.Logout(token)
-	if err != nil {
+	if err := logic.Logout(token); err != nil {
 		zap.L().Error("logic.Logout(token) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
@@ -77,18 +76,22 @@ func LogoutHandler(c *gin.Context) {
 func UpdateUserMsgHandler(c *gin.Context) {
 	//1.参数校验
 	var user = new(models.UserParams)
-	err := c.ShouldBindJSON(user)
-	if err != nil {
+	if err := c.ShouldBindJSON(user); err != nil {
 		zap.L().Error("c.ShouldBindJSON(user) failed", zap.Error(err))
 		ResponseError(c, CodeParamInvalid)
 		return
 	}
-	id := getUserId(c)
+	//获取id
+	id, err := getUserId(c)
+	if err != nil {
+		zap.L().Error("getUserId(c) failed", zap.Error(err))
+		ResponseError(c, CodeServeBusy)
+		return
+	}
 
 	//2.业务处理
-	err = logic.UpdateUserMsg(user, id)
-	if err != nil {
-		zap.L().Error("logic.UpdateUserMsg(fmt.Sprintf(\"%s\",id)) failed", zap.Error(err))
+	if err = logic.UpdateUserMsg(user, id); err != nil {
+		zap.L().Error("logic.UpdateUserMsg(user, id) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
 	}

@@ -3,13 +3,34 @@ package ticker
 import (
 	"blog/dao/mysql"
 	"blog/dao/redis"
+	"fmt"
 	"go.uber.org/zap"
 	"time"
 )
 
 func Init() {
-	go cleanupInvalidTokensTask()
-	go saveVisitedTimesTask()
+	errCh := make(chan error)
+
+	//cleanupInvalidTokensTask
+	go func() {
+		if err := cleanupInvalidTokensTask(); err != nil {
+			errCh <- err
+		}
+	}()
+
+	//saveVisitedTimesTask
+	go func() {
+		if err := saveVisitedTimesTask(); err != nil {
+			errCh <- err
+		}
+	}()
+
+	//错误处理
+	go func() {
+		for err := range errCh {
+			zap.L().Error("ticker in pkg happen err:%v", zap.Error(err))
+		}
+	}()
 }
 
 func cleanupInvalidTokensTask() error {
@@ -19,8 +40,7 @@ func cleanupInvalidTokensTask() error {
 		// 清理过期的 token
 		err := mysql.CleanupInvalidTokens()
 		if err != nil {
-			zap.L().Error("mysql.CleanupInvalidTokens() failed", zap.Error(err))
-			return err
+			return fmt.Errorf("mysql.CleanupInvalidTokens() failed,err:%v", err)
 		}
 	}
 	return nil
@@ -33,12 +53,10 @@ func saveVisitedTimesTask() error {
 		// 清理过期的 token
 		visitedTimesChangedMap, err := redis.GetChangedVisitedTimes()
 		if err != nil {
-			zap.L().Error("redis.GetChangedVisitedTimes() failed", zap.Error(err))
-			return err
+			return fmt.Errorf("redis.GetChangedVisitedTimes() failed,err:%v", err)
 		}
 		if mysql.SaveVisitedTimes(visitedTimesChangedMap) != nil {
-			zap.L().Error("mysql.SaveVisitedTimes(visitedTimesChangedMap) failed", zap.Error(err))
-			return err
+			return fmt.Errorf("mysql.SaveVisitedTimes(visitedTimesChangedMap) failed,err:%v", err)
 		}
 	}
 	return nil

@@ -6,25 +6,22 @@ import (
 	"time"
 )
 
-func GetDataAboutKind(data *[]models.DataAboutKind) (err error) {
+func GetDataAboutKind(data *[]models.DataAboutKind) error {
 	sqlStr := `SELECT name,icon,id FROM kind `
-	err = db.Select(data, sqlStr)
-	return
+	return db.Select(data, sqlStr)
 }
 
-func GetDataAboutClassifyDetails(data *[]models.DataAboutClassify) (err error) {
+func GetDataAboutClassifyDetails(data *[]models.DataAboutClassify) error {
 	sqlStr := `SELECT kind,name,router,id FROM classify`
-	err = db.Select(data, sqlStr)
-	return
+	return db.Select(data, sqlStr)
 }
 
-func GetDataAboutClassifyEssayMsg(data *[]models.DataAboutEssay) (err error) {
+func GetDataAboutClassifyEssayMsg(data *[]models.DataAboutEssay) error {
 	sqlStr := `SELECT name,kind,router,introduction,id,createdTime FROM essay WHERE name!='init'  ORDER BY id DESC`
-	err = db.Select(data, sqlStr)
-	return
+	return db.Select(data, sqlStr)
 }
 
-func GetEssayData(data *models.EssayData, id int) (err error) {
+func GetEssayData(data *models.EssayData, id int) error {
 	//在这里得到次数并添加
 	sqlStr := `SELECT content,name,eid,introduction,kind,createdTime,updatedTime FROM essay where id = ?`
 	return db.Get(data, sqlStr, id)
@@ -37,14 +34,28 @@ func CleanupInvalidTokens() (err error) {
 	return err
 }
 
-func SaveVisitedTimes(visitedTimesChangedMap *map[int64]int64) (err error) {
-	for eid, vt := range *visitedTimesChangedMap {
-		sqlStr := `UPDATE essay SET visitedTimes = ? WHERE eid = ?`
-		_, err := db.Exec(sqlStr, vt, eid)
+func SaveVisitedTimes(visitedTimesChangedMap map[int64]int64) error {
+	tx, err := db.Begin()
+	if err != nil {
+		return fmt.Errorf("db.Begin() failed,err:%v", err)
+	}
+
+	sqlStr := `UPDATE essay SET visitedTimes = ? WHERE eid = ?`
+
+	for eid, vt := range visitedTimesChangedMap {
+		_, err := tx.Exec(sqlStr, vt, eid)
 		if err != nil {
-			return fmt.Errorf("_, err := db.Exec(sqlStr, vt, eid) in SaveVisitedTimes failed,err:%v", err)
+			if err = tx.Rollback(); err != nil {
+				return fmt.Errorf("tx.Rollback() failed,err:%v", err)
+			}
+			return fmt.Errorf("tx.Exec(sqlStr,vt,eid) failed,err:%v", err)
 		}
 	}
+
+	if err = tx.Commit(); err != nil {
+		return fmt.Errorf("tx.Commit() failed,err:%v", err)
+	}
+
 	return nil
 }
 

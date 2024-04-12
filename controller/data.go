@@ -22,12 +22,18 @@ func ResponseDataAboutIndexHandler(c *gin.Context) {
 func ResponseDataAboutEssayHandler(c *gin.Context) {
 	//1.参数处理
 	query := c.Query("id")
-	id, _ := strconv.Atoi(query)
+	id, err := strconv.Atoi(query)
+	if err != nil {
+		zap.L().Error("strconv.Atoi(query) failed", zap.Error(err))
+		ResponseError(c, CodeServeBusy)
+		return
+	}
+
 	//2.业务处理
 	var essay = new(models.EssayData)
-	err := logic.GetEssayData(essay, id)
-	if err != nil {
+	if err = logic.GetEssayData(essay, id); err != nil {
 		zap.L().Error("logic.GetEssayData(essay, id) failed", zap.Error(err))
+		ResponseError(c, CodeServeBusy)
 		return
 	}
 	//3.返回响应
