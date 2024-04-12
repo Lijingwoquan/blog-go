@@ -1,24 +1,21 @@
 package controller
 
 import (
-	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
 )
 
 const CtxUserIDKey = "UserID"
 
-func getUserId(c *gin.Context) (id int64) {
+func getUserId(c *gin.Context) (id int64, err error) {
 	uid, exist := c.Get(CtxUserIDKey)
 	if !exist {
-		zap.L().Error("c.Get(CtxUserIDKey) failed", zap.Error(errors.New(userIDInvalid)))
-		return
+		return 0, fmt.Errorf("c.Get(CtxUserIDKey) failed,err:%v", err)
 	}
-	id, ok := uid.(int64)
+	var ok bool
+	id, ok = uid.(int64)
 	if !ok {
-		fmt.Println(id)
-		return
+		return 0, fmt.Errorf("uid.(int64) failed,err:%v", err)
 	}
 	return
 }

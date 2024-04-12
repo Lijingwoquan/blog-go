@@ -27,8 +27,7 @@ func AddClassifyHandler(c *gin.Context) {
 		return
 	}
 	//2.业务处理
-	err := logic.AddClassify(classify)
-	if err != nil {
+	if err := logic.AddClassify(classify); err != nil {
 		zap.L().Error("mysql.AddClassify(classify) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
@@ -58,15 +57,13 @@ func AddEssayHandler(c *gin.Context) {
 func UpdateKindHandler(c *gin.Context) {
 	//1.参数检验
 	var k = new(models.UpdateKindParams)
-	err := c.ShouldBindJSON(k)
-	if err != nil {
+	if err := c.ShouldBindJSON(k); err != nil {
 		zap.L().Error("c.ShouldBindJSON(k) failed,err:", zap.Error(err))
 		ResponseError(c, CodeParamInvalid)
 		return
 	}
 	//2.逻辑处理
-	err = logic.UpdateKind(k)
-	if err != nil {
+	if err := logic.UpdateKind(k); err != nil {
 		zap.L().Error("logic.UpdateKind(k) failed,err:", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
@@ -78,15 +75,13 @@ func UpdateKindHandler(c *gin.Context) {
 func UpdateClassifyHandler(c *gin.Context) {
 	//1.参数处理
 	var classify = new(models.UpdateClassifyParams)
-	err := c.ShouldBindJSON(classify)
-	if err != nil {
+	if err := c.ShouldBindJSON(classify); err != nil {
 		zap.L().Error("c.ShouldBindJSON(classify) failed,err:", zap.Error(err))
 		ResponseError(c, CodeParamInvalid)
 		return
 	}
 	//2.业务处理
-	err = logic.UpdateClassify(classify)
-	if err != nil {
+	if err := logic.UpdateClassify(classify); err != nil {
 		zap.L().Error("logic.UpdateClassify(classify) failed err:", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
@@ -133,16 +128,14 @@ func UpdateEssayContentHandler(c *gin.Context) {
 func DeleteEssayHandler(c *gin.Context) {
 	//1.获取参数
 	idS := c.Query("id")
-	fmt.Println(idS)
 	id, err := strconv.Atoi(idS)
 	if err != nil {
-		zap.L().Error(" strconv.Atoi(idS) failed,err:", zap.Error(err))
+		zap.L().Error("strconv.Atoi(idS) failed,err:", zap.Error(err))
 		ResponseError(c, CodeParamInvalid)
 		return
 	}
 	//2.逻辑处理
-	err = logic.DeleteEssay(id)
-	if err != nil {
+	if err = logic.DeleteEssay(id); err != nil {
 		zap.L().Error("logic.DeleteEssay(id) failed,err:", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
@@ -162,6 +155,7 @@ func UploadImgHandler(c *gin.Context) {
 	dst := fmt.Sprintf("/app/statics/img/%s", f.Filename)
 	if err := c.SaveUploadedFile(f, dst); err != nil {
 		zap.L().Error("c.SaveUploadedFile(f, dst) failed,err:", zap.Error(err))
+		ResponseError(c, CodeServeBusy)
 		return
 	}
 	ResponseSuccess(c, CodeSuccess)
