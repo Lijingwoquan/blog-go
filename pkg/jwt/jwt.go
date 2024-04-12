@@ -8,8 +8,6 @@ import (
 	"time"
 )
 
-var mySecret = []byte("老子就是喜欢看美女怎么滴")
-
 // MyClaims 自定义声明结构体并内嵌jwt.StandardClaims
 // jwt包自带的jwt.StandardClaims只包含了官方字段
 // 我们这里需要额外记录username和userID字段，所以要自定义结构体
@@ -34,7 +32,7 @@ func GenToken(u *models.User) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, c)
 
 	// 使用指定的secret签名并获得完整的编码后的字符串token
-	return token.SignedString(mySecret)
+	return token.SignedString([]byte(mySecret))
 }
 
 // ParseToken 解析JWT
@@ -42,7 +40,7 @@ func ParseToken(tokenString string) (*MyClaims, error) {
 	// 解析token
 	var mc = new(MyClaims)
 	token, err := jwt.ParseWithClaims(tokenString, mc, func(token *jwt.Token) (i interface{}, err error) {
-		return mySecret, nil
+		return []byte(mySecret), nil
 	})
 	if err != nil {
 		return nil, err
