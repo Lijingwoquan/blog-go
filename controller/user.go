@@ -25,6 +25,7 @@ func SignupHandler(c *gin.Context) {
 	}
 	//2.业务处理
 	if err := logic.Signup(u); err != nil {
+		zap.L().Error("logic.Signup(u) failed", zap.Error(err))
 		ResponseError(c, CodeUserExist)
 		return
 	}

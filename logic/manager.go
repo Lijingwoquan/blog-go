@@ -4,83 +4,74 @@ import (
 	"blog/dao/mysql"
 	"blog/dao/redis"
 	"blog/models"
+	"fmt"
 )
 
 // AddClassify 新增分类逻辑
 func AddClassify(c *models.ClassifyParams) (err error) {
 	//1.先查ClassifyKind里面有没有这个分类 没有就创建 有的话就返回
-	err = mysql.CheckClassifyKindExist(c)
-	if err != nil {
-		return err
+	if err = mysql.CheckClassifyKindExist(c); err != nil {
+		return fmt.Errorf("mysql.CheckClassifyKindExist(c) failed,err:%v", err)
 	}
 	//2.再查classify里面有没有这个classifyName
-	err = mysql.CheckClassifyExist(c)
-	if err != nil {
-		return err
+	if err = mysql.CheckClassifyExist(c); err != nil {
+		return fmt.Errorf("mysql.CheckClassifyExist(c) failed,err:%v", err)
 	}
 	//3.在classify表里面添加数据
-	err = mysql.AddClassify(c)
-	return
+	return mysql.AddClassify(c)
 }
 
 // CreateEssay 新增文章逻辑
 func CreateEssay(e *models.EssayParams) (err error) {
 	//1.检测该文章是否已经存在
-	err = mysql.CheckEssayExist(e)
-	if err != nil {
-		return err
+	if err = mysql.CheckEssayExist(e); err != nil {
+		return fmt.Errorf("mysql.CheckEssayExist(e) failed,err:%v", err)
 	}
 	//2.添加该文章
 	var eid int64
+	//mysql处理数据
 	if err, eid = mysql.CreateEssay(e); err != nil {
-		return err
+		return fmt.Errorf("mysql.CreateEssay(e) failed,err:%v", err)
 	}
-	if err = redis.InitVisitedTimes(eid); err != nil {
-		return err
-	}
-	return
+	//redis处理数据
+	return redis.InitVisitedTimes(eid)
 }
 
 // UpdateEssayMsg 更新文章逻辑
-func UpdateEssayMsg(u *models.UpdateEssayMsg) (err error) {
+func UpdateEssayMsg(u *models.UpdateEssayMsg) error {
 	//更新数据
-	err = mysql.UpdateEssayMsg(u)
-	return
+	return mysql.UpdateEssayMsg(u)
 }
 
-func UpdateEssayContent(u *models.UpdateEssayContent) (err error) {
+func UpdateEssayContent(u *models.UpdateEssayContent) error {
 	//更新数据
-	err = mysql.UpdateEssayContent(u)
-	return
+	return mysql.UpdateEssayContent(u)
 }
 
 // UpdateKind 更新总纲逻辑
 func UpdateKind(k *models.UpdateKindParams) (err error) {
 	//1.根据id查询到oldKind
-	oldName, err := mysql.CheckKind(k.ID)
-	if err != nil {
-		return err
+	var oldName string
+	if oldName, err = mysql.CheckKind(k.ID); err != nil {
+		return fmt.Errorf("mysql.CheckKind(k.ID) failed,err:%v", err)
 	}
 	//2.更新Kind的kind和classify的name
-	err = mysql.UpdateKind(oldName, k)
-	return
+	return mysql.UpdateKind(oldName, k)
 }
 
 // UpdateClassify 更新分类信息逻辑
 func UpdateClassify(c *models.UpdateClassifyParams) (err error) {
 	//1.先由id查询得到oldName
-	oldName, err := mysql.CheckClassifyName(c.ID)
-	if err != nil {
-		return
+	var oldName string
+	if oldName, err = mysql.CheckClassifyName(c.ID); err != nil {
+		return fmt.Errorf("mysql.CheckClassifyName(c.ID) failed,err:%v", err)
 	}
 	//2.由传进来的id查询数据库 进行更新
-	err = mysql.UpdateClassify(oldName, c)
-	return
+	return mysql.UpdateClassify(oldName, c)
 }
 
 // DeleteEssay 删除文章逻辑
-func DeleteEssay(id int) (err error) {
-	//1.从mysql里面删除该文章
-	err = mysql.DeleteEssay(id)
-	return
+func DeleteEssay(id int) error {
+	//从mysql里面删除该文章
+	return mysql.DeleteEssay(id)
 }

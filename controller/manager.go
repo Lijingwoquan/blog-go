@@ -150,6 +150,7 @@ func DeleteEssayHandler(c *gin.Context) {
 	//3.返回响应
 	ResponseSuccess(c, deleteEssaySuccess)
 }
+
 func UploadImgHandler(c *gin.Context) {
 	f, err := c.FormFile("img") //name值与input 中的name 一致
 	if err != nil {
@@ -163,5 +164,5 @@ func UploadImgHandler(c *gin.Context) {
 		zap.L().Error("c.SaveUploadedFile(f, dst) failed,err:", zap.Error(err))
 		return
 	}
-	ResponseSuccess(c, "成功")
+	ResponseSuccess(c, CodeSuccess)
 }

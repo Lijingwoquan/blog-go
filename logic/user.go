@@ -5,61 +5,53 @@ import (
 	"blog/models"
 	"blog/pkg/jwt"
 	"blog/pkg/snowflake"
-	"go.uber.org/zap"
+	"fmt"
 )
 
 func Signup(u *models.UserParams) (err error) {
 	//1.判断用户是否存在 --> 判断username和email
-	err = mysql.CheckUserExist(u.Username, u.Email)
-	if err != nil {
-		zap.L().Info("mysql.CheckUserExist(u.Username) failed", zap.Error(err))
-		return err
+	if err = mysql.CheckUserExist(u.Username, u.Email); err != nil {
+		return fmt.Errorf("mysql.CheckUserExist(u.Username, u.Email) failed,err:%v", err)
 	}
-
-	//2.生成uid
+	//2.生成uid并保存相关信息
 	uid := snowflake.GenID()
-
-	//3.将用户储存在数据库
-	user := new(models.User)
-	user.UserID = uid
-	user.Username = u.Username
-	user.Password = u.Password
-	user.Email = u.Email
-	err = mysql.InsertUser(user)
-	if err != nil {
-		zap.L().Error("mysql.InsertUser() failed", zap.Error(err))
-		return err
+	user := models.User{
+		UserID:   uid,
+		Username: u.Username,
+		Password: u.Password,
+		Email:    u.Email,
+		Token:    "",
 	}
-	return err
+	//3.将用户储存在数据库
+	return mysql.InsertUser(&user)
 }
 
 func Login(u *models.User) (err error) {
 	//1.判断账号密码是否正确
 	if err = mysql.Login(u); err != nil {
-		return err
+		return fmt.Errorf("mysql.Login(u) failed,err:%v", err)
 	}
 	//2. jwt生成token
 	var token string
-	token, err = jwt.GenToken(u)
-	if err != nil {
-		zap.L().Error("jwt.GenToken(u) failed", zap.Error(err))
-		return err
+	if token, err = jwt.GenToken(u); err != nil {
+		return fmt.Errorf("token, err = jwt.GenToken(u) failed,err:%v", err)
 	}
 	//将token保存
 	u.Token = token
-	return err
+	return nil
 }
 
-func Logout(token string) (err error) {
+func Logout(token string) error {
 	//1.得到token还剩余的时间
 	MyClaims, err := jwt.ParseToken(token)
+	if err != nil {
+		return fmt.Errorf("MyClaims, err := jwt.ParseToken(token) failed,err:%v", err)
+	}
 	//2.将该token储存在数据库中
-	err = mysql.Logout(token, MyClaims.ExpiresAt)
-	return
+	return mysql.Logout(token, MyClaims.ExpiresAt)
 }
 
-func UpdateUserMsg(user *models.UserParams, id int64) (err error) {
+func UpdateUserMsg(user *models.UserParams, id int64) error {
 	//从数据库中修改数据
-	err = mysql.UpdateUserMsg(user, id)
-	return
+	return mysql.UpdateUserMsg(user, id)
 }
