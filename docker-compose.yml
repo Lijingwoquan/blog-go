@@ -1,22 +1,16 @@
 version: '3'
 
-networks:
-  redis-network:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.30.1.0/24
-
 services:
   mysql:
     image: mysql:latest
+    container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: liuzihao520
       MYSQL_DATABASE: blog
       LANG: C.UTF-8
+        - TZ=Asia/Shanghai
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # 注意这里的路径映射
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # 注意这里的路径映射  默认情况下，MySQL容器的入口脚本会自动执行/docker-entrypoint-initdb.d/目录下的SQL文件。
       - mysql_data:/var/lib/mysql
     ports:
       - "3307:3306"
@@ -24,14 +18,17 @@ services:
     image: redis:latest
     container_name: redis
     ports:
-      - "36379:6379"
+      - "16379:6379"
+    environment:
+    - TZ=Asia/Shanghai
     volumes:
       - redis_data:/data
-      - ./redis.conf:/usr/local/etc/redis/redis.conf
-      - ./redis.log:/log/redis.log
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./log/redis.log:/log/redis.log
     #配置文件启动
     command: redis-server /usr/local/etc/redis/redis.conf
   blog:
+    container_name: blog
     build:
       context: .
       dockerfile: Dockerfile  # 指定你的 Dockerfile 文件路径

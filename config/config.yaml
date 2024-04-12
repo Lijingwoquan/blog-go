@@ -8,7 +8,7 @@ auth:
   jwt_expire: 168 #一周时间
 log:
   level: "info"
-  filename: "./blog.log"
+  filename: "./log/blog.log"
   max_size: 1
   max_age: 30
   max_backups: 7
