@@ -1,7 +1,6 @@
 package mysql
 
 import (
-	"blog/dao/redis"
 	"blog/models"
 	"blog/pkg/snowflake"
 	"errors"
@@ -86,19 +85,16 @@ func CheckEssayExist(c *models.EssayParams) (err error) {
 }
 
 // CreateEssay 添加新文章
-func CreateEssay(e *models.EssayParams) (err error) {
+func CreateEssay(e *models.EssayParams) (err error, erd int64) {
 	formattedTime, err := getChineseTime()
 	if err != nil {
 		zap.L().Error("time.LoadLocation(\"Asia/Shanghai\") failed", zap.Error(err))
-		return err
+		return err, 0
 	}
 	eid := snowflake.GenID()
-	if err := redis.InitVisitedTimes(eid); err != nil {
-		return err
-	}
 	sqlStr := `INSERT INTO essay(kind,name,content,router,Introduction,createdTime,updatedTime,eid) values(?,?,?,?,?,?,?,?)`
 	_, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Router, e.Introduction, formattedTime, formattedTime, eid)
-	return err
+	return err, eid
 }
 
 func getChineseTime() (t string, err error) {

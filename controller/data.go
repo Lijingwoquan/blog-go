@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"blog/dao/mysql"
 	"blog/logic"
 	"blog/models"
 	"github.com/gin-gonic/gin"
@@ -26,7 +25,7 @@ func ResponseDataAboutEssayHandler(c *gin.Context) {
 	id, _ := strconv.Atoi(query)
 	//2.业务处理
 	var essay = new(models.EssayData)
-	err := mysql.GetEssayData(essay, id)
+	err := logic.GetEssayData(essay, id)
 	if err != nil {
 		zap.L().Error("logic.GetEssayData(essay, id) failed", zap.Error(err))
 		return

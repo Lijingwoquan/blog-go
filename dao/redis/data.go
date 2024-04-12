@@ -1,17 +1,31 @@
 package redis
 
 import (
+	"blog/dao/mysql"
 	"fmt"
 	"strconv"
 )
 
 func GetVisitedTimes(eid string) (int64, error) {
-	pre := getRedisKey(KeyVisitedTimes)
-	vt, err := client.HIncrBy(pre, eid, 1).Result()
+	var vt int64
+	key := getRedisKey(KeyVisitedTimes)
+	//先检查键是否存在
+	exist, err := client.HExists(key, eid).Result()
+	if err != nil {
+		return 0, fmt.Errorf("exist,err := client.HExists(pre,eid).Result() failed,err:%v", err)
+	}
+	if !exist {
+		vt, err = mysql.GetVisitedTimesFromMySQL(eid)
+		if err != nil {
+			return 0, fmt.Errorf("err,vt = mysql.GetHashValue() failed,err:%v", err)
+		}
+	}
 
+	vt, err = client.HIncrBy(key, eid, 1).Result()
 	if err != nil {
 		return 0, fmt.Errorf("get visited times failed: %v", err)
 	}
+
 	//将访问的文章加入到集合中
 	_, err = client.SAdd(getRedisKey(KeyChangeVisitedTimes), eid).Result()
 	if err != nil {

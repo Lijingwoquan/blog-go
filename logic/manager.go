@@ -2,6 +2,7 @@ package logic
 
 import (
 	"blog/dao/mysql"
+	"blog/dao/redis"
 	"blog/models"
 )
 
@@ -30,7 +31,13 @@ func CreateEssay(e *models.EssayParams) (err error) {
 		return err
 	}
 	//2.添加该文章
-	err = mysql.CreateEssay(e)
+	var eid int64
+	if err, eid = mysql.CreateEssay(e); err != nil {
+		return err
+	}
+	if err = redis.InitVisitedTimes(eid); err != nil {
+		return err
+	}
 	return
 }
 

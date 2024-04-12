@@ -1,7 +1,6 @@
 package mysql
 
 import (
-	"blog/dao/redis"
 	"blog/models"
 	"fmt"
 	"time"
@@ -28,12 +27,7 @@ func GetDataAboutClassifyEssayMsg(data *[]models.DataAboutEssay) (err error) {
 func GetEssayData(data *models.EssayData, id int) (err error) {
 	//在这里得到次数并添加
 	sqlStr := `SELECT content,name,eid,introduction,kind,createdTime,updatedTime FROM essay where id = ?`
-	err = db.Get(data, sqlStr, id)
-	if err != nil {
-		return err
-	}
-	data.VisitedTimes, err = redis.GetVisitedTimes(fmt.Sprintf("%d", data.Eid))
-	return
+	return db.Get(data, sqlStr, id)
 }
 
 func CleanupInvalidTokens() (err error) {
@@ -52,4 +46,12 @@ func SaveVisitedTimes(visitedTimesChangedMap *map[int64]int64) (err error) {
 		}
 	}
 	return nil
+}
+
+func GetVisitedTimesFromMySQL(eid string) (vt int64, err error) {
+	sqlStr := `SELECT visitedTimes FROM essay WHERE  eid = ?`
+	if err = db.Get(&vt, sqlStr, eid); err != nil {
+		return 0, fmt.Errorf("db.Get(&vt,sqlStr,eid) failed,err:%v", err)
+	}
+	return vt, nil
 }
