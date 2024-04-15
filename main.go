@@ -47,6 +47,7 @@ func main() {
 		return
 	}
 
+	//初始计时器
 	ticker.Init()
 
 	//5.注册路由

@@ -21,7 +21,7 @@ func GetVisitedTimes(eid string) (int64, error) {
 		}
 	}
 
-	if vt, err = client.HIncrBy(key, eid, 1).Result(); err != nil {
+	if vt, err = client.HIncrBy(key, eid, vt+1).Result(); err != nil {
 		return 0, fmt.Errorf("get visited times failed: %v", err)
 	}
 

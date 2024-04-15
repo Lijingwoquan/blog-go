@@ -1,0 +1,269 @@
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 2.8.19 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                   
+ (    '      ,       .-`  | `,    )     Running in stand alone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           http://redis.io        
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+[1] 12 Apr 15:03:42.727 # Server started, Redis version 2.8.19
+[1] 12 Apr 15:03:42.730 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+[1] 12 Apr 15:03:42.731 * DB loaded from disk: 0.000 seconds
+[1] 12 Apr 15:03:42.732 * The server is now ready to accept connections on port 6379
+[1 | signal handler] (1712905485) Received SIGTERM scheduling shutdown...
+[1] 12 Apr 15:04:45.933 # User requested shutdown...
+[1] 12 Apr 15:04:45.934 * Saving the final RDB snapshot before exiting.
+[1] 12 Apr 15:04:45.939 * DB saved on disk
+[1] 12 Apr 15:04:45.942 # Redis is now ready to exit, bye bye...
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 2.8.19 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                   
+ (    '      ,       .-`  | `,    )     Running in stand alone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           http://redis.io        
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+[1] 12 Apr 15:05:59.311 # Server started, Redis version 2.8.19
+[1] 12 Apr 15:05:59.312 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+[1] 12 Apr 15:05:59.313 * DB loaded from disk: 0.000 seconds
+[1] 12 Apr 15:05:59.314 * The server is now ready to accept connections on port 6379
+[1 | signal handler] (1712906375) Received SIGTERM scheduling shutdown...
+[1] 12 Apr 15:19:35.101 # User requested shutdown...
+[1] 12 Apr 15:19:35.104 * Saving the final RDB snapshot before exiting.
+[1] 12 Apr 15:19:35.110 * DB saved on disk
+[1] 12 Apr 15:19:35.113 # Redis is now ready to exit, bye bye...
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 2.8.19 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                   
+ (    '      ,       .-`  | `,    )     Running in stand alone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           http://redis.io        
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+[1] 12 Apr 15:19:37.699 # Server started, Redis version 2.8.19
+[1] 12 Apr 15:19:37.700 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+[1] 12 Apr 15:19:37.701 * DB loaded from disk: 0.000 seconds
+[1] 12 Apr 15:19:37.702 * The server is now ready to accept connections on port 6379
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 2.8.19 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                   
+ (    '      ,       .-`  | `,    )     Running in stand alone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           http://redis.io        
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+[1] 14 Apr 22:40:52.320 # Server started, Redis version 2.8.19
+[1] 14 Apr 22:40:52.324 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+[1] 14 Apr 22:40:52.325 * DB loaded from disk: 0.000 seconds
+[1] 14 Apr 22:40:52.326 * The server is now ready to accept connections on port 6379
+[1] 14 Apr 22:55:53.077 * 1 changes in 900 seconds. Saving...
+[1] 14 Apr 22:55:53.082 * Background saving started by pid 9
+[9] 14 Apr 22:55:53.085 * DB saved on disk
+[9] 14 Apr 22:55:53.099 * RDB: 0 MB of memory used by copy-on-write
+[1] 14 Apr 22:55:53.185 * Background saving terminated with success
+[1] 14 Apr 23:10:54.085 * 1 changes in 900 seconds. Saving...
+[1] 14 Apr 23:10:54.115 * Background saving started by pid 10
+[10] 14 Apr 23:10:54.132 * DB saved on disk
+[10] 14 Apr 23:10:54.168 * RDB: 0 MB of memory used by copy-on-write
+[1] 14 Apr 23:10:54.235 * Background saving terminated with success
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 2.8.19 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                   
+ (    '      ,       .-`  | `,    )     Running in stand alone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           http://redis.io        
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+[1] 15 Apr 23:36:09.318 # Server started, Redis version 2.8.19
+[1] 15 Apr 23:36:09.319 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+[1] 15 Apr 23:36:09.320 * The server is now ready to accept connections on port 6379
+[1 | signal handler] (1713195626) Received SIGTERM scheduling shutdown...
+[1] 15 Apr 23:40:26.074 # User requested shutdown...
+[1] 15 Apr 23:40:26.075 * Saving the final RDB snapshot before exiting.
+[1] 15 Apr 23:40:26.082 * DB saved on disk
+[1] 15 Apr 23:40:26.083 # Redis is now ready to exit, bye bye...
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 2.8.19 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                   
+ (    '      ,       .-`  | `,    )     Running in stand alone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           http://redis.io        
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+[1] 15 Apr 23:40:27.332 # Server started, Redis version 2.8.19
+[1] 15 Apr 23:40:27.335 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+[1] 15 Apr 23:40:27.336 * DB loaded from disk: 0.000 seconds
+[1] 15 Apr 23:40:27.338 * The server is now ready to accept connections on port 6379
+[1 | signal handler] (1713195641) Received SIGTERM scheduling shutdown...
+[1] 15 Apr 23:40:41.660 # User requested shutdown...
+[1] 15 Apr 23:40:41.661 * Saving the final RDB snapshot before exiting.
+[1] 15 Apr 23:40:41.664 * DB saved on disk
+[1] 15 Apr 23:40:41.665 # Redis is now ready to exit, bye bye...
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 2.8.19 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                   
+ (    '      ,       .-`  | `,    )     Running in stand alone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           http://redis.io        
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+[1] 15 Apr 23:41:21.593 # Server started, Redis version 2.8.19
+[1] 15 Apr 23:41:21.598 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+[1] 15 Apr 23:41:21.601 * DB loaded from disk: 0.000 seconds
+[1] 15 Apr 23:41:21.602 * The server is now ready to accept connections on port 6379
+[1 | signal handler] (1713195727) Received SIGTERM scheduling shutdown...
+[1] 15 Apr 23:42:07.478 # User requested shutdown...
+[1] 15 Apr 23:42:07.479 * Saving the final RDB snapshot before exiting.
+[1] 15 Apr 23:42:07.484 * DB saved on disk
+[1] 15 Apr 23:42:07.485 # Redis is now ready to exit, bye bye...
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 2.8.19 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                   
+ (    '      ,       .-`  | `,    )     Running in stand alone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           http://redis.io        
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+[1] 15 Apr 23:42:08.396 # Server started, Redis version 2.8.19
+[1] 15 Apr 23:42:08.398 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+[1] 15 Apr 23:42:08.402 * DB loaded from disk: 0.000 seconds
+[1] 15 Apr 23:42:08.407 * The server is now ready to accept connections on port 6379
+[1 | signal handler] (1713195775) Received SIGTERM scheduling shutdown...
+[1] 15 Apr 23:42:55.887 # User requested shutdown...
+[1] 15 Apr 23:42:55.888 * Saving the final RDB snapshot before exiting.
+[1] 15 Apr 23:42:55.891 * DB saved on disk
+[1] 15 Apr 23:42:55.892 # Redis is now ready to exit, bye bye...
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 2.8.19 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                   
+ (    '      ,       .-`  | `,    )     Running in stand alone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           http://redis.io        
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+[1] 15 Apr 23:43:43.215 # Server started, Redis version 2.8.19
+[1] 15 Apr 23:43:43.217 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+[1] 15 Apr 23:43:43.218 * DB loaded from disk: 0.000 seconds
+[1] 15 Apr 23:43:43.219 * The server is now ready to accept connections on port 6379
+[1 | signal handler] (1713195964) Received SIGTERM scheduling shutdown...
+[1] 15 Apr 23:46:05.002 # User requested shutdown...
+[1] 15 Apr 23:46:05.003 * Saving the final RDB snapshot before exiting.
+[1] 15 Apr 23:46:05.007 * DB saved on disk
+[1] 15 Apr 23:46:05.007 # Redis is now ready to exit, bye bye...
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 2.8.19 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                   
+ (    '      ,       .-`  | `,    )     Running in stand alone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           http://redis.io        
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+[1] 15 Apr 23:56:23.536 # Server started, Redis version 2.8.19
+[1] 15 Apr 23:56:23.538 # WARNING you have Transparent Huge Pages (THP) support enabled in your kernel. This will create latency and memory usage issues with Redis. To fix this issue run the command 'echo never > /sys/kernel/mm/transparent_hugepage/enabled' as root, and add it to your /etc/rc.local in order to retain the setting after a reboot. Redis must be restarted after THP is disabled.
+[1] 15 Apr 23:56:23.539 * DB loaded from disk: 0.000 seconds
+[1] 15 Apr 23:56:23.540 * The server is now ready to accept connections on port 6379
+[1 | signal handler] (1713197259) Received SIGTERM scheduling shutdown...
+[1] 16 Apr 00:07:39.873 # User requested shutdown...
+[1] 16 Apr 00:07:39.875 * Saving the final RDB snapshot before exiting.
+[1] 16 Apr 00:07:39.877 * DB saved on disk
+[1] 16 Apr 00:07:39.878 # Redis is now ready to exit, bye bye...
