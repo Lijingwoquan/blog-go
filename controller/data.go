@@ -3,20 +3,19 @@ package controller
 import (
 	"blog/logic"
 	"blog/models"
+	ticker "blog/pkg/tickerTask"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"strconv"
 )
 
+var (
+	globalDataAboutIndex = models.DataAboutIndex{}
+)
+
 func ResponseDataAboutIndexHandler(c *gin.Context) {
 	//得到各大分类种类以及相应的名称
-	var DataAboutIndex = models.DataAboutIndex{}
-	if err := logic.ResponseDataAboutIndex(&DataAboutIndex); err != nil {
-		zap.L().Error("logic.ResponseDataAboutIndex(&DataAboutIndex) failed,err:%v", zap.Error(err))
-		ResponseError(c, CodeServeBusy)
-		return
-	}
-	ResponseSuccess(c, DataAboutIndex)
+	ResponseSuccess(c, ticker.GlobalDataAboutIndex)
 }
 
 func ResponseDataAboutEssayHandler(c *gin.Context) {

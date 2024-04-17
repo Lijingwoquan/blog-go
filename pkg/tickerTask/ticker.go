@@ -3,14 +3,26 @@ package ticker
 import (
 	"blog/dao/mysql"
 	"blog/dao/redis"
+	"blog/models"
 	"fmt"
 	"go.uber.org/zap"
+	"sync"
 	"time"
+)
+
+var (
+	GlobalDataAboutIndex = models.DataAboutIndex{}
+	mu                   = &sync.Mutex{}
 )
 
 func Init() {
 	errCh := make(chan error)
-
+	//updateDataAboutIndex
+	go func() {
+		if err := updateDataAboutIndex(); err != nil {
+			errCh <- err
+		}
+	}()
 	//cleanupInvalidTokensTask
 	go func() {
 		if err := cleanupInvalidTokensTask(); err != nil {
