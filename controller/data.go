@@ -1,21 +1,21 @@
 package controller
 
 import (
+	"blog/cache"
 	"blog/logic"
 	"blog/models"
-	ticker "blog/pkg/tickerTask"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"strconv"
 )
 
-var (
-	globalDataAboutIndex = models.DataAboutIndex{}
-)
-
 func ResponseDataAboutIndexHandler(c *gin.Context) {
+	//加锁
+	cache.Mu.Lock()
+	defer cache.Mu.Unlock()
+
 	//得到各大分类种类以及相应的名称
-	ResponseSuccess(c, ticker.GlobalDataAboutIndex)
+	ResponseSuccess(c, cache.GlobalDataAboutIndex)
 }
 
 func ResponseDataAboutEssayHandler(c *gin.Context) {

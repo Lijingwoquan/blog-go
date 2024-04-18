@@ -3,26 +3,14 @@ package ticker
 import (
 	"blog/dao/mysql"
 	"blog/dao/redis"
-	"blog/models"
 	"fmt"
 	"go.uber.org/zap"
-	"sync"
 	"time"
-)
-
-var (
-	GlobalDataAboutIndex = models.DataAboutIndex{}
-	mu                   = &sync.Mutex{}
 )
 
 func Init() {
 	errCh := make(chan error)
-	//updateDataAboutIndex
-	go func() {
-		if err := updateDataAboutIndex(); err != nil {
-			errCh <- err
-		}
-	}()
+	done := make(chan bool)
 	//cleanupInvalidTokensTask
 	go func() {
 		if err := cleanupInvalidTokensTask(); err != nil {
@@ -35,6 +23,7 @@ func Init() {
 		if err := saveVisitedTimesTask(); err != nil {
 			errCh <- err
 		}
+		done <- true
 	}()
 
 	//错误处理
@@ -42,6 +31,12 @@ func Init() {
 		for err := range errCh {
 			zap.L().Error("ticker in pkg happen err:%v", zap.Error(err))
 		}
+		done <- true
+	}()
+	go func() {
+		<-done
+		<-done
+		close(errCh)
 	}()
 }
 

@@ -38,7 +38,7 @@ func SetupRouter(mode string) *gin.Engine {
 	}
 
 	v3 := r.Group("/api/manager")
-	v3.Use(middlewares.JWTAuthMiddleware())
+	v3.Use(middlewares.JWTAuthMiddleware(), middlewares.UpdateDataMiddleware())
 	{
 		v3.POST("/addClassify", controller.AddClassifyHandler)
 		v3.POST("/addEssay", controller.AddEssayHandler)

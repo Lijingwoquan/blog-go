@@ -1,6 +1,7 @@
 package main
 
 import (
+	"blog/cache"
 	"blog/dao/mysql"
 	"blog/dao/redis"
 	"blog/logger"
@@ -49,6 +50,9 @@ func main() {
 
 	//初始计时器
 	ticker.Init()
+
+	//初始缓存
+	cache.Init()
 
 	//5.注册路由
 	r := routers.SetupRouter(viper.GetString("app.mode"))
