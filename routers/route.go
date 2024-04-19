@@ -12,16 +12,19 @@ func SetupRouter(mode string) *gin.Engine {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	gin.DisableConsoleColor()
+
 	r := gin.Default()
 	//r.Use(cors.Default()) --> 这里没有Authorization！！！妈的被坑惨了
 	// 创建新的CORS中间件
 	config := cors.DefaultConfig()
 	//这里要设置端口的 前端是:80不用显示调用
-	config.AllowOrigins = []string{"http://liuzihao.online", "http://localhost:5173"}
+	config.AllowOrigins = []string{"https://liuzihao.online", "https://www.liuzihao.online", "http://localhost:5173"}
 	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
 	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
+
 	r.Use(cors.New(config))
-	r.Static("/img", "/app/statics/img")
+	r.Static("api/img", "/app/statics/img")
+
 	v1 := r.Group("/api/base")
 	{
 		// 使用中间件的路由

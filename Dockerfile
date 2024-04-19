@@ -23,6 +23,7 @@ RUN go build -o blog .
 ###################
 FROM debian:stretch-slim
 COPY ./config /config
+COPY ./ssl /ssl
 COPY --from=builder /build/blog /
 
 # 声明服务端口
