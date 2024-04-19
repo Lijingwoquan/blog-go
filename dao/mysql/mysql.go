@@ -55,7 +55,7 @@ func Init() (err error) {
 	return
 }
 
-func CreateUserTale(db *sqlx.DB) error {
+func CreateUserTale(db *sqlx.DB) (err error) {
 	tx, err := db.Beginx()
 	if err != nil {
 		return err

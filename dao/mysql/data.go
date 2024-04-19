@@ -33,7 +33,7 @@ func CleanupInvalidTokens() error {
 	return err
 }
 
-func SaveVisitedTimes(visitedTimesChangedMap map[int64]int64) error {
+func SaveVisitedTimes(visitedTimesChangedMap map[int64]int64) (err error) {
 	tx, err := db.Beginx()
 	if err != nil {
 		return err

@@ -157,7 +157,7 @@ func CheckKind(id int) (oldName string, err error) {
 	return
 }
 
-func UpdateKind(oldName string, k *models.UpdateKindParams) error {
+func UpdateKind(oldName string, k *models.UpdateKindParams) (err error) {
 	tx, err := db.Beginx()
 	if err != nil {
 		return err
@@ -169,9 +169,7 @@ func UpdateKind(oldName string, k *models.UpdateKindParams) error {
 		} else if err != nil {
 			_ = tx.Rollback()
 		} else {
-			if err = tx.Commit(); err != nil {
-				return
-			}
+			err = tx.Commit()
 		}
 	}()
 	//更新classify的name
@@ -191,7 +189,7 @@ func CheckClassifyName(id int) (oldName string, err error) {
 	return
 }
 
-func UpdateClassify(oldName string, c *models.UpdateClassifyParams) error {
+func UpdateClassify(oldName string, c *models.UpdateClassifyParams) (err error) {
 	tx, err := db.Beginx()
 	if err != nil {
 		return err
