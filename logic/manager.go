@@ -4,18 +4,17 @@ import (
 	"blog/dao/mysql"
 	"blog/dao/redis"
 	"blog/models"
-	"fmt"
 )
 
 // AddClassify 新增分类逻辑
 func AddClassify(c *models.ClassifyParams) (err error) {
 	//1.先查ClassifyKind里面有没有这个分类 没有就创建 有的话就返回
 	if err = mysql.CheckClassifyKindExist(c); err != nil {
-		return fmt.Errorf("mysql.CheckClassifyKindExist(c) failed,err:%v", err)
+		return err
 	}
 	//2.再查classify里面有没有这个classifyName
 	if err = mysql.CheckClassifyExist(c); err != nil {
-		return fmt.Errorf("mysql.CheckClassifyExist(c) failed,err:%v", err)
+		return err
 	}
 	//3.在classify表里面添加数据
 	return mysql.AddClassify(c)
@@ -25,13 +24,13 @@ func AddClassify(c *models.ClassifyParams) (err error) {
 func CreateEssay(e *models.EssayParams) (err error) {
 	//1.检测该文章是否已经存在
 	if err = mysql.CheckEssayExist(e); err != nil {
-		return fmt.Errorf("mysql.CheckEssayExist(e) failed,err:%v", err)
+		return err
 	}
 	//2.添加该文章
 	var eid int64
 	//mysql处理数据
 	if eid, err = mysql.CreateEssay(e); err != nil {
-		return fmt.Errorf("mysql.CreateEssay(e) failed,err:%v", err)
+		return err
 	}
 	//redis处理数据
 	return redis.InitVisitedTimes(eid)
@@ -53,7 +52,7 @@ func UpdateKind(k *models.UpdateKindParams) (err error) {
 	//1.根据id查询到oldKind
 	var oldName string
 	if oldName, err = mysql.CheckKind(k.ID); err != nil {
-		return fmt.Errorf("mysql.CheckKind(k.ID) failed,err:%v", err)
+		return err
 	}
 	//2.更新Kind的kind和classify的name
 	return mysql.UpdateKind(oldName, k)
@@ -64,7 +63,7 @@ func UpdateClassify(c *models.UpdateClassifyParams) (err error) {
 	//1.先由id查询得到oldName
 	var oldName string
 	if oldName, err = mysql.CheckClassifyName(c.ID); err != nil {
-		return fmt.Errorf("mysql.CheckClassifyName(c.ID) failed,err:%v", err)
+		return err
 	}
 	//2.由传进来的id查询数据库 进行更新
 	return mysql.UpdateClassify(oldName, c)

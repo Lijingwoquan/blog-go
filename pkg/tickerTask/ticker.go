@@ -3,7 +3,6 @@ package ticker
 import (
 	"blog/dao/mysql"
 	"blog/dao/redis"
-	"fmt"
 	"go.uber.org/zap"
 	"time"
 )
@@ -47,7 +46,7 @@ func cleanupInvalidTokensTask() error {
 		// 清理过期的 token
 		err := mysql.CleanupInvalidTokens()
 		if err != nil {
-			return fmt.Errorf("mysql.CleanupInvalidTokens() failed,err:%v", err)
+			return err
 		}
 	}
 	return nil
@@ -57,13 +56,13 @@ func saveVisitedTimesTask() error {
 	ticker := time.NewTicker(time.Hour * 1)
 	defer ticker.Stop()
 	for range ticker.C {
-		// 清理过期的 token
+		// 得到浏览次数
 		visitedTimesChangedMap, err := redis.GetChangedVisitedTimes()
 		if err != nil {
-			return fmt.Errorf("redis.GetChangedVisitedTimes() failed,err:%v", err)
+			return err
 		}
 		if mysql.SaveVisitedTimes(visitedTimesChangedMap) != nil {
-			return fmt.Errorf("mysql.SaveVisitedTimes(visitedTimesChangedMap) failed,err:%v", err)
+			return err
 		}
 	}
 	return nil

@@ -79,8 +79,7 @@ func CreateUserTale(db *sqlx.DB) error {
 			email VARCHAR(32) NOT NULL,
 			create_time timestamp default CURRENT_TIMESTAMP NULL,
 			update_time timestamp default NULL ON UPDATE CURRENT_TIMESTAMP)`
-	_, err = tx.Exec(sqlStr1)
-	if err != nil {
+	if _, err = tx.Exec(sqlStr1); err != nil {
 		return err
 	}
 	//插入管理员
@@ -88,7 +87,7 @@ func CreateUserTale(db *sqlx.DB) error {
 
 	sqlStr2 := `INSERT INTO users (username,password,email,user_id) SELECT 2115883273,?,'2115883273@qq.com',520888666 WHERE NOT EXISTS(SELECT 1 FROM users WHERE username = 2115883273)`
 	_, err = tx.Exec(sqlStr2, password)
-	return nil
+	return err
 }
 
 func CreateKindTable(db *sqlx.DB) (err error) {

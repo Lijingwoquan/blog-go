@@ -4,7 +4,6 @@ import (
 	"blog/models"
 	"blog/pkg/snowflake"
 	"errors"
-	"fmt"
 	"time"
 )
 
@@ -90,7 +89,7 @@ func CheckEssayExist(c *models.EssayParams) error {
 func CreateEssay(e *models.EssayParams) (erd int64, err error) {
 	var formattedTime string
 	if formattedTime, err = getChineseTime(); err != nil {
-		return 0, fmt.Errorf("getChineseTime() failed,err:%v", err)
+		return 0, err
 	}
 	eid := snowflake.GenID()
 	sqlStr := `INSERT INTO essay(kind,name,content,router,Introduction,createdTime,updatedTime,eid) values(?,?,?,?,?,?,?,?)`
@@ -104,7 +103,7 @@ func getChineseTime() (string, error) {
 	//加载中国时区
 	loc, err := time.LoadLocation("Asia/Shanghai")
 	if err != nil {
-		return "", fmt.Errorf("time.LoadLocation(\"Asia/Shanghai\") failed,err:%v", err)
+		return "", err
 	}
 	T := time.Now().In(loc)
 	t := T.Format("2006-01-02 15:04:05")
@@ -116,7 +115,7 @@ func UpdateEssayMsg(data *models.UpdateEssayMsg) error {
 	var err error
 	var formattedTime string
 	if formattedTime, err = getChineseTime(); err != nil {
-		return fmt.Errorf("getChineseTime() failed,err:%v", err)
+		return err
 	}
 	sqlStr := `UPDATE essay SET name= ?,kind = ? ,introduction=?,router = ?,updatedTime=? WHERE id = ?`
 	result, err := db.Exec(sqlStr, data.Name, data.Kind, data.Introduction, data.Router, formattedTime, data.Id)
@@ -135,7 +134,7 @@ func UpdateEssayContent(data *models.UpdateEssayContent) error {
 	var err error
 	var formattedTime string
 	if formattedTime, err = getChineseTime(); err != nil {
-		return fmt.Errorf("getChineseTime() failed,err:%v", err)
+		return err
 	}
 	sqlStr := `UPDATE essay SET content=?,updatedTime=? WHERE id = ?`
 	result, err := db.Exec(sqlStr, data.Content, formattedTime, data.Id)

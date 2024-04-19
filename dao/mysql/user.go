@@ -109,8 +109,7 @@ func CheckTokenIfInvalid(token string) (err error) {
 }
 
 func UpdateUserMsg(user *models.UserParams, id int64) (err error) {
-	err = CheckUserExist2(user.Username, user.Email)
-	if err != nil {
+	if err = CheckUserExist2(user.Username, user.Email); err != nil {
 		return err
 	}
 	sqlStr := `UPDATE users SET username = ?,password = ?,email = ? where user_id = ?`

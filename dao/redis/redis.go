@@ -24,8 +24,7 @@ func Init() (err error) {
 }
 
 func Close() {
-	err := client.Close()
-	if err != nil {
+	if err := client.Close(); err != nil {
 		zap.L().Error("redis close() failed", zap.Error(err))
 	}
 }

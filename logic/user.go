@@ -5,13 +5,12 @@ import (
 	"blog/models"
 	"blog/pkg/jwt"
 	"blog/pkg/snowflake"
-	"fmt"
 )
 
 func Signup(u *models.UserParams) (err error) {
 	//1.判断用户是否存在 --> 判断username和email
 	if err = mysql.CheckUserExist(u.Username, u.Email); err != nil {
-		return fmt.Errorf("mysql.CheckUserExist(u.Username, u.Email) failed,err:%v", err)
+		return err
 	}
 	//2.生成uid并保存相关信息
 	uid := snowflake.GenID()
@@ -29,12 +28,12 @@ func Signup(u *models.UserParams) (err error) {
 func Login(u *models.User) (err error) {
 	//1.判断账号密码是否正确
 	if err = mysql.Login(u); err != nil {
-		return fmt.Errorf("mysql.Login(u) failed,err:%v", err)
+		return err
 	}
 	//2. jwt生成token
 	var token string
 	if token, err = jwt.GenToken(u); err != nil {
-		return fmt.Errorf("token, err = jwt.GenToken(u) failed,err:%v", err)
+		return err
 	}
 	//将token保存
 	u.Token = token
@@ -45,7 +44,7 @@ func Logout(token string) error {
 	//1.得到token还剩余的时间
 	MyClaims, err := jwt.ParseToken(token)
 	if err != nil {
-		return fmt.Errorf("MyClaims, err := jwt.ParseToken(token) failed,err:%v", err)
+		return err
 	}
 	//2.将该token储存在数据库中
 	return mysql.Logout(token, MyClaims.ExpiresAt)

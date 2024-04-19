@@ -2,7 +2,6 @@ package mysql
 
 import (
 	"blog/models"
-	"fmt"
 	"time"
 )
 
@@ -63,7 +62,7 @@ func SaveVisitedTimes(visitedTimesChangedMap map[int64]int64) error {
 func GetVisitedTimesFromMySQL(eid string) (vt int64, err error) {
 	sqlStr := `SELECT visitedTimes FROM essay WHERE  eid = ?`
 	if err = db.Get(&vt, sqlStr, eid); err != nil {
-		return 0, fmt.Errorf("db.Get(&vt,sqlStr,eid) failed,err:%v", err)
+		return 0, err
 	}
 	return vt, nil
 }

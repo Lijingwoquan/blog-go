@@ -19,17 +19,17 @@ func ResponseDataAboutIndex(DataAboutIndex *models.DataAboutIndex) (err error) {
 	//1.查kind和icon
 	var kindDetails = new([]models.DataAboutKind)
 	if err = getKindAndIcon(kindDetails); err != nil {
-		return fmt.Errorf("getKindAndIcon(kindDetails) failed,err:%v", err)
+		return
 	}
 	//2.查classifyDetails
 	var classifyDetails = new([]models.DataAboutClassify)
 	if err = getClassifyAndDetails(classifyDetails); err != nil {
-		return fmt.Errorf("getClassifyAndDetails(classifyDetails),err:%v", err)
+		return
 	}
 	//3.查essayDetail
 	var essaysDetail = new([]models.DataAboutEssay)
 	if err = getEssayDetail(essaysDetail); err != nil {
-		return fmt.Errorf("getClassifyAndDetails(classifyDetails),err:%v", err)
+		return
 	}
 
 	//4. 整合classify和essay 使用 map 优化循环

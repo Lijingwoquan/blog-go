@@ -13,21 +13,21 @@ func GetVisitedTimes(eid string) (int64, error) {
 	var exist bool
 	var err error
 	if exist, err = client.HExists(key, eid).Result(); err != nil {
-		return 0, fmt.Errorf("exist,err := client.HExists(pre,eid).Result() failed,err:%v", err)
+		return 0, err
 	}
 	if !exist {
 		if vt, err = mysql.GetVisitedTimesFromMySQL(eid); err != nil {
-			return 0, fmt.Errorf("err,vt = mysql.GetHashValue() failed,err:%v", err)
+			return 0, err
 		}
 	}
 
 	if vt, err = client.HIncrBy(key, eid, vt+1).Result(); err != nil {
-		return 0, fmt.Errorf("get visited times failed: %v", err)
+		return 0, err
 	}
 
 	//将访问的文章加入到集合中
 	if _, err = client.SAdd(getRedisKey(KeyChangeVisitedTimes), eid).Result(); err != nil {
-		return 0, fmt.Errorf("client.SAdd(getRedisKey(KeyChangeVisitedTimes),eid).Result() failed,err:%v", err)
+		return 0, err
 	}
 	return vt, nil
 }
@@ -42,21 +42,21 @@ func GetChangedVisitedTimes() (map[int64]int64, error) {
 	pre := getRedisKey(KeyVisitedTimes)
 	eids, err := client.SMembers(getRedisKey(KeyChangeVisitedTimes)).Result()
 	if err != nil {
-		return nil, fmt.Errorf("client.SMembersMap(getRedisKey(KeyChangeVisitedTimes)).Result() failed,err:%v", err)
+		return nil, err
 	}
 	var visitedTimesChangedMap = make(map[int64]int64)
 	for _, eid := range eids {
 		eida, err := strconv.ParseInt(eid, 10, 64)
 		vt, err := client.HGet(pre, eid).Int64()
 		if err != nil {
-			return nil, fmt.Errorf("vt,err := client.HGet(pre,eid).Int64() failed,err:%v", err)
+			return nil, err
 		}
 		visitedTimesChangedMap[eida] = vt
 	}
 	//删除这个集合
 	_, err = client.Del(getRedisKey("visited:eids")).Result()
 	if err != nil {
-		return nil, fmt.Errorf("client.Del(getRedisKey(\"visited:eids\")).Result() failed,err:%v", err)
+		return nil, err
 	}
 	return visitedTimesChangedMap, nil
 }

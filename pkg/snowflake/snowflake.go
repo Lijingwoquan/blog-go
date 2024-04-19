@@ -1,7 +1,6 @@
 package snowflake
 
 import (
-	"fmt"
 	sf "github.com/bwmarrin/snowflake"
 	"time"
 )
@@ -11,7 +10,7 @@ var node *sf.Node
 func Init(startTime string, machineId int64) (err error) {
 	var st time.Time
 	if st, err = time.Parse("2006-01-02", startTime); err != nil {
-		return fmt.Errorf("time.Parse(\"2006-01-02\", startTime) failed:%v", err)
+		return err
 	}
 	sf.Epoch = st.UnixNano() / 1000000
 	node, err = sf.NewNode(machineId)
