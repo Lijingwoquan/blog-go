@@ -1,0 +1,4 @@
+{"level":"ERROR","time":"2024-04-20T10:55:18.954+0800","caller":"controller/data.go:26","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-04-20T10:55:20.452+0800","caller":"controller/data.go:26","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-04-20T10:55:21.660+0800","caller":"controller/data.go:26","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-04-20T10:55:24.634+0800","caller":"controller/data.go:26","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}

@@ -24,6 +24,7 @@ func SetupRouter(mode string) *gin.Engine {
 
 	r.Use(cors.New(config))
 	r.Static("api/img", "/app/statics/img")
+	r.Static("api/file", "/app/statics/file")
 
 	v1 := r.Group("/api/base")
 	{

@@ -40,6 +40,8 @@ services:
     volumes:
       - ../blog-statics//img:/app/statics/img  # 将本地图片文件夹挂载到容器中的对应路径
       - ./log/blog.log:/app/log/blog.log
+      - ./static/file:/app/statics/file
+
 volumes:
   mysql_data:
   redis_data:

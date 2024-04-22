@@ -57,8 +57,8 @@ func main() {
 	//5.注册路由
 	r := routers.SetupRouter(viper.GetString("app.mode"))
 
-	err := r.RunTLS(":8080", "ssl/server.crt", "ssl/server.key")
-	//err := r.Run(":8080")
+	//err := r.RunTLS(":8080", "ssl/server.crt", "ssl/server.key")
+	err := r.Run(":8081")
 
 	if err != nil {
 		fmt.Printf("run server failed,err:%v", err)
