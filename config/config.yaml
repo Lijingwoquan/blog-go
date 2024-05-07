@@ -13,6 +13,7 @@ log:
   max_age: 30
   max_backups: 7
 mysql:
+#  host: 127.0.0.1
   host: mysql
   username: "root"
   password: liuzihao520
@@ -21,8 +22,10 @@ mysql:
   max_open_con: 200
   max_idle_con: 50
 redis:
+#  host: 127.0.0.1
   host: redis
   port: "6379"
   db: 0
-  password: 520liuzihao
+  password:
+  password: liuzihao520
   poll_size: 100

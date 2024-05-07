@@ -2,3 +2,7 @@
 {"level":"ERROR","time":"2024-04-20T10:55:20.452+0800","caller":"controller/data.go:26","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
 {"level":"ERROR","time":"2024-04-20T10:55:21.660+0800","caller":"controller/data.go:26","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
 {"level":"ERROR","time":"2024-04-20T10:55:24.634+0800","caller":"controller/data.go:26","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-04-30T22:04:20.592+0800","caller":"controller/data.go:34","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-04-30T22:04:27.072+0800","caller":"controller/data.go:34","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-05-01T14:03:24.808+0800","caller":"controller/user.go:47","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-05-01T14:03:26.607+0800","caller":"controller/user.go:47","msg":"logic.Login() failed","error":"sql: no rows in result set"}

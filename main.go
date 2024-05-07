@@ -19,6 +19,7 @@ func main() {
 	if err := setting.Init(); err != nil {
 		fmt.Println("init setting failed!")
 	}
+
 	//2.初始化日志
 	if err := logger.Init(viper.GetString("app.mode")); err != nil {
 		return

@@ -18,7 +18,7 @@ func SetupRouter(mode string) *gin.Engine {
 	// 创建新的CORS中间件
 	config := cors.DefaultConfig()
 	//这里要设置端口的 前端是:80不用显示调用
-	config.AllowOrigins = []string{"https://liuzihao.online", "https://www.liuzihao.online", "http://localhost:5173"}
+	config.AllowOrigins = []string{"https://liuzihao.online", "https://www.liuzihao.online", "http://localhost:5173", "http://localhost:5174"}
 	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE"}
 	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
 
