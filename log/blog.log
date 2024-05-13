@@ -6,3 +6,4 @@
 {"level":"ERROR","time":"2024-04-30T22:04:27.072+0800","caller":"controller/data.go:34","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
 {"level":"ERROR","time":"2024-05-01T14:03:24.808+0800","caller":"controller/user.go:47","msg":"logic.Login() failed","error":"sql: no rows in result set"}
 {"level":"ERROR","time":"2024-05-01T14:03:26.607+0800","caller":"controller/user.go:47","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-05-07T21:04:37.513+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Introduction' Error:Field validation for 'Introduction' failed on the 'required' tag"}

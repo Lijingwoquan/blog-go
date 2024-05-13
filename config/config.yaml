@@ -1,6 +1,6 @@
 app:
   name: "blog"
-  mode: "dev"
+  mode: "release"
   port: "80"
   start_time: "2024-01-16"
   machine_id: 1
@@ -13,7 +13,6 @@ log:
   max_age: 30
   max_backups: 7
 mysql:
-#  host: 127.0.0.1
   host: mysql
   username: "root"
   password: liuzihao520
@@ -22,10 +21,8 @@ mysql:
   max_open_con: 200
   max_idle_con: 50
 redis:
-#  host: 127.0.0.1
   host: redis
   port: "6379"
   db: 0
-  password:
-  password: liuzihao520
+  password: 520liuzihao
   poll_size: 100
