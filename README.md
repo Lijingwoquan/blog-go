@@ -41,7 +41,9 @@ go run main.go
 
 ## 部署
 
-该应用程序可以使用Docker进行部署。
+- 该项目需要配置证书，需要在ssl文件夹下配置
+
+- 该应用程序可以使用Docker进行部署。
 
 ```ssh
 docker-compose up -d --build
