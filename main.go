@@ -25,10 +25,17 @@ func main() {
 		return
 	}
 	defer func() {
+		//退出前写入全部日志
 		if err := zap.L().Sync(); err != nil {
 			fmt.Printf(" zap.L().Sync() failed,err:%v", err)
 		}
 	}()
+
+	//初始化雪花算法
+	if err := snowflake.Init(viper.GetString("app.start_time"), viper.GetInt64("app.machine_id")); err != nil {
+		fmt.Printf("snowflake init failed,err:%v", err)
+		return
+	}
 
 	//3.初始化mysql
 	if err := mysql.Init(); err != nil {
@@ -43,12 +50,6 @@ func main() {
 	}
 	defer redis.Close()
 
-	//初始化雪花算法
-	if err := snowflake.Init(viper.GetString("app.start_time"), viper.GetInt64("app.machine_id")); err != nil {
-		fmt.Printf("snowflake init failed,err:%v", err)
-		return
-	}
-
 	//初始计时器
 	ticker.Init()
 
@@ -58,8 +59,9 @@ func main() {
 	//5.注册路由
 	r := routers.SetupRouter(viper.GetString("app.mode"))
 
-	//err := r.RunTLS(":8080", "ssl/server.crt", "ssl/server.key")
-	err := r.Run(":8081")
+	port := fmt.Sprintf(":%d", viper.GetInt("app.port"))
+	//err := r.RunTLS(port, "ssl/server.crt", "ssl/server.key")
+	err := r.Run(port)
 
 	if err != nil {
 		fmt.Printf("run server failed,err:%v", err)

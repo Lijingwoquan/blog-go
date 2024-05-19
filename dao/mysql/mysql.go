@@ -1,6 +1,7 @@
 package mysql
 
 import (
+	"blog/pkg/snowflake"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
@@ -82,11 +83,13 @@ func CreateUserTale(db *sqlx.DB) (err error) {
 	if _, err = tx.Exec(sqlStr1); err != nil {
 		return err
 	}
+	username := viper.GetString("manager.username")
+	password := encryptPassword(viper.GetString("manager.username"))
+	email := encryptPassword(viper.GetString("manager.email"))
+	uid := snowflake.GenID()
 	//插入管理员
-	password := encryptPassword("..Lzh20050807..")
-
-	sqlStr2 := `INSERT INTO users (username,password,email,user_id) SELECT 2115883273,?,'2115883273@qq.com',520888666 WHERE NOT EXISTS(SELECT 1 FROM users WHERE username = 2115883273)`
-	_, err = tx.Exec(sqlStr2, password)
+	sqlStr2 := `INSERT INTO users (username,password,email,user_id) SELECT ?,?,?,? WHERE NOT EXISTS(SELECT 1 FROM users WHERE username = ?)`
+	_, err = tx.Exec(sqlStr2, username, password, email, uid, username)
 	return err
 }
 

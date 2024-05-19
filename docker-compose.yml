@@ -5,7 +5,8 @@ services:
     image: mysql:latest
     container_name: blog_mysql
     environment:
-      MYSQL_ROOT_PASSWORD: liuzihao520
+      #配置你的密码
+      MYSQL_ROOT_PASSWORD: yourPassword
       MYSQL_DATABASE: blog
       LANG: C.UTF-8
         - TZ=Asia/Shanghai
