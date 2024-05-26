@@ -83,10 +83,12 @@ func CreateUserTale(db *sqlx.DB) (err error) {
 	if _, err = tx.Exec(sqlStr1); err != nil {
 		return err
 	}
+
 	username := viper.GetString("manager.username")
-	password := encryptPassword(viper.GetString("manager.username"))
-	email := encryptPassword(viper.GetString("manager.email"))
+	password := encryptPassword(viper.GetString("manager.password"))
+	email := viper.GetString("manager.email")
 	uid := snowflake.GenID()
+
 	//插入管理员
 	sqlStr2 := `INSERT INTO users (username,password,email,user_id) SELECT ?,?,?,? WHERE NOT EXISTS(SELECT 1 FROM users WHERE username = ?)`
 	_, err = tx.Exec(sqlStr2, username, password, email, uid, username)
