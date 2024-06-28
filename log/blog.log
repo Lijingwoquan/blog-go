@@ -9,3 +9,14 @@
 {"level":"ERROR","time":"2024-05-07T21:04:37.513+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Introduction' Error:Field validation for 'Introduction' failed on the 'required' tag"}
 {"level":"ERROR","time":"2024-05-15T16:16:54.116+0800","caller":"controller/user.go:47","msg":"logic.Login() failed","error":"sql: no rows in result set"}
 {"level":"ERROR","time":"2024-05-15T16:16:56.164+0800","caller":"controller/user.go:47","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-06-28T21:15:55.135+0800","caller":"controller/data.go:34","msg":"logic.GetEssayData(essay, id) failed","error":"transaction failed: tx.SAdd(key, eid).Result() failed: WRONGTYPE Operation against a key holding the wrong kind of value"}
+{"level":"ERROR","time":"2024-06-28T21:15:57.340+0800","caller":"controller/data.go:34","msg":"logic.GetEssayData(essay, id) failed","error":"transaction failed: tx.SAdd(key, eid).Result() failed: WRONGTYPE Operation against a key holding the wrong kind of value"}
+{"level":"ERROR","time":"2024-06-28T21:17:23.046+0800","caller":"controller/data.go:34","msg":"logic.GetEssayData(essay, id) failed","error":"transaction failed: tx.SAdd(key, eid).Result() failed: WRONGTYPE Operation against a key holding the wrong kind of value"}
+{"level":"ERROR","time":"2024-06-28T21:22:44.533+0800","caller":"controller/data.go:34","msg":"logic.GetEssayData(essay, id) failed","error":"transaction failed: tx.SAdd(key, eid).Result() failed: WRONGTYPE Operation against a key holding the wrong kind of value"}
+{"level":"ERROR","time":"2024-06-28T21:30:42.914+0800","caller":"tickerTask/ticker.go:31","msg":"ticker in pkg happen err:%v","error":"WRONGTYPE Operation against a key holding the wrong kind of value"}
+{"level":"ERROR","time":"2024-06-28T21:33:49.339+0800","caller":"tickerTask/ticker.go:31","msg":"ticker in pkg happen err:%v","error":"WRONGTYPE Operation against a key holding the wrong kind of value"}
+{"level":"ERROR","time":"2024-06-28T21:36:36.295+0800","caller":"tickerTask/ticker.go:31","msg":"ticker in pkg happen err:%v","error":"WRONGTYPE Operation against a key holding the wrong kind of value"}
+{"level":"ERROR","time":"2024-06-28T21:37:26.922+0800","caller":"tickerTask/ticker.go:31","msg":"ticker in pkg happen err:%v","error":"WRONGTYPE Operation against a key holding the wrong kind of value"}
+{"level":"ERROR","time":"2024-06-28T21:38:39.273+0800","caller":"tickerTask/ticker.go:31","msg":"ticker in pkg happen err:%v","error":"pipe.Exec( failed: redis: nil"}
+{"level":"ERROR","time":"2024-06-28T21:41:06.982+0800","caller":"tickerTask/ticker.go:31","msg":"ticker in pkg happen err:%v","error":"pipe.Exec() failed: redis: nil"}
+{"level":"ERROR","time":"2024-06-28T21:46:01.090+0800","caller":"tickerTask/ticker.go:31","msg":"ticker in pkg happen err:%v","error":"pipe.Exec() failed: redis: nil"}

@@ -7,6 +7,11 @@ import (
 	"time"
 )
 
+const (
+	cleanInvalidToken = time.Hour * 24
+	saveVisitedTimes  = time.Hour * 4
+)
+
 func Init() {
 	errCh := make(chan error)
 	done := make(chan bool)
@@ -40,7 +45,7 @@ func Init() {
 }
 
 func cleanupInvalidTokensTask() error {
-	ticker := time.NewTicker(time.Hour * 24)
+	ticker := time.NewTicker(cleanInvalidToken)
 	defer ticker.Stop()
 	for range ticker.C {
 		// 清理过期的 token
@@ -53,11 +58,11 @@ func cleanupInvalidTokensTask() error {
 }
 
 func saveVisitedTimesTask() error {
-	ticker := time.NewTicker(time.Hour * 1)
+	ticker := time.NewTicker(saveVisitedTimes)
 	defer ticker.Stop()
 	for range ticker.C {
 		// 得到浏览次数
-		visitedTimesChangedMap, err := redis.GetChangedVisitedTimes()
+		visitedTimesChangedMap, err := redis.GetAndClearChangedVisitedTimes()
 		if err != nil {
 			return err
 		}

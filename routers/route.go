@@ -28,7 +28,6 @@ func SetupRouter(mode string) *gin.Engine {
 
 	v1 := r.Group("/api/base")
 	{
-		// 使用中间件的路由
 		v1.GET("/index", controller.ResponseDataAboutIndexHandler)
 		v1.GET("/essay", controller.ResponseDataAboutEssayHandler)
 	}
@@ -52,6 +51,11 @@ func SetupRouter(mode string) *gin.Engine {
 		v3.PUT("/updateEssayContent", controller.UpdateEssayContentHandler)
 		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler)
 		v3.POST("/uploadImg", controller.UploadImgHandler)
+	}
+
+	v4 := r.Group("/api/count")
+	{
+		v4.POST("/search", controller.IncreaseSearchKeywordHandler)
 	}
 
 	r.NoRoute(func(c *gin.Context) {

@@ -28,35 +28,35 @@ func Init() (err error) {
 	db.SetMaxIdleConns(viper.GetInt("mysql.max_idle_con"))
 
 	//建表操作
-	err = CreateUserTale(db)
+	err = createUserTale(db)
 	if err != nil {
-		zap.L().Error("CreateUserTale(db) failed,err:%v", zap.Error(err))
+		zap.L().Error("createUserTale(db) failed,err:%v", zap.Error(err))
 		return err
 	}
-	err = CreateKindTable(db)
+	err = createKindTable(db)
 	if err != nil {
-		zap.L().Error("CreateClassifyKindTable(db) failed,err:%v", zap.Error(err))
+		zap.L().Error("createKindTable(db) failed,err:%v", zap.Error(err))
 		return err
 	}
-	err = CreateClassifyTable(db)
+	err = createClassifyTable(db)
 	if err != nil {
-		zap.L().Error(" CreateClassifyTable(db) failed,err:%v", zap.Error(err))
+		zap.L().Error(" createClassifyTable(db) failed,err:%v", zap.Error(err))
 		return err
 	}
-	err = CreateEssayTable(db)
+	err = createEssayTable(db)
 	if err != nil {
-		zap.L().Error("CreateEssayTable(db) failed,err:%v", zap.Error(err))
+		zap.L().Error("createEssayTable(db) failed,err:%v", zap.Error(err))
 		return err
 	}
-	err = CreateInvalidToken(db)
+	err = createInvalidToken(db)
 	if err != nil {
-		zap.L().Error("CreateInvalidToken(db) failed,err:%v", zap.Error(err))
+		zap.L().Error("createInvalidToken(db) failed,err:%v", zap.Error(err))
 		return err
 	}
 	return
 }
 
-func CreateUserTale(db *sqlx.DB) (err error) {
+func createUserTale(db *sqlx.DB) (err error) {
 	tx, err := db.Beginx()
 	if err != nil {
 		return err
@@ -95,7 +95,7 @@ func CreateUserTale(db *sqlx.DB) (err error) {
 	return err
 }
 
-func CreateKindTable(db *sqlx.DB) (err error) {
+func createKindTable(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS kind(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(60) NOT NULL,
@@ -104,7 +104,7 @@ func CreateKindTable(db *sqlx.DB) (err error) {
 	return err
 }
 
-func CreateClassifyTable(db *sqlx.DB) (err error) {
+func createClassifyTable(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS classify(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	kind VARCHAR(60) NOT NULL,
@@ -114,7 +114,7 @@ func CreateClassifyTable(db *sqlx.DB) (err error) {
 	return err
 }
 
-func CreateEssayTable(db *sqlx.DB) (err error) {
+func createEssayTable(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS essay(
     id INT AUTO_INCREMENT PRIMARY KEY,
     eid BIGINT NOT NULL ,
@@ -131,7 +131,7 @@ func CreateEssayTable(db *sqlx.DB) (err error) {
 	return err
 }
 
-func CreateInvalidToken(db *sqlx.DB) (err error) {
+func createInvalidToken(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS tokenInvalid(
     id INT AUTO_INCREMENT PRIMARY KEY,
 	token text NOT NULL,
