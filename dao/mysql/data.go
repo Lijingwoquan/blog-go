@@ -2,8 +2,17 @@ package mysql
 
 import (
 	"blog/models"
+	"fmt"
 	"time"
 )
+
+func GetEssaySnowflakeID(id int) (eid int64, err error) {
+	sqlStr := `SELECT eid FROM essay WHERE id = ?`
+	if err = db.Get(&eid, sqlStr, id); err != nil {
+		return 0, fmt.Errorf("no essay found with id %d", id)
+	}
+	return eid, nil
+}
 
 func GetDataAboutKind(data *[]models.DataAboutKind) error {
 	sqlStr := `SELECT name,icon,id FROM kind `

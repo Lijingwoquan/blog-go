@@ -13,18 +13,19 @@ log:
   max_age: 30
   max_backups: 7
 mysql:
-  host: "mysql"
+  host: "127.0.0.1"
   username: "root"
-  password: "yourPassword"
+  password: "..Lzh20050807.."
   port: "3306"
   dbname: "blog"
   max_open_con: 200
   max_idle_con: 50
 redis:
-  host: "redis"
+  host: "127.0.0.1"
   port: "6379"
   db: 0
-  password: "yourPassword"
+#  password: "yourPassword"
+  password:
   poll_size: 100
 manager:
   username: "yourUsername"

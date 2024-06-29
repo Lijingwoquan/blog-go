@@ -12,34 +12,11 @@ var (
 	Mu                   sync.RWMutex // 读写锁
 )
 
-func Init() {
-	errCh := make(chan error)
-	done := make(chan bool)
-	//updateDataAboutIndex
-	go func() {
-		if err := updateDataAboutIndex(); err != nil {
-			errCh <- err
-		}
-		done <- true
-	}()
-	//错误处理
-	go func() {
-		for err := range errCh {
-			zap.L().Error("happen err in cache Init:%v", zap.Error(err))
-		}
-	}()
-	//关闭通道
-	go func() {
-		<-done
-		close(errCh)
-	}()
-}
-
-func Update() {
+func UpdateDataAboutIndex() {
 	errCh := make(chan error)
 	done := make(chan bool)
 	go func() {
-		if err := updateDataAboutIndex(); err != nil {
+		if err := getDataAboutIndex(); err != nil {
 			errCh <- err
 		}
 		done <- true
@@ -55,8 +32,7 @@ func Update() {
 	}()
 }
 
-// 更新数据
-func updateDataAboutIndex() error {
+func getDataAboutIndex() error {
 	Mu.Lock()
 	defer Mu.Unlock()
 

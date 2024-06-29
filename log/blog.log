@@ -20,3 +20,4 @@
 {"level":"ERROR","time":"2024-06-28T21:38:39.273+0800","caller":"tickerTask/ticker.go:31","msg":"ticker in pkg happen err:%v","error":"pipe.Exec( failed: redis: nil"}
 {"level":"ERROR","time":"2024-06-28T21:41:06.982+0800","caller":"tickerTask/ticker.go:31","msg":"ticker in pkg happen err:%v","error":"pipe.Exec() failed: redis: nil"}
 {"level":"ERROR","time":"2024-06-28T21:46:01.090+0800","caller":"tickerTask/ticker.go:31","msg":"ticker in pkg happen err:%v","error":"pipe.Exec() failed: redis: nil"}
+{"level":"ERROR","time":"2024-06-29T22:41:43.802+0800","caller":"controller/keyword.go:18","msg":"c.ShouldBindJSON(essayDetail) failed","error":"invalid character '}' looking for beginning of object key string"}

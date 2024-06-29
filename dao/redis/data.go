@@ -7,6 +7,10 @@ import (
 	"strconv"
 )
 
+const (
+	scoreIncrement = 1
+)
+
 func GetVisitedTimes(eid string) (int64, error) {
 	changeKey := getRedisKey(KeyChangeVisitedTimes)
 	visitedKey := getRedisKey(KeyVisitedTimes)
@@ -26,9 +30,9 @@ func GetVisitedTimes(eid string) (int64, error) {
 				return fmt.Errorf("mysql.GetVisitedTimesFromMySQL(eid) failed: %w", err)
 			}
 		}
-		// 如果存在，获取当前值
-		if vt, err = tx.HIncrBy(visitedKey, eid, vt+1).Result(); err != nil {
-			return fmt.Errorf("tx.HIncrBy(key, eid, 1).Result() failed: %w", err)
+
+		if vt, err = tx.HIncrBy(visitedKey, eid, vt+scoreIncrement).Result(); err != nil {
+			return fmt.Errorf("tx.HIncrBy(key, eid, scoreIncrement).Result() failed: %w", err)
 		}
 
 		// 将访问的文章加入到集合中
@@ -41,9 +45,8 @@ func GetVisitedTimes(eid string) (int64, error) {
 	}
 
 	// 执行事务
-	err := client.Watch(txf, visitedKey)
-	if err != nil {
-		return 0, fmt.Errorf("transaction failed: %w", err)
+	if err := client.Watch(txf, visitedKey); err != nil {
+		return 0, fmt.Errorf("client.Watch(txf, visitedKey): %w", err)
 	}
 
 	return finalVT, nil

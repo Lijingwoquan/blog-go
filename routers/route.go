@@ -50,12 +50,17 @@ func SetupRouter(mode string) *gin.Engine {
 		v3.PUT("/updateEssayMsg", controller.UpdateEssayMSgHandler)
 		v3.PUT("/updateEssayContent", controller.UpdateEssayContentHandler)
 		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler)
-		v3.POST("/uploadImg", controller.UploadImgHandler)
+	}
+	v3help := r.Group("/api/manager")
+	{
+		v3help.POST("/uploadImg", controller.UploadImgHandler)
 	}
 
-	v4 := r.Group("/api/count")
+	v4 := r.Group("/api/keyword")
 	{
-		v4.POST("/search", controller.IncreaseSearchKeywordHandler)
+		v4.POST("/essayAddKeyword", controller.SetEssayKeywordHandler)
+		v4.POST("/add", controller.IncreaseSearchKeywordHandler)
+
 	}
 
 	r.NoRoute(func(c *gin.Context) {
