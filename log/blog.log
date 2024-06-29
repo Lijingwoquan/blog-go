@@ -21,3 +21,4 @@
 {"level":"ERROR","time":"2024-06-28T21:41:06.982+0800","caller":"tickerTask/ticker.go:31","msg":"ticker in pkg happen err:%v","error":"pipe.Exec() failed: redis: nil"}
 {"level":"ERROR","time":"2024-06-28T21:46:01.090+0800","caller":"tickerTask/ticker.go:31","msg":"ticker in pkg happen err:%v","error":"pipe.Exec() failed: redis: nil"}
 {"level":"ERROR","time":"2024-06-29T22:41:43.802+0800","caller":"controller/keyword.go:18","msg":"c.ShouldBindJSON(essayDetail) failed","error":"invalid character '}' looking for beginning of object key string"}
+{"level":"ERROR","time":"2024-06-29T23:59:08.521+0800","caller":"cache/init.go:35","msg":"Error in cache Init","error":"Error getting members for key blog:essay:keyword:40784933005824000: WRONGTYPE Operation against a key holding the wrong kind of value"}

@@ -59,7 +59,7 @@ func SetupRouter(mode string) *gin.Engine {
 	v4 := r.Group("/api/keyword")
 	{
 		v4.POST("/essayAddKeyword", controller.SetEssayKeywordHandler)
-		v4.POST("/add", controller.IncreaseSearchKeywordHandler)
+		v4.POST("/search", controller.IncreaseSearchKeywordHandler)
 
 	}
 

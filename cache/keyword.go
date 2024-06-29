@@ -6,7 +6,7 @@ import (
 
 var (
 	GlobalEssayKeyword    []string
-	GlobalEssayKeywordMap map[string][]string
+	GlobalEssayKeywordMap = make(map[string][]string)
 )
 
 func initEssayKeyword() (err error) {

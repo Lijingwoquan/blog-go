@@ -24,23 +24,29 @@ func InitEssayKeyWord(GlobalEssayKeywordMap map[string][]string) (keySlice []str
 	if err != nil {
 		return nil, fmt.Errorf("client.Keys(pattern).Result() failed:%w", err)
 	}
+	// 使用 map 来实现去重
+	uniqueKeywords := make(map[string]struct{})
 
 	for _, key := range keys {
 		// 使用 HGETALL 获取键的所有字段和值
-		values, err := client.HGetAll(key).Result()
+		members, err := client.SMembers(key).Result()
 		if err != nil {
-			return nil, fmt.Errorf("Error getting values for key %s: %w\n", key, err)
+			return nil, fmt.Errorf("Error getting members for key %s: %w", key, err)
 		}
-		//blog:essay:keyword:40784933005824000
-		//eids := strings.Split(key, ":")[3]
-		//eid,_ := strconv.ParseInt(eids,10,64)
+		eidStr := strings.Split(key, ":")[3]
 
 		// 处理键的内容
-		for field, value := range values {
-			//GlobalEssayKeywordMap[eids] = [...GlobalEssayKeywordMap[1],value]
-			fmt.Printf("failed :%v \t value:%v", field, value)
+		GlobalEssayKeywordMap[eidStr] = members
+		// 将关键词添加到 uniqueKeywords map 中以实现去重
+		for _, keyword := range members {
+			uniqueKeywords[keyword] = struct{}{}
 		}
 	}
+	// 将去重后的关键词转换为切片
+	for keyword := range uniqueKeywords {
+		keySlice = append(keySlice, keyword)
+	}
+
 	return keySlice, err
 }
 

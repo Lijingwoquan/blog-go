@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"blog/logic"
+	"blog/help"
 	"blog/models"
 	"go.uber.org/zap"
 	"sync"
@@ -36,7 +36,7 @@ func getDataAboutIndex() error {
 	Mu.Lock()
 	defer Mu.Unlock()
 
-	if err := logic.ResponseDataAboutIndex(&GlobalDataAboutIndex); err != nil {
+	if err := help.ResponseDataAboutIndex(&GlobalDataAboutIndex); err != nil {
 		return err
 	}
 	return nil
