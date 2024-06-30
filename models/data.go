@@ -49,7 +49,7 @@ type UpdateEssayContent struct {
 type EssayData struct {
 	Name         string `json:"name" db:"name"`
 	Kind         string `json:"kind" db:"kind"`
-	Eid          int64  `db:"eid"`
+	Id           int    `db:"id"`
 	Introduction string `json:"introduction" db:"introduction"`
 	Content      string `json:"content" db:"content"`
 	VisitedTimes int64  `json:"visitedTimes" db:"visitedTimes"`

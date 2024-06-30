@@ -43,13 +43,16 @@ func SetupRouter(mode string) *gin.Engine {
 	v3 := r.Group("/api/manager")
 	v3.Use(middlewares.JWTAuthMiddleware(), middlewares.UpdateDataMiddleware())
 	{
-		v3.POST("/addClassify", controller.AddClassifyHandler)
+		//文章
 		v3.POST("/addEssay", controller.AddEssayHandler)
-		v3.PUT("/updateKind", controller.UpdateKindHandler)
-		v3.PUT("/updateClassify", controller.UpdateClassifyHandler)
 		v3.PUT("/updateEssayMsg", controller.UpdateEssayMSgHandler)
 		v3.PUT("/updateEssayContent", controller.UpdateEssayContentHandler)
 		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler)
+
+		//分类
+		v3.POST("/addClassify", controller.AddClassifyHandler)
+		v3.PUT("/updateKind", controller.UpdateKindHandler)
+		v3.PUT("/updateClassify", controller.UpdateClassifyHandler)
 	}
 	v3help := r.Group("/api/manager")
 	{
@@ -58,9 +61,8 @@ func SetupRouter(mode string) *gin.Engine {
 
 	v4 := r.Group("/api/keyword")
 	{
-		v4.POST("/essayAddKeyword", controller.SetEssayKeywordHandler)
+		//v4.POST("/essayAddKeyword", controller.SetEssayKeywordHandler)
 		v4.POST("/search", controller.IncreaseSearchKeywordHandler)
-
 	}
 
 	r.NoRoute(func(c *gin.Context) {

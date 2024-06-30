@@ -32,8 +32,11 @@ func CreateEssay(e *models.EssayParams) (err error) {
 	if eid, err = mysql.CreateEssay(e); err != nil {
 		return err
 	}
-	//redis处理数据
-	return redis.InitVisitedTimes(eid)
+	//redis处理数据 --> 初始访问次数
+	if err = redis.InitVisitedTimes(eid); err != nil {
+		return err
+	}
+	return
 }
 
 // UpdateEssayMsg 更新文章逻辑

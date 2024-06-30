@@ -11,32 +11,36 @@ const (
 	scoreIncrement = 1
 )
 
-func GetVisitedTimes(eid string) (int64, error) {
+func GetVisitedTimes(id int) (int64, error) {
 	changeKey := getRedisKey(KeyChangeVisitedTimes)
 	visitedKey := getRedisKey(KeyVisitedTimes)
-
+	eid, err := mysql.GetEssaySnowflakeID(id)
+	eids := fmt.Sprintf("%d", eid)
+	if err != nil {
+		return 0, err
+	}
 	var finalVT int64
 
 	txf := func(tx *redis.Tx) error {
 		//先检查键是否存在
-		exist, err := client.HExists(visitedKey, eid).Result()
+		exist, err := client.HExists(visitedKey, eids).Result()
 		if err != nil {
 			return fmt.Errorf("client.HExists(key, eid).Result() failed: %w", err)
 		}
 		var vt int64
 		if !exist {
-			vt, err = mysql.GetVisitedTimesFromMySQL(eid)
+			vt, err = mysql.GetVisitedTimesFromMySQL(eids)
 			if err != nil {
 				return fmt.Errorf("mysql.GetVisitedTimesFromMySQL(eid) failed: %w", err)
 			}
 		}
 
-		if vt, err = tx.HIncrBy(visitedKey, eid, vt+scoreIncrement).Result(); err != nil {
+		if vt, err = tx.HIncrBy(visitedKey, eids, vt+scoreIncrement).Result(); err != nil {
 			return fmt.Errorf("tx.HIncrBy(key, eid, scoreIncrement).Result() failed: %w", err)
 		}
 
 		// 将访问的文章加入到集合中
-		if _, err = tx.SAdd(changeKey, eid).Result(); err != nil {
+		if _, err = tx.SAdd(changeKey, eids).Result(); err != nil {
 			return fmt.Errorf("tx.SAdd(key, eid).Result() failed: %w", err)
 		}
 

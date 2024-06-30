@@ -4,7 +4,6 @@ import (
 	"blog/dao/mysql"
 	"blog/dao/redis"
 	"blog/models"
-	"fmt"
 )
 
 // GetEssayData 得到文章数据
@@ -15,7 +14,7 @@ func GetEssayData(data *models.EssayData, id int) error {
 		return err
 	}
 	//从redis查数据
-	if data.VisitedTimes, err = redis.GetVisitedTimes(fmt.Sprintf("%d", data.Eid)); err != nil {
+	if data.VisitedTimes, err = redis.GetVisitedTimes(data.Id); err != nil {
 		return err
 	}
 	return nil
