@@ -66,3 +66,7 @@
 {"level":"ERROR","time":"2024-07-01T21:41:52.660+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
 {"level":"ERROR","time":"2024-07-01T21:44:49.968+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Content' Error:Field validation for 'Content' failed on the 'required' tag"}
 {"level":"ERROR","time":"2024-07-01T22:00:33.739+0800","caller":"controller/manager.go:123","msg":"logic.DeleteEssay(id) failed,err:","error":"没有找到该文章"}
+{"level":"ERROR","time":"2024-07-01T22:28:50.536+0800","caller":"controller/manager.go:123","msg":"logic.DeleteEssay(id) failed,err:","error":"no essay found with id 1392"}
+{"level":"ERROR","time":"2024-07-01T22:32:47.015+0800","caller":"controller/manager.go:123","msg":"logic.DeleteEssay(id) failed,err:","error":"no essay found with id 1391"}
+{"level":"ERROR","time":"2024-07-01T22:36:16.443+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Content' Error:Field validation for 'Content' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-07-01T22:36:20.916+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Content' Error:Field validation for 'Content' failed on the 'required' tag"}

@@ -76,5 +76,11 @@ func UpdateClassify(c *models.UpdateClassifyParams) (err error) {
 // DeleteEssay 删除文章逻辑
 func DeleteEssay(id int) error {
 	//从mysql里面删除该文章
+	if err := redis.DeleteEssay(id); err != nil {
+		return err
+	}
+
+	//删除redis中文章的相关数据
 	return mysql.DeleteEssay(id)
+
 }
