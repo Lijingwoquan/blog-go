@@ -22,6 +22,16 @@ type EssayParams struct {
 	Router       string `json:"router" binding:"required"`
 }
 
+type UpdateEssayMsgParams struct {
+	Name         string   `json:"name" db:"name" binding:"required"`
+	Introduction string   `json:"introduction" db:"introduction" binding:"required"`
+	Kind         string   `json:"kind" db:"kind" binding:"required"`
+	Router       string   `json:"router" db:"route" binding:"required"`
+	Content      string   `json:"content" db:"content" binding:"required"`
+	Id           int      `json:"id" db:"id" binding:"required"`
+	Keywords     []string `json:"keywords" binging:"omitempty"`
+}
+
 type UpdateKindParams struct {
 	Name string `json:"name" binding:"required" db:"name"`
 	Icon string `json:"icon" binding:"required" db:"icon"`

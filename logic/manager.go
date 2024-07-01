@@ -40,14 +40,15 @@ func CreateEssay(e *models.EssayParams) (err error) {
 }
 
 // UpdateEssayMsg 更新文章逻辑
-func UpdateEssayMsg(u *models.UpdateEssayMsg) error {
+func UpdateEssayMsg(u *models.UpdateEssayMsgParams) error {
 	//更新数据
-	return mysql.UpdateEssayMsg(u)
-}
-
-func UpdateEssayContent(u *models.UpdateEssayContent) error {
-	//更新数据
-	return mysql.UpdateEssayContent(u)
+	if err := mysql.UpdateEssayMsg(u); err != nil {
+		return err
+	}
+	iDAndKeywords := new(models.EssayIdAndKeyword)
+	iDAndKeywords.EssayId = u.Id
+	iDAndKeywords.Keywords = u.Keywords
+	return redis.SetEssayKeyword(iDAndKeywords)
 }
 
 // UpdateKind 更新总纲逻辑

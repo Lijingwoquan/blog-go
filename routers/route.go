@@ -32,7 +32,7 @@ func SetupRouter(mode string) *gin.Engine {
 		v1.GET("/essay", controller.ResponseDataAboutEssayHandler)
 	}
 
-	v2 := r.Group("/api/user")
+	v2 := r.Group("/api/manager")
 	{
 		v2.POST("/login", controller.LoginHandler)
 		//v2.POST("/signup", controller.SignupHandler)
@@ -46,12 +46,11 @@ func SetupRouter(mode string) *gin.Engine {
 		//文章
 		v3.POST("/addEssay", controller.AddEssayHandler)
 		v3.PUT("/updateEssayMsg", controller.UpdateEssayMSgHandler)
-		v3.PUT("/updateEssayContent", controller.UpdateEssayContentHandler)
 		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler)
 
 		//分类
-		v3.POST("/addClassify", controller.AddClassifyHandler)
 		v3.PUT("/updateKind", controller.UpdateKindHandler)
+		v3.POST("/addClassify", controller.AddClassifyHandler)
 		v3.PUT("/updateClassify", controller.UpdateClassifyHandler)
 	}
 	v3help := r.Group("/api/manager")
@@ -61,7 +60,6 @@ func SetupRouter(mode string) *gin.Engine {
 
 	v4 := r.Group("/api/keyword")
 	{
-		//v4.POST("/essayAddKeyword", controller.SetEssayKeywordHandler)
 		v4.POST("/search", controller.IncreaseSearchKeywordHandler)
 	}
 

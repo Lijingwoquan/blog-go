@@ -33,23 +33,10 @@ type DataAboutEssay struct {
 	Page         int    `json:"page"` //返回文章对应的页面 实现分页操作
 }
 
-type UpdateEssayMsg struct {
-	Name         string `json:"name" db:"name" binding:"required"`
-	Introduction string `json:"introduction" db:"introduction"`
-	Kind         string `json:"kind" db:"kind"`
-	Router       string `json:"router" db:"route"`
-	Id           int    `json:"id" db:"id" binding:"required"`
-}
-
-type UpdateEssayContent struct {
-	Id      int    `json:"id" db:"id" binding:"required"`
-	Content string `json:"content" db:"content" binding:"required"`
-}
-
 type EssayData struct {
 	Name         string `json:"name" db:"name"`
 	Kind         string `json:"kind" db:"kind"`
-	Id           int    `db:"id"`
+	Id           int    `json:"id" db:"id"`
 	Introduction string `json:"introduction" db:"introduction"`
 	Content      string `json:"content" db:"content"`
 	VisitedTimes int64  `json:"visitedTimes" db:"visitedTimes"`

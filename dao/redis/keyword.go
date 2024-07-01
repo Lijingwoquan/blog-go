@@ -50,7 +50,7 @@ func InitEssayKeyWord(GlobalEssayKeywordMap map[string][]string) (keySlice []str
 	return keySlice, err
 }
 
-func SetEssayKeyword(essayKeyword *models.EssayKeyword) (err error) {
+func SetEssayKeyword(essayKeyword *models.EssayIdAndKeyword) (err error) {
 	var eid int64
 	if eid, err = mysql.GetEssaySnowflakeID((*essayKeyword).EssayId); err != nil {
 		return err

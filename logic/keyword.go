@@ -7,11 +7,6 @@ import (
 	"fmt"
 )
 
-func SetEssayKeyword(essayDetail *models.EssayKeyword) (err error) {
-	err = redis.SetEssayKeyword(essayDetail)
-	return err
-}
-
 func checkKeywordExist(keyword string) (exist bool) {
 	fmt.Println(cache.GlobalEssayKeyword)
 	for _, value := range cache.GlobalEssayKeyword {

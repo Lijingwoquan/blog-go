@@ -92,12 +92,13 @@ func UpdateClassifyHandler(c *gin.Context) {
 
 func UpdateEssayMSgHandler(c *gin.Context) {
 	//1.获取参数
-	var data = new(models.UpdateEssayMsg)
+	var data = new(models.UpdateEssayMsgParams)
 	if err := c.ShouldBindJSON(data); err != nil {
 		zap.L().Error("c.ShouldBindJSON(data) failed", zap.Error(err))
 		ResponseError(c, CodeParamInvalid)
 		return
 	}
+
 	//2.业务处理
 	if err := logic.UpdateEssayMsg(data); err != nil {
 		zap.L().Error("mysql.UpdateEssay(data) failed", zap.Error(err))
@@ -108,23 +109,6 @@ func UpdateEssayMSgHandler(c *gin.Context) {
 	ResponseSuccess(c, updateEssaySuccess)
 }
 
-func UpdateEssayContentHandler(c *gin.Context) {
-	//1.获取参数
-	var data = new(models.UpdateEssayContent)
-	if err := c.ShouldBindJSON(data); err != nil {
-		zap.L().Error("c.ShouldBindJSON(data) failed", zap.Error(err))
-		ResponseError(c, CodeParamInvalid)
-		return
-	}
-	//2.业务处理
-	if err := logic.UpdateEssayContent(data); err != nil {
-		zap.L().Error("mysql.UpdateEssayContent(data) failed,err:", zap.Error(err))
-		ResponseError(c, CodeServeBusy)
-		return
-	}
-	//3.返回响应
-	ResponseSuccess(c, updateEssaySuccess)
-}
 func DeleteEssayHandler(c *gin.Context) {
 	//1.获取参数
 	idS := c.Query("id")

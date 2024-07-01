@@ -4,7 +4,7 @@ type Keyword struct {
 	Keyword string `json:"keyword"`
 }
 
-type EssayKeyword struct {
+type EssayIdAndKeyword struct {
 	EssayId  int      `json:"essayId" binging:"required"`
 	Keywords []string `json:"keywords" binding:"omitempty"`
 }

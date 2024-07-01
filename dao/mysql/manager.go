@@ -111,41 +111,19 @@ func getChineseTime() (string, error) {
 }
 
 // UpdateEssayMsg 更新文章基本信息
-func UpdateEssayMsg(data *models.UpdateEssayMsg) error {
+func UpdateEssayMsg(data *models.UpdateEssayMsgParams) error {
 	var err error
 	var formattedTime string
 	if formattedTime, err = getChineseTime(); err != nil {
 		return err
 	}
-	sqlStr := `UPDATE essay SET name= ?,kind = ? ,introduction=?,router = ?,updatedTime=? WHERE id = ?`
-	result, err := db.Exec(sqlStr, data.Name, data.Kind, data.Introduction, data.Router, formattedTime, data.Id)
+	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,introduction=?,router = ?,updatedTime=? WHERE id = ?`
+	result, err := db.Exec(sqlStr, data.Name, data.Kind, data.Content, data.Introduction, data.Router, formattedTime, data.Id)
 	if err != nil {
 		return err
 	}
 	var rowsAffected int64
 	if rowsAffected, err = result.RowsAffected(); rowsAffected == 0 {
-		return errors.New(essayNotExist)
-	}
-	return nil
-}
-
-// UpdateEssayContent 更新文章内容
-func UpdateEssayContent(data *models.UpdateEssayContent) error {
-	var err error
-	var formattedTime string
-	if formattedTime, err = getChineseTime(); err != nil {
-		return err
-	}
-	sqlStr := `UPDATE essay SET content=?,updatedTime=? WHERE id = ?`
-	result, err := db.Exec(sqlStr, data.Content, formattedTime, data.Id)
-	if err != nil {
-		return err
-	}
-	var rowsAffected int64
-	if rowsAffected, err = result.RowsAffected(); err != nil {
-		return err
-	}
-	if rowsAffected == 0 {
 		return errors.New(essayNotExist)
 	}
 	return nil
