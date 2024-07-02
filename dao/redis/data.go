@@ -11,14 +11,17 @@ const (
 	scoreIncrement = 1
 )
 
-func GetVisitedTimes(id int) (int64, error) {
+func InitVisitedTimes(eid int64) error {
+	pre := getRedisKey(KeyVisitedTimes)
+
+	_, err := client.HSet(pre, fmt.Sprintf("%d", eid), 0).Result()
+	return err
+}
+
+func GetVisitedTimes(eid int64) (int64, error) {
 	changeKey := getRedisKey(KeyChangeVisitedTimes)
 	visitedKey := getRedisKey(KeyVisitedTimes)
-	eid, err := mysql.GetEssaySnowflakeID(id)
 	eids := fmt.Sprintf("%d", eid)
-	if err != nil {
-		return 0, err
-	}
 	var finalVT int64
 
 	txf := func(tx *redis.Tx) error {
@@ -56,16 +59,11 @@ func GetVisitedTimes(id int) (int64, error) {
 	return finalVT, nil
 }
 
-func InitVisitedTimes(eid int64) error {
-	pre := getRedisKey(KeyVisitedTimes)
-
-	_, err := client.HSet(pre, fmt.Sprintf("%d", eid), 0).Result()
-	return err
-}
-
 func GetAndClearChangedVisitedTimes() (map[int64]int64, error) {
 	changeKey := getRedisKey(KeyChangeVisitedTimes)
 	visitedKey := getRedisKey(KeyVisitedTimes)
+
+	// 拿到changeTimes的id 然后再得到对应的visitedTimes
 
 	// 获取发生变化的 eids
 	eids, err := client.SMembers(changeKey).Result()

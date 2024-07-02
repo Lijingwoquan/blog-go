@@ -10,10 +10,6 @@ import (
 )
 
 func ResponseDataAboutIndexHandler(c *gin.Context) {
-	//加锁
-	cache.Mu.Lock()
-	defer cache.Mu.Unlock()
-
 	//得到各大分类种类以及相应的名称
 	ResponseSuccess(c, cache.GlobalDataAboutIndex)
 }

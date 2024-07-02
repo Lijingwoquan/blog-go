@@ -4,12 +4,10 @@ import (
 	"blog/help"
 	"blog/models"
 	"go.uber.org/zap"
-	"sync"
 )
 
 var (
 	GlobalDataAboutIndex = models.DataAboutIndex{}
-	Mu                   sync.RWMutex // 读写锁
 )
 
 func UpdateDataAboutIndex() {
@@ -33,9 +31,6 @@ func UpdateDataAboutIndex() {
 }
 
 func getDataAboutIndex() error {
-	Mu.Lock()
-	defer Mu.Unlock()
-
 	if err := help.ResponseDataAboutIndex(&GlobalDataAboutIndex); err != nil {
 		return err
 	}

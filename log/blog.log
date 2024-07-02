@@ -70,3 +70,5 @@
 {"level":"ERROR","time":"2024-07-01T22:32:47.015+0800","caller":"controller/manager.go:123","msg":"logic.DeleteEssay(id) failed,err:","error":"no essay found with id 1391"}
 {"level":"ERROR","time":"2024-07-01T22:36:16.443+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Content' Error:Field validation for 'Content' failed on the 'required' tag"}
 {"level":"ERROR","time":"2024-07-01T22:36:20.916+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Content' Error:Field validation for 'Content' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-07-01T22:49:34.902+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Content' Error:Field validation for 'Content' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-07-01T22:52:36.455+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Introduction' Error:Field validation for 'Introduction' failed on the 'required' tag"}

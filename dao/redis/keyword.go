@@ -9,13 +9,12 @@ import (
 )
 
 const (
-	year           = "year"
-	month          = "month"
-	week           = "week"
-	yearTime       = time.Hour * 24 * 7 * 12
-	monthTime      = time.Hour * 24 * 7 * 30
-	weekTime       = time.Hour * 24 * 7
-	ScoreIncrement = 1
+	year      = "year"
+	month     = "month"
+	week      = "week"
+	yearTime  = time.Hour * 24 * 7 * 12
+	monthTime = time.Hour * 24 * 7 * 30
+	weekTime  = time.Hour * 24 * 7
 )
 
 func InitEssayKeyWord(GlobalEssayKeywordMap map[string][]string) (keySlice []string, err error) {
@@ -31,7 +30,7 @@ func InitEssayKeyWord(GlobalEssayKeywordMap map[string][]string) (keySlice []str
 		// 使用 HGETALL 获取键的所有字段和值
 		members, err := client.SMembers(key).Result()
 		if err != nil {
-			return nil, fmt.Errorf("Error getting members for key %s: %w", key, err)
+			return nil, fmt.Errorf("error getting members for key %s: %w", key, err)
 		}
 		eidStr := strings.Split(key, ":")[3]
 
@@ -109,4 +108,32 @@ func IncreaseSearchKeyword(keyword string) (err error) {
 		return fmt.Errorf("failed to increase search keyword: %w", err)
 	}
 	return nil
+}
+
+func GetEssayKeywordsForIndex(e *[]models.DataAboutEssay) (err error) {
+	keyPre := getRedisKey(KeyEssayKeyword)
+	for i := range *e {
+		ids, err := mysql.GetEssaySnowflakeID((*e)[i].ID)
+		if err != nil {
+			return err
+		}
+		key := fmt.Sprintf("%s%d", keyPre, ids)
+		keywords, err := client.SMembers(key).Result()
+		if err != nil {
+			return err
+		}
+		(*e)[i].Keywords = keywords
+	}
+	return err
+}
+
+func GetEssayKeywordsForOne(e *models.EssayData) (err error) {
+	keyPre := getRedisKey(KeyEssayKeyword)
+	key := fmt.Sprintf("%s%d", keyPre, e.Eid)
+	keywords, err := client.SMembers(key).Result()
+	if err != nil {
+		return err
+	}
+	(*e).Keywords = keywords
+	return err
 }

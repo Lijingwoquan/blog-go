@@ -24,22 +24,25 @@ type DataAboutClassify struct {
 }
 
 type DataAboutEssay struct {
-	Name         string `json:"name" db:"name"`
-	Kind         string `json:"kind" db:"kind"`
-	Router       string `json:"router" db:"router"`
-	Introduction string `json:"introduction" db:"introduction"`
-	ID           int    `json:"id" db:"id"`
-	CreatedTime  string `json:"createdTime" db:"createdTime"`
-	Page         int    `json:"page"` //返回文章对应的页面 实现分页操作
+	Name         string   `json:"name" db:"name"`
+	Kind         string   `json:"kind" db:"kind"`
+	Router       string   `json:"router" db:"router"`
+	Introduction string   `json:"introduction" db:"introduction"`
+	ID           int      `json:"id" db:"id"`
+	CreatedTime  string   `json:"createdTime" db:"createdTime"`
+	Page         int      `json:"page"` //返回文章对应的页面 实现分页操作
+	Keywords     []string `json:"keywords"`
 }
 
 type EssayData struct {
-	Name         string `json:"name" db:"name"`
-	Kind         string `json:"kind" db:"kind"`
-	Id           int    `json:"id" db:"id"`
-	Introduction string `json:"introduction" db:"introduction"`
-	Content      string `json:"content" db:"content"`
-	VisitedTimes int64  `json:"visitedTimes" db:"visitedTimes"`
-	CreatedTime  string `json:"createdTime" db:"createdTime"`
-	UpdatedTime  string `json:"updatedTime" db:"updatedTime"`
+	Name         string   `json:"name" db:"name"`
+	Kind         string   `json:"kind" db:"kind"`
+	Id           int      `json:"id" db:"id"`
+	Introduction string   `json:"introduction" db:"introduction"`
+	Content      string   `json:"content" db:"content"`
+	VisitedTimes int64    `json:"visitedTimes" db:"visitedTimes"`
+	CreatedTime  string   `json:"createdTime" db:"createdTime"`
+	UpdatedTime  string   `json:"updatedTime" db:"updatedTime"`
+	Keywords     []string `json:"keywords"`
+	Eid          int64
 }

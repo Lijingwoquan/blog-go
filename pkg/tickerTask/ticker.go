@@ -9,7 +9,7 @@ import (
 
 const (
 	cleanInvalidToken = time.Hour * 24
-	saveVisitedTimes  = time.Hour * 4
+	saveVisitedTimes  = time.Hour * 24
 )
 
 func Init() {

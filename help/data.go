@@ -2,7 +2,9 @@ package help
 
 import (
 	"blog/dao/mysql"
+	"blog/dao/redis"
 	"blog/models"
+	"fmt"
 )
 
 const (
@@ -29,9 +31,9 @@ func ResponseDataAboutIndex(DataAboutIndex *models.DataAboutIndex) (err error) {
 	if err = getEssayDetail(essaysDetail); err != nil {
 		return
 	}
-
+	fmt.Println(essaysDetail)
 	//4. 整合classify和essay 使用 map 优化循环
-	var classifyAndEssayMap = make(map[string][]models.DataAboutEssay, 10)
+	var classifyAndEssayMap = make(map[string][]models.DataAboutEssay, len(*classifyDetails))
 	sortClassifyAndEssay(classifyAndEssayMap, classifyDetails, essaysDetail)
 
 	//5.整合Kind和Classify
@@ -67,8 +69,13 @@ func getClassifyAndDetails(c *[]models.DataAboutClassify) error {
 }
 
 // 3.查essayDetail
-func getEssayDetail(c *[]models.DataAboutEssay) error {
-	return mysql.GetDataAboutClassifyEssayMsg(c)
+func getEssayDetail(e *[]models.DataAboutEssay) error {
+	// 1.mysql中查数据
+	if err := mysql.GetDataAboutClassifyEssayMsg(e); err != nil {
+		return err
+	}
+	// 2.redis中查keywords
+	return redis.GetEssayKeywordsForIndex(e)
 }
 
 // 4.整合Kind和Classify
@@ -86,6 +93,7 @@ func sortClassifyAndEssay(classifyAndEssayMap map[string][]models.DataAboutEssay
 			Introduction: essay.Introduction,
 			ID:           essay.ID,
 			CreatedTime:  essay.CreatedTime,
+			Keywords:     essay.Keywords,
 		})
 	}
 	//为分类好的essay加上page
