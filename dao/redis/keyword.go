@@ -4,6 +4,7 @@ import (
 	"blog/dao/mysql"
 	"blog/models"
 	"fmt"
+	"github.com/go-redis/redis"
 	"strings"
 	"time"
 )
@@ -16,38 +17,6 @@ const (
 	monthTime = time.Hour * 24 * 7 * 30
 	weekTime  = time.Hour * 24 * 7
 )
-
-func InitEssayKeyWord(GlobalEssayKeywordMap map[string][]string) (keySlice []string, err error) {
-	pattern := "blog:essay:keyword*"
-	keys, err := client.Keys(pattern).Result()
-	if err != nil {
-		return nil, fmt.Errorf("client.Keys(pattern).Result() failed:%w", err)
-	}
-	// 使用 map 来实现去重
-	uniqueKeywords := make(map[string]struct{})
-
-	for _, key := range keys {
-		// 使用 HGETALL 获取键的所有字段和值
-		members, err := client.SMembers(key).Result()
-		if err != nil {
-			return nil, fmt.Errorf("error getting members for key %s: %w", key, err)
-		}
-		eidStr := strings.Split(key, ":")[3]
-
-		// 处理键的内容
-		GlobalEssayKeywordMap[eidStr] = members
-		// 将关键词添加到 uniqueKeywords map 中以实现去重
-		for _, keyword := range members {
-			uniqueKeywords[keyword] = struct{}{}
-		}
-	}
-	// 将去重后的关键词转换为切片
-	for keyword := range uniqueKeywords {
-		keySlice = append(keySlice, keyword)
-	}
-
-	return keySlice, err
-}
 
 func SetEssayKeyword(essayKeyword *models.EssayIdAndKeyword) (err error) {
 	var eid int64
@@ -80,34 +49,7 @@ func SetEssayKeyword(essayKeyword *models.EssayIdAndKeyword) (err error) {
 }
 
 func IncreaseSearchKeyword(keyword string) (err error) {
-	// 1.首先对关键词做去空格和小写化
-	initKeyword := strings.ToLower(strings.TrimSpace(keyword))
-
-	// 2.给每个关键词一个总的统计次数 分别实现 年 月 周 关键词统计
-	yearKey := fmt.Sprintf("%s%s:", getRedisKey(KeySearchKeyWordTimes), year)
-	monthKey := fmt.Sprintf("%s%s:", getRedisKey(KeySearchKeyWordTimes), month)
-	weekKey := fmt.Sprintf("%s%s:", getRedisKey(KeySearchKeyWordTimes), week)
-
-	// 3.用集合实现 --> 内置排序
-	pipe := client.Pipeline()
-
-	// 年统计
-	pipe.ZIncrBy(yearKey, scoreIncrement, initKeyword)
-	pipe.Expire(yearKey, yearTime)
-
-	// 月统计
-	pipe.ZIncrBy(monthKey, scoreIncrement, initKeyword)
-	pipe.Expire(monthKey, monthTime)
-
-	// 周统计
-	pipe.ZIncrBy(weekKey, scoreIncrement, initKeyword)
-	pipe.Expire(weekKey, weekTime)
-
-	// 执行管道命令
-	if _, err = pipe.Exec(); err != nil {
-		return fmt.Errorf("failed to increase search keyword: %w", err)
-	}
-	return nil
+	return SetYearMonthWeekTimesZoneForZset(keyword, KeyEssayKeyword, 1)
 }
 
 func GetEssayKeywordsForIndex(e *[]models.DataAboutEssay) (err error) {
@@ -136,4 +78,53 @@ func GetEssayKeywordsForOne(e *models.EssayData) (err error) {
 	}
 	(*e).Keywords = keywords
 	return err
+}
+
+func GetSearchKeywordRank(rankKind *models.KeywordRankKind) (err error) {
+	//	得到年月日的keywords的zset
+	yearKey := fmt.Sprintf("%s%s:", getRedisKey(KeySearchKeyWordTimes), year)
+	monthKey := fmt.Sprintf("%s%s:", getRedisKey(KeySearchKeyWordTimes), month)
+	weekKey := fmt.Sprintf("%s%s:", getRedisKey(KeySearchKeyWordTimes), week)
+
+	// 从每个zset中获取前10条数据
+	yearList, err := getTop10FromZSet(client, yearKey)
+	if err != nil {
+		return err
+	}
+
+	monthList, err := getTop10FromZSet(client, monthKey)
+	if err != nil {
+		return err
+	}
+
+	weekList, err := getTop10FromZSet(client, weekKey)
+	if err != nil {
+		return err
+	}
+
+	// 合并结果
+	*rankKind = models.KeywordRankKind{
+		Year:  yearList,
+		Month: monthList,
+		Week:  weekList,
+	}
+
+	return nil
+}
+
+func getTop10FromZSet(rdb *redis.Client, key string) ([]models.KeywordRankList, error) {
+	result, err := rdb.ZRevRangeWithScores(key, 0, 9).Result()
+	if err != nil {
+		return nil, err
+	}
+
+	var rankList []models.KeywordRankList
+	for _, z := range result {
+		rankList = append(rankList, models.KeywordRankList{
+			Keyword: z.Member.(string),
+			Times:   int(z.Score),
+		})
+	}
+
+	return rankList, nil
 }

@@ -5,24 +5,19 @@ import (
 	"sync"
 )
 
+const (
+	tickerTaskCount = 1
+)
+
 func Init() {
 	var wg sync.WaitGroup
-	errCh := make(chan error, 2) // 缓冲通道，避免goroutine泄露
+	errCh := make(chan error, tickerTaskCount) // 缓冲通道，避免goroutine泄露
 
 	// getDataAboutIndex
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
 		if err := getDataAboutIndex(); err != nil {
-			errCh <- err
-		}
-	}()
-
-	// initEssayKeyword
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		if err := initEssayKeyword(); err != nil {
 			errCh <- err
 		}
 	}()

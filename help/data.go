@@ -4,7 +4,6 @@ import (
 	"blog/dao/mysql"
 	"blog/dao/redis"
 	"blog/models"
-	"fmt"
 )
 
 const (
@@ -31,7 +30,6 @@ func ResponseDataAboutIndex(DataAboutIndex *models.DataAboutIndex) (err error) {
 	if err = getEssayDetail(essaysDetail); err != nil {
 		return
 	}
-	fmt.Println(essaysDetail)
 	//4. 整合classify和essay 使用 map 优化循环
 	var classifyAndEssayMap = make(map[string][]models.DataAboutEssay, len(*classifyDetails))
 	sortClassifyAndEssay(classifyAndEssayMap, classifyDetails, essaysDetail)

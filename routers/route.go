@@ -27,6 +27,7 @@ func SetupRouter(mode string) *gin.Engine {
 	r.Static("api/file", "/app/statics/file")
 
 	v1 := r.Group("/api/base")
+	v1.Use(middlewares.GetUserIp())
 	{
 		v1.GET("/index", controller.ResponseDataAboutIndexHandler)
 		v1.GET("/essay", controller.ResponseDataAboutEssayHandler)
@@ -61,6 +62,7 @@ func SetupRouter(mode string) *gin.Engine {
 	v4 := r.Group("/api/keyword")
 	{
 		v4.POST("/search", controller.IncreaseSearchKeywordHandler)
+		v4.GET("/getRank", controller.GetSearchKeywordRankHandel)
 	}
 
 	r.NoRoute(func(c *gin.Context) {
