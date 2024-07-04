@@ -129,3 +129,7 @@
 {"level":"ERROR","time":"2024-07-03T23:38:46.035+0800","caller":"controller/keyword.go:14","msg":"c.ShouldBindJSON(keyword) failed","error":"invalid character 'æ' looking for beginning of value"}
 {"level":"ERROR","time":"2024-07-03T23:39:35.992+0800","caller":"controller/keyword.go:14","msg":"c.ShouldBindJSON(keyword) failed","error":"invalid character 'æ' looking for beginning of value"}
 {"level":"ERROR","time":"2024-07-03T23:39:52.890+0800","caller":"controller/keyword.go:14","msg":"c.ShouldBindJSON(keyword) failed","error":"invalid character 'æ' looking for beginning of value"}
+{"level":"ERROR","time":"2024-07-04T17:24:48.555+0800","caller":"tickerTask/ticker.go:55","msg":"Task error","error":"xadada"}
+{"level":"ERROR","time":"2024-07-04T17:25:24.656+0800","caller":"tickerTask/ticker.go:55","msg":"Task error","error":"xadada"}
+{"level":"ERROR","time":"2024-07-04T17:25:24.661+0800","caller":"tickerTask/ticker.go:55","msg":"Task error","error":"xadada"}
+{"level":"ERROR","time":"2024-07-04T17:25:24.661+0800","caller":"tickerTask/ticker.go:55","msg":"Task error","error":"xadada"}

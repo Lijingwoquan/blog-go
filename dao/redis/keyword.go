@@ -4,18 +4,18 @@ import (
 	"blog/dao/mysql"
 	"blog/models"
 	"fmt"
-	"github.com/go-redis/redis"
 	"strings"
 	"time"
 )
 
 const (
-	year      = "year"
-	month     = "month"
-	week      = "week"
-	yearTime  = time.Hour * 24 * 7 * 12
-	monthTime = time.Hour * 24 * 7 * 30
-	weekTime  = time.Hour * 24 * 7
+	year                 = "year"
+	month                = "month"
+	week                 = "week"
+	yearTime             = time.Hour * 24 * 30 * 12
+	monthTime            = time.Hour * 24 * 30
+	weekTime             = time.Hour * 24 * 7
+	defaultIncreaseCount = 1
 )
 
 func SetEssayKeyword(essayKeyword *models.EssayIdAndKeyword) (err error) {
@@ -48,8 +48,9 @@ func SetEssayKeyword(essayKeyword *models.EssayIdAndKeyword) (err error) {
 	return nil
 }
 
-func IncreaseSearchKeyword(keyword string) (err error) {
-	return SetYearMonthWeekTimesZoneForZset(keyword, KeyEssayKeyword, 1)
+func IncreaseSearchKeyword(preKey string, keyword string) (err error) {
+	preKey = getRedisKey(preKey)
+	return SetYearMonthWeekTimesZoneForZset(preKey, keyword, defaultIncreaseCount)
 }
 
 func GetEssayKeywordsForIndex(e *[]models.DataAboutEssay) (err error) {
@@ -80,51 +81,12 @@ func GetEssayKeywordsForOne(e *models.EssayData) (err error) {
 	return err
 }
 
-func GetSearchKeywordRank(rankKind *models.KeywordRankKind) (err error) {
-	//	得到年月日的keywords的zset
-	yearKey := fmt.Sprintf("%s%s:", getRedisKey(KeySearchKeyWordTimes), year)
-	monthKey := fmt.Sprintf("%s%s:", getRedisKey(KeySearchKeyWordTimes), month)
-	weekKey := fmt.Sprintf("%s%s:", getRedisKey(KeySearchKeyWordTimes), week)
-
-	// 从每个zset中获取前10条数据
-	yearList, err := getTop10FromZSet(client, yearKey)
-	if err != nil {
-		return err
-	}
-
-	monthList, err := getTop10FromZSet(client, monthKey)
-	if err != nil {
-		return err
-	}
-
-	weekList, err := getTop10FromZSet(client, weekKey)
-	if err != nil {
-		return err
-	}
-
-	// 合并结果
-	*rankKind = models.KeywordRankKind{
-		Year:  yearList,
-		Month: monthList,
-		Week:  weekList,
-	}
-
-	return nil
+func GetSearchKeywordRank(rankKind *models.RankKind) (err error) {
+	preKey := getRedisKey(KeySearchKeyWordTimes)
+	return GetYearMonthWeekTimesZoneForZsetRank(rankKind, preKey)
 }
 
-func getTop10FromZSet(rdb *redis.Client, key string) ([]models.KeywordRankList, error) {
-	result, err := rdb.ZRevRangeWithScores(key, 0, 9).Result()
-	if err != nil {
-		return nil, err
-	}
-
-	var rankList []models.KeywordRankList
-	for _, z := range result {
-		rankList = append(rankList, models.KeywordRankList{
-			Keyword: z.Member.(string),
-			Times:   int(z.Score),
-		})
-	}
-
-	return rankList, nil
+func CleanLowerKeywordsZsetEveryMonth() error {
+	key := getRedisKey(KeySearchKeyWordTimes)
+	return CleanLowerZsetEveryMonth(key)
 }
