@@ -55,14 +55,17 @@ func SetupRouter(mode string) *gin.Engine {
 		v3.PUT("/updateClassify", controller.UpdateClassifyHandler)
 	}
 	v3help := r.Group("/api/manager")
+	v3help.Use(middlewares.JWTAuthMiddleware())
 	{
+		// 主页数据
 		v3help.POST("/uploadImg", controller.UploadImgHandler)
+		v3help.GET("/getKeywordsRank", controller.GetSearchKeywordRankHandel)
+		v3help.GET("/getUserVisitedCount", controller.GetUserIpCountHandel)
 	}
 
 	v4 := r.Group("/api/keyword")
 	{
 		v4.POST("/search", controller.IncreaseSearchKeywordHandler)
-		v4.GET("/getRank", controller.GetSearchKeywordRankHandel)
 	}
 
 	r.NoRoute(func(c *gin.Context) {

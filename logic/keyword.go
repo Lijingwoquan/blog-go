@@ -16,7 +16,7 @@ func IncreaseSearchKeyword(SearchKeyword *models.KeywordParam) (err error) {
 	return redis.IncreaseSearchKeyword(preKey, (*SearchKeyword).Keyword)
 }
 
-func GetSearchKeywordRank(rankKind *models.RankKind) (err error) {
+func GetSearchKeywordRank(rankKind *models.RankKindForZset) (err error) {
 	//	得到年月日的keywords的zset
 	return redis.GetSearchKeywordRank(rankKind)
 }

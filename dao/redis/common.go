@@ -11,9 +11,11 @@ const (
 	rankCount int64 = 10
 )
 
+// Zset
+
 func SetYearMonthWeekTimesZoneForZset(preKey string, param string, scoreIncrement float64) (err error) {
 	// 1.首先对关键词做去空格和小写化
-	initKeyword := strings.ToLower(strings.TrimSpace(param))
+	member := strings.ToLower(strings.TrimSpace(param))
 
 	// 2.给每个关键词一个总的统计次数 分别实现 年 月 周 关键词统计
 	yearKey := fmt.Sprintf("%s%s:", preKey, year)
@@ -24,25 +26,25 @@ func SetYearMonthWeekTimesZoneForZset(preKey string, param string, scoreIncremen
 	pipe := client.Pipeline()
 
 	// 年统计
-	pipe.ZIncrBy(yearKey, scoreIncrement, initKeyword)
+	pipe.ZIncrBy(yearKey, scoreIncrement, member)
 	pipe.Expire(yearKey, yearTime)
 
 	// 月统计
-	pipe.ZIncrBy(monthKey, scoreIncrement, initKeyword)
+	pipe.ZIncrBy(monthKey, scoreIncrement, member)
 	pipe.Expire(monthKey, monthTime)
 
 	// 周统计
-	pipe.ZIncrBy(weekKey, scoreIncrement, initKeyword)
+	pipe.ZIncrBy(weekKey, scoreIncrement, member)
 	pipe.Expire(weekKey, weekTime)
 
 	// 执行管道命令
 	if _, err = pipe.Exec(); err != nil {
-		return fmt.Errorf("failed to increase search keyword: %w", err)
+		return fmt.Errorf("failed to increase Zset score: %w", err)
 	}
 	return nil
 }
 
-func GetYearMonthWeekTimesZoneForZsetRank(rankKind *models.RankKind, preKey string) (err error) {
+func GetYearMonthWeekTimesZoneForZsetRank(rankKind *models.RankKindForZset, preKey string) (err error) {
 	//	得到年月日的keywords的zset
 	yearKey := fmt.Sprintf("%s%s:", preKey, year)
 	monthKey := fmt.Sprintf("%s%s:", preKey, month)
@@ -65,7 +67,7 @@ func GetYearMonthWeekTimesZoneForZsetRank(rankKind *models.RankKind, preKey stri
 	}
 
 	// 合并结果
-	*rankKind = models.RankKind{
+	*rankKind = models.RankKindForZset{
 		Year:  yearList,
 		Month: monthList,
 		Week:  weekList,
@@ -74,22 +76,94 @@ func GetYearMonthWeekTimesZoneForZsetRank(rankKind *models.RankKind, preKey stri
 	return nil
 }
 
-func getTopXFromZSet(rdb *redis.Client, key string, count int64) ([]models.RankList, error) {
+func getTopXFromZSet(rdb *redis.Client, key string, count int64) (models.RankListForZset, error) {
 	result, err := rdb.ZRevRangeWithScores(key, 0, count).Result()
 	if err != nil {
-		return nil, err
+		return models.RankListForZset{}, err
 	}
 
-	var rankList []models.RankList
+	var rankList models.RankListForZset
 	for _, z := range result {
-		rankList = append(rankList, models.RankList{
-			Keyword: z.Member.(string),
-			Times:   int(z.Score),
-		})
+		rankList.X = append(rankList.X, z.Member.(string))
+		rankList.Y = append(rankList.Y, int(z.Score))
 	}
-
 	return rankList, nil
 }
+
+// Set
+
+func SetYearMonthWeekTimesZoneForSet(preKey string, param string) (err error) {
+	// 1.首先对关键词做去空格和小写化
+	member := strings.ToLower(strings.TrimSpace(param))
+
+	// 2.给每个关键词一个总的统计次数 分别实现 年 月 周 关键词统计
+	yearKey := fmt.Sprintf("%s%s:", preKey, year)
+	monthKey := fmt.Sprintf("%s%s:", preKey, month)
+	weekKey := fmt.Sprintf("%s%s:", preKey, week)
+
+	// 3.用集合实现 --> 内置排序
+	pipe := client.Pipeline()
+
+	// 年统计
+	pipe.SAdd(yearKey, member)
+	pipe.Expire(yearKey, yearTime)
+
+	// 月统计
+	pipe.SAdd(monthKey, member)
+	pipe.Expire(monthKey, monthTime)
+
+	// 周统计
+	pipe.SAdd(weekKey, member)
+	pipe.Expire(weekKey, weekTime)
+
+	// 执行管道命令
+	if _, err = pipe.Exec(); err != nil {
+		return fmt.Errorf("failed to set member: %w", err)
+	}
+	return nil
+}
+
+func GetYearMonthWeekTimesZoneForSetCount(setKind *models.SetKind, preKey string) (err error) {
+	//	得到年月日的keywords的zset
+	yearKey := fmt.Sprintf("%s%s:", preKey, year)
+	monthKey := fmt.Sprintf("%s%s:", preKey, month)
+	weekKey := fmt.Sprintf("%s%s:", preKey, week)
+
+	// 从每个zset中获取前10条数据
+	yearCount, err := getCountFromSet(client, yearKey)
+	if err != nil {
+		return err
+	}
+
+	monthCount, err := getCountFromSet(client, monthKey)
+	if err != nil {
+		return err
+	}
+
+	weekCount, err := getCountFromSet(client, weekKey)
+	if err != nil {
+		return err
+	}
+
+	// 合并结果
+	*setKind = models.SetKind{
+		Year:  yearCount,
+		Month: monthCount,
+		Week:  weekCount,
+	}
+
+	return nil
+}
+
+func getCountFromSet(rdb *redis.Client, key string) (int64, error) {
+	count, err := rdb.SCard(key).Result()
+	if err != nil {
+		return 0, err
+	}
+	return count, nil
+}
+
+// ticker
 
 func SetFrequentZsetItemToSet(preKey string, item string) (err error) {
 	preKey = getRedisKey(preKey)

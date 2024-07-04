@@ -81,7 +81,7 @@ func GetEssayKeywordsForOne(e *models.EssayData) (err error) {
 	return err
 }
 
-func GetSearchKeywordRank(rankKind *models.RankKind) (err error) {
+func GetSearchKeywordRank(rankKind *models.RankKindForZset) (err error) {
 	preKey := getRedisKey(KeySearchKeyWordTimes)
 	return GetYearMonthWeekTimesZoneForZsetRank(rankKind, preKey)
 }
