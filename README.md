@@ -21,9 +21,9 @@
 
 - **后端**: Go, Gin, SQLx, Redis
 - **认证**: JSON Web Tokens (JWT)
-- **数据库**: MySQL, PostgreSQL (可配置)
+- **数据库**: MySQL
 - **缓存**: Redis
-- **部署**: Docker, Kubernetes (可选)
+- **部署**: Docker
 
 ## 快速开始
 
