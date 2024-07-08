@@ -10,6 +10,10 @@ import (
 	"strings"
 )
 
+const (
+	authFailedMsg = "需要登录"
+)
+
 // JWTAuthMiddleware 基于JWT的认证中间件
 func JWTAuthMiddleware() func(c *gin.Context) {
 	return func(c *gin.Context) {
@@ -21,7 +25,7 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		if authHeader == "" {
 			//controller.ResponseError(c, controller.CodeNeedLogin)
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"msg": "需要登录",
+				"msg": authFailedMsg,
 			})
 			c.Abort()
 			return
@@ -30,14 +34,14 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		parts := strings.SplitN(authHeader, " ", 2)
 		if !(len(parts) == 2 && parts[0] == "Bearer") {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"msg": "需要登录",
+				"msg": authFailedMsg,
 			})
 			c.Abort()
 			return
 		}
 		if err := JWTInvalidToken(parts[1]); err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"msg": "需要登录",
+				"msg": authFailedMsg,
 			})
 			c.Abort()
 			return
@@ -47,7 +51,7 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		mc, err := jwt.ParseToken(parts[1])
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"msg": "需要登录",
+				"msg": authFailedMsg,
 			})
 			c.Abort()
 			return
