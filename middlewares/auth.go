@@ -67,7 +67,7 @@ func JWTInvalidToken(token string) error {
 	return mysql.CheckTokenIfInvalid(token)
 }
 
-func GetUserIp() func(c *gin.Context) {
+func SaveUserIp() func(c *gin.Context) {
 	return func(c *gin.Context) {
 		redis.SaveUserIp(c.ClientIP())
 		c.Next() // 后续的处理请求的函数中 可以用过c.Get(CtxUserIDKey) 来获取当前请求的用户信息

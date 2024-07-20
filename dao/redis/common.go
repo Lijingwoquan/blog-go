@@ -5,14 +5,16 @@ import (
 	"fmt"
 	"github.com/go-redis/redis"
 	"strings"
+	"time"
 )
 
 const (
-	rankCount int64 = 10
+	rankCount int64 = 5
 )
 
-// Zset
+// Zset 有序集合
 
+// SetYearMonthWeekTimesZoneForZset 设置年月日相关Zset
 func SetYearMonthWeekTimesZoneForZset(preKey string, param string, scoreIncrement float64) (err error) {
 	// 1.首先对关键词做去空格和小写化
 	member := strings.ToLower(strings.TrimSpace(param))
@@ -22,20 +24,23 @@ func SetYearMonthWeekTimesZoneForZset(preKey string, param string, scoreIncremen
 	monthKey := fmt.Sprintf("%s%s:", preKey, month)
 	weekKey := fmt.Sprintf("%s%s:", preKey, week)
 
-	// 3.用集合实现 --> 内置排序
+	// 3.得到剩余时间
+	remainingTime := getRemainingTime()
+
+	// 4.用集合实现 --> 内置排序
 	pipe := client.Pipeline()
 
 	// 年统计
 	pipe.ZIncrBy(yearKey, scoreIncrement, member)
-	pipe.Expire(yearKey, yearTime)
+	pipe.Expire(yearKey, time.Duration(remainingTime.Year)*time.Second)
 
 	// 月统计
 	pipe.ZIncrBy(monthKey, scoreIncrement, member)
-	pipe.Expire(monthKey, monthTime)
+	pipe.Expire(monthKey, time.Duration(remainingTime.Month)*time.Second)
 
 	// 周统计
 	pipe.ZIncrBy(weekKey, scoreIncrement, member)
-	pipe.Expire(weekKey, weekTime)
+	pipe.Expire(weekKey, time.Duration(remainingTime.Week)*time.Second)
 
 	// 执行管道命令
 	if _, err = pipe.Exec(); err != nil {
@@ -44,6 +49,7 @@ func SetYearMonthWeekTimesZoneForZset(preKey string, param string, scoreIncremen
 	return nil
 }
 
+// GetYearMonthWeekTimesZoneForZsetRank 得到年月日相关Zset
 func GetYearMonthWeekTimesZoneForZsetRank(rankKind *models.RankKindForZset, preKey string) (err error) {
 	//	得到年月日的keywords的zset
 	yearKey := fmt.Sprintf("%s%s:", preKey, year)
@@ -76,6 +82,7 @@ func GetYearMonthWeekTimesZoneForZsetRank(rankKind *models.RankKindForZset, preK
 	return nil
 }
 
+// getTopXFromZSet 得到Zset排序
 func getTopXFromZSet(rdb *redis.Client, key string, count int64) (models.RankListForZset, error) {
 	result, err := rdb.ZRevRangeWithScores(key, 0, count).Result()
 	if err != nil {
@@ -90,8 +97,9 @@ func getTopXFromZSet(rdb *redis.Client, key string, count int64) (models.RankLis
 	return rankList, nil
 }
 
-// Set
+// Set 无序集合
 
+// SetYearMonthWeekTimesZoneForSet 设置年月日相关set
 func SetYearMonthWeekTimesZoneForSet(preKey string, param string) (err error) {
 	// 1.首先对关键词做去空格和小写化
 	member := strings.ToLower(strings.TrimSpace(param))
@@ -101,20 +109,23 @@ func SetYearMonthWeekTimesZoneForSet(preKey string, param string) (err error) {
 	monthKey := fmt.Sprintf("%s%s:", preKey, month)
 	weekKey := fmt.Sprintf("%s%s:", preKey, week)
 
-	// 3.用集合实现 --> 内置排序
+	// 3.得到剩余时间
+	remainingTime := getRemainingTime()
+
+	// 4.用集合实现 --> 内置排序
 	pipe := client.Pipeline()
 
 	// 年统计
 	pipe.SAdd(yearKey, member)
-	pipe.Expire(yearKey, yearTime)
+	pipe.Expire(yearKey, time.Duration(remainingTime.Year)*time.Second)
 
 	// 月统计
 	pipe.SAdd(monthKey, member)
-	pipe.Expire(monthKey, monthTime)
+	pipe.Expire(monthKey, time.Duration(remainingTime.Month)*time.Second)
 
 	// 周统计
 	pipe.SAdd(weekKey, member)
-	pipe.Expire(weekKey, weekTime)
+	pipe.Expire(weekKey, time.Duration(remainingTime.Week)*time.Second)
 
 	// 执行管道命令
 	if _, err = pipe.Exec(); err != nil {
@@ -123,6 +134,7 @@ func SetYearMonthWeekTimesZoneForSet(preKey string, param string) (err error) {
 	return nil
 }
 
+// GetYearMonthWeekTimesZoneForSetCount 得到年月日相关set
 func GetYearMonthWeekTimesZoneForSetCount(setKind *models.SetKind, preKey string) (err error) {
 	//	得到年月日的keywords的zset
 	yearKey := fmt.Sprintf("%s%s:", preKey, year)
@@ -155,6 +167,7 @@ func GetYearMonthWeekTimesZoneForSetCount(setKind *models.SetKind, preKey string
 	return nil
 }
 
+// getCountFromSet 得到set的成员值
 func getCountFromSet(rdb *redis.Client, key string) (int64, error) {
 	count, err := rdb.SCard(key).Result()
 	if err != nil {
@@ -170,6 +183,7 @@ func SetFrequentZsetItemToSet(preKey string, item string) (err error) {
 	return client.SAdd(preKey, item).Err()
 }
 
+// CleanLowerZsetEveryMonth 删除不存在于集合中的低频元素
 func CleanLowerZsetEveryMonth(key string) error {
 	setMembers, err := client.SMembers(key).Result()
 	if err != nil {
@@ -201,4 +215,36 @@ func CleanLowerZsetEveryMonth(key string) error {
 	}
 
 	return nil
+}
+
+type RemainingTime struct {
+	Year  int64 // 秒
+	Month int64 // 秒
+	Week  int64 // 秒
+}
+
+func getRemainingTime() RemainingTime {
+	shanghaiLocation, err := time.LoadLocation("Asia/Shanghai")
+	if err != nil {
+		shanghaiLocation = time.Local
+	}
+
+	now := time.Now().In(shanghaiLocation)
+	currentYear, currentMonth, currentDay := now.Date()
+
+	endOfYear := time.Date(currentYear+1, time.January, 1, 0, 0, 0, 0, shanghaiLocation)
+	firstOfNextMonth := time.Date(currentYear, currentMonth+1, 1, 0, 0, 0, 0, shanghaiLocation)
+
+	daysUntilEndOfWeek := time.Saturday - now.Weekday()
+	if daysUntilEndOfWeek <= 0 {
+		daysUntilEndOfWeek += 7
+	}
+	endOfWeek := time.Date(currentYear, currentMonth, currentDay, 23, 59, 59, 999999999, shanghaiLocation)
+	endOfWeek = endOfWeek.Add(time.Duration(daysUntilEndOfWeek) * 24 * time.Hour)
+
+	return RemainingTime{
+		Year:  int64(endOfYear.Sub(now).Seconds()),
+		Month: int64(firstOfNextMonth.Sub(now).Seconds()),
+		Week:  int64(endOfWeek.Sub(now).Seconds()),
+	}
 }

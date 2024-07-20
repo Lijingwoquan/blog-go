@@ -5,16 +5,12 @@ import (
 	"blog/models"
 	"fmt"
 	"strings"
-	"time"
 )
 
 const (
 	year                 = "year"
 	month                = "month"
 	week                 = "week"
-	yearTime             = time.Hour * 24 * 30 * 12
-	monthTime            = time.Hour * 24 * 30
-	weekTime             = time.Hour * 24 * 7
 	defaultIncreaseCount = 1
 )
 

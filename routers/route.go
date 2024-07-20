@@ -27,7 +27,7 @@ func SetupRouter(mode string) *gin.Engine {
 	r.Static("api/file", "/app/statics/file")
 
 	v1 := r.Group("/api/base")
-	v1.Use(middlewares.GetUserIp())
+	v1.Use(middlewares.SaveUserIp())
 	{
 		v1.GET("/index", controller.ResponseDataAboutIndexHandler)
 		v1.GET("/essay", controller.ResponseDataAboutEssayHandler)

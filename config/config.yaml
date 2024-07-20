@@ -15,7 +15,7 @@ log:
 mysql:
   host: "127.0.0.1"
   username: "root"
-  password: "..Lzh20050807.."
+  password: "123"
   port: "3306"
   dbname: "blog"
   max_open_con: 200

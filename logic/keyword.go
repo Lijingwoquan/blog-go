@@ -8,6 +8,7 @@ import (
 func IncreaseSearchKeyword(SearchKeyword *models.KeywordParam) (err error) {
 	preKey := redis.KeySearchKeyWordTimes
 	//向redis设置对应的hash
+	// 设置搜索较为频繁的关键词 --> 用于过滤删除低频关键词
 	if err = redis.SetFrequentZsetItemToSet(preKey, SearchKeyword.Keyword); err != nil {
 		return err
 	}
