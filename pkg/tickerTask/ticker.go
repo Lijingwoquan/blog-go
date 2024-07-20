@@ -11,7 +11,7 @@ import (
 const (
 	cleanInvalidToken       = time.Hour * 24
 	saveVisitedTimes        = time.Hour * 24
-	cleanLowFrequentKeyword = time.Second * 5
+	cleanLowFrequentKeyword = time.Hour * 24 * 30
 	taskCount               = 3
 )
 

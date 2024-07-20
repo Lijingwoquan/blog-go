@@ -83,6 +83,5 @@ func GetSearchKeywordRank(rankKind *models.RankKindForZset) (err error) {
 }
 
 func CleanLowerKeywordsZsetEveryMonth() error {
-	key := getRedisKey(KeySearchKeyWordTimes)
-	return CleanLowerZsetEveryMonth(key)
+	return CleanLowerZsetEveryMonth()
 }

@@ -178,39 +178,31 @@ func getCountFromSet(rdb *redis.Client, key string) (int64, error) {
 
 // ticker
 
-func SetFrequentZsetItemToSet(preKey string, item string) (err error) {
-	preKey = getRedisKey(preKey)
-	return client.SAdd(preKey, item).Err()
-}
-
-// CleanLowerZsetEveryMonth 删除不存在于集合中的低频元素
-func CleanLowerZsetEveryMonth(key string) error {
-	setMembers, err := client.SMembers(key).Result()
-	if err != nil {
-		return err
-	}
-	//从年中删除该keyword
+// CleanLowerZsetEveryMonth 删除低频元素
+func CleanLowerZsetEveryMonth() error {
 	preKey := getRedisKey(KeySearchKeyWordTimes)
 	yearKey := fmt.Sprintf("%s%s:", preKey, year)
 
-	zsetMembers, err := client.ZRange(yearKey, 0, -1).Result()
+	// 获取分数小于等于5的成员
+	lowFrequentMembers, err := client.ZRangeByScoreWithScores(yearKey, redis.ZRangeBy{
+		Min: "-inf",
+		Max: "5",
+	}).Result()
+
 	if err != nil {
-		return err
-	}
-	setMap := make(map[string]struct{}, len(setMembers))
-	for _, member := range setMembers {
-		setMap[member] = struct{}{}
-	}
-	var toDelete []string
-	for _, member := range zsetMembers {
-		if _, exists := setMap[member]; !exists {
-			toDelete = append(toDelete, member)
-		}
+		return fmt.Errorf("failed to get members with score <= 5 from %s: %w", yearKey, err)
 	}
 
-	if len(toDelete) > 0 {
-		if err = client.ZRem(yearKey, toDelete).Err(); err != nil {
-			return err
+	if len(lowFrequentMembers) > 0 {
+		// 提取成员名称
+		var membersToRemove []interface{}
+		for _, z := range lowFrequentMembers {
+			membersToRemove = append(membersToRemove, z.Member)
+		}
+
+		// 删除这些成员
+		if err = client.ZRem(yearKey, membersToRemove...).Err(); err != nil {
+			return fmt.Errorf("failed to remove low frequent members from %s: %w", yearKey, err)
 		}
 	}
 
