@@ -29,7 +29,6 @@ type DataAboutEssay struct {
 	Introduction string   `json:"introduction" db:"introduction"`
 	ID           int      `json:"id" db:"id"`
 	CreatedTime  string   `json:"createdTime" db:"createdTime"`
-	Page         int      `json:"page"` //返回文章对应的页面 实现分页操作
 	Keywords     []string `json:"keywords"`
 }
 

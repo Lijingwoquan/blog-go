@@ -43,3 +43,9 @@ type UpdateClassifyParams struct {
 	Router string `json:"router" binding:"required" db:"router"`
 	ID     int    `json:"id" binding:"required" db:"id"`
 }
+
+type EssayQuery struct {
+	Page     int
+	PageSize int
+	Classify string
+}

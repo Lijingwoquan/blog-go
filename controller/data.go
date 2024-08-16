@@ -2,7 +2,6 @@ package controller
 
 import (
 	"blog/cache"
-	"blog/dao/mysql"
 	"blog/logic"
 	"blog/models"
 	"fmt"
@@ -11,11 +10,37 @@ import (
 	"strconv"
 )
 
-func ResponseDataAboutIndexHandler(c *gin.Context) {
-	p := c.Query("page")
-	fmt.Println(p)
-	//得到各大分类种类以及相应的名称
+func ResponseDataAboutIndexAsideHandler(c *gin.Context) {
+	if cache.Error != nil {
+		ResponseError(c, CodeServeBusy)
+	}
 	ResponseSuccess(c, cache.GlobalDataAboutIndex)
+}
+
+func ResponseDataAboutIndexHandler(c *gin.Context) {
+	query := models.EssayQuery{}
+	page64, _ := strconv.ParseInt(c.Query("page"), 10, 64)
+	if page64 == 0 {
+		page64 = 1
+	}
+	query.Page = int(page64)
+
+	pageSize64, _ := strconv.ParseInt(c.Query("pageSize"), 10, 64)
+	if pageSize64 == 0 {
+		pageSize64 = 5
+	}
+	query.PageSize = int(pageSize64)
+
+	query.Classify = c.Query("classify")
+
+	fmt.Println(query.Classify)
+	var essayList = new([]models.DataAboutEssay)
+	if err := logic.GetDataAboutClassifyEssayMsg(essayList, query); err != nil {
+		zap.L().Error("logic.GetDataAboutClassifyEssayMsg(essayList) failed", zap.Error(err))
+		ResponseError(c, CodeServeBusy)
+	}
+	//得到各大分类种类以及相应的名称
+	ResponseSuccess(c, essayList)
 }
 
 func ResponseDataAboutEssayHandler(c *gin.Context) {
@@ -37,48 +62,4 @@ func ResponseDataAboutEssayHandler(c *gin.Context) {
 	}
 	//3.返回响应
 	ResponseSuccess(c, essay)
-}
-
-func ResponseDataAboutIndexAsideHandler(c *gin.Context) {
-	if cache.Error != nil {
-		ResponseError(c, CodeServeBusy)
-	}
-	ResponseSuccess(c, cache.GlobalDataAboutIndex)
-}
-
-// 1.查kind和icon
-func getKindAndIcon(k *[]models.DataAboutKind) error {
-	return mysql.GetDataAboutKind(k)
-}
-
-// 2.查classifyDetails
-func getClassifyAndDetails(c *[]models.DataAboutClassify) error {
-	//得到了所有的分类
-	return mysql.GetDataAboutClassifyDetails(c)
-}
-
-// 3.整合kind数据和classify数据
-func sortIndexData(k *[]models.DataAboutKind, c *[]models.DataAboutClassify) *models.DataAboutIndex {
-	var indexData = models.DataAboutIndex{}
-	var indexDataMenu = make([]models.DataAboutIndexMenu, len(*k))
-
-	var kindMap = make(map[string][]models.DataAboutKind)
-	var kindAndClassifyMap = make(map[string][]models.DataAboutClassify)
-
-	// 自下而上 --> 先遍历c 然后
-	for _, classify := range *c {
-		kindAndClassifyMap[classify.Kind] = append(kindAndClassifyMap[classify.Name], classify)
-	}
-
-	for i, kind := range *k {
-		indexDataMenu[i].DataAboutKind = kind
-		kindMap[kind.ClassifyKind] = append(kindMap[kind.ClassifyKind], kind)
-	}
-
-	for i, kind := range *k {
-		indexDataMenu[i].Classify = kindAndClassifyMap[kind.ClassifyKind]
-	}
-
-	indexData.DataAboutIndexMenu = indexDataMenu
-	return &indexData
 }

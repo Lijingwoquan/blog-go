@@ -24,3 +24,7 @@ func GetEssayData(data *models.EssayData, id int) error {
 	}
 	return nil
 }
+
+func GetDataAboutClassifyEssayMsg(data *[]models.DataAboutEssay, query models.EssayQuery) error {
+	return mysql.GetDataAboutClassifyEssayMsg(data, query)
+}

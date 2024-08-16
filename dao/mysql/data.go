@@ -24,9 +24,28 @@ func GetDataAboutClassifyDetails(data *[]models.DataAboutClassify) error {
 	return db.Select(data, sqlStr)
 }
 
-func GetDataAboutClassifyEssayMsg(data *[]models.DataAboutEssay) error {
-	sqlStr := `SELECT name,kind,router,introduction,id,createdTime FROM essay WHERE name!='init'  ORDER BY id DESC`
-	return db.Select(data, sqlStr)
+const pageMaxNum = 5
+
+func GetDataAboutClassifyEssayMsg(data *[]models.DataAboutEssay, query models.EssayQuery) error {
+	// 计算偏移量
+	offset := (query.Page - 1) * query.PageSize
+
+	// 使用 LIMIT 和 OFFSET 实现分页
+
+	sqlStr1 := `SELECT name, kind, router, introduction, id, createdTime 
+               FROM essay 
+               WHERE name!='init' AND kind = ?
+               ORDER BY id DESC 
+               LIMIT ? OFFSET ?`
+	sqlStr2 := `SELECT name, kind, router, introduction, id, createdTime 
+               FROM essay 
+               WHERE name!='init' 
+               ORDER BY id DESC 
+               LIMIT ? OFFSET ?`
+	if query.Classify != "" {
+		return db.Select(data, sqlStr1, query.Classify, query.PageSize, offset)
+	}
+	return db.Select(data, sqlStr2, query.PageSize, offset)
 }
 
 func GetEssayData(data *models.EssayData, id int) error {
