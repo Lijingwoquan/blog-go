@@ -16,11 +16,10 @@ type DataAboutKind struct {
 }
 
 type DataAboutClassify struct {
-	Kind   string           `json:"kind" db:"kind"`
-	Name   string           `json:"name"  db:"name"`
-	Router string           `json:"router" db:"router"`
-	ID     int              `json:"id" db:"id"`
-	Essay  []DataAboutEssay `json:"essay" db:"name"`
+	Kind   string `json:"kind" db:"kind"`
+	Name   string `json:"name"  db:"name"`
+	Router string `json:"router" db:"router"`
+	ID     int    `json:"id" db:"id"`
 }
 
 type DataAboutEssay struct {

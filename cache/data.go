@@ -8,6 +8,7 @@ import (
 
 var (
 	GlobalDataAboutIndex = models.DataAboutIndex{}
+	Error                error
 )
 
 func UpdateDataAboutIndex() {
@@ -31,8 +32,8 @@ func UpdateDataAboutIndex() {
 }
 
 func getDataAboutIndex() error {
-	if err := help.ResponseDataAboutIndex(&GlobalDataAboutIndex); err != nil {
-		return err
+	if Error = help.ResponseDataAboutIndex(&GlobalDataAboutIndex); Error != nil {
+		return Error
 	}
 	return nil
 }

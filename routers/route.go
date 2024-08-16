@@ -26,10 +26,15 @@ func SetupRouter(mode string) *gin.Engine {
 	r.Static("api/img", "/app/statics/img")
 	r.Static("api/file", "/app/statics/file")
 
-	v1 := r.Group("/api/base")
-	v1.Use(middlewares.SaveUserIp())
+	v0 := r.Group("/api/base")
+	v0.Use(middlewares.SaveUserIp())
 	{
-		v1.GET("/index", controller.ResponseDataAboutIndexHandler)
+		v0.GET("/index", controller.ResponseDataAboutIndexAsideHandler)
+	}
+
+	v1 := r.Group("/api/base")
+	{
+		v1.GET("/essay_list", controller.ResponseDataAboutIndexHandler)
 		v1.GET("/essay", controller.ResponseDataAboutEssayHandler)
 	}
 

@@ -24,3 +24,5 @@
 {"level":"ERROR","time":"2024-07-20T23:45:11.553+0800","caller":"tickerTask/ticker.go:57","msg":"Task error","error":"key blog:keyword:searchTimes: does not exist"}
 {"level":"ERROR","time":"2024-07-20T23:46:14.958+0800","caller":"tickerTask/ticker.go:57","msg":"Task error","error":"key blog:keyword:searchTimes: does not exist"}
 {"level":"ERROR","time":"2024-07-20T23:47:30.161+0800","caller":"tickerTask/ticker.go:57","msg":"Task error","error":"key blog:keyword:searchTimes: does not exist"}
+{"level":"ERROR","time":"2024-08-06T00:00:45.286+0800","caller":"controller/user.go:47","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-08-06T00:00:49.091+0800","caller":"controller/user.go:47","msg":"logic.Login() failed","error":"sql: no rows in result set"}
