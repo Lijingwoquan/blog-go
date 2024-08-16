@@ -4,7 +4,6 @@ import (
 	"blog/cache"
 	"blog/logic"
 	"blog/models"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"strconv"
@@ -33,14 +32,14 @@ func ResponseDataAboutIndexHandler(c *gin.Context) {
 
 	query.Classify = c.Query("classify")
 
-	fmt.Println(query.Classify)
-	var essayList = new([]models.DataAboutEssay)
-	if err := logic.GetDataAboutClassifyEssayMsg(essayList, query); err != nil {
+	var essayListAndPage = new(models.DataAboutEssayListAndPage)
+	essayListAndPage.EssayList = new([]models.DataAboutEssay)
+	if err := logic.GetDataAboutClassifyEssayMsg(essayListAndPage, query); err != nil {
 		zap.L().Error("logic.GetDataAboutClassifyEssayMsg(essayList) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 	}
 	//得到各大分类种类以及相应的名称
-	ResponseSuccess(c, essayList)
+	ResponseSuccess(c, essayListAndPage)
 }
 
 func ResponseDataAboutEssayHandler(c *gin.Context) {

@@ -24,9 +24,7 @@ func GetDataAboutClassifyDetails(data *[]models.DataAboutClassify) error {
 	return db.Select(data, sqlStr)
 }
 
-const pageMaxNum = 5
-
-func GetDataAboutClassifyEssayMsg(data *[]models.DataAboutEssay, query models.EssayQuery) error {
+func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query models.EssayQuery) error {
 	// 计算偏移量
 	offset := (query.Page - 1) * query.PageSize
 
@@ -43,9 +41,19 @@ func GetDataAboutClassifyEssayMsg(data *[]models.DataAboutEssay, query models.Es
                ORDER BY id DESC 
                LIMIT ? OFFSET ?`
 	if query.Classify != "" {
-		return db.Select(data, sqlStr1, query.Classify, query.PageSize, offset)
+		if err := db.Select(data.EssayList, sqlStr1, query.Classify, query.PageSize, offset); err != nil {
+			return err
+		}
 	}
-	return db.Select(data, sqlStr2, query.PageSize, offset)
+	if err := db.Select(data.EssayList, sqlStr2, query.PageSize, offset); err != nil {
+		return err
+	}
+	// 计算总页数（向上取整）
+	totalItems := len(*data.EssayList)
+	totalPages := (totalItems + query.PageSize - 1) / query.PageSize
+	//query.PageSize - 1) / query.PageSize 产生的结果加上任何不满分页值都会>=1 从而实现向上取整
+	data.TotalPage = totalPages
+	return nil
 }
 
 func GetEssayData(data *models.EssayData, id int) error {

@@ -26,3 +26,6 @@
 {"level":"ERROR","time":"2024-07-20T23:47:30.161+0800","caller":"tickerTask/ticker.go:57","msg":"Task error","error":"key blog:keyword:searchTimes: does not exist"}
 {"level":"ERROR","time":"2024-08-06T00:00:45.286+0800","caller":"controller/user.go:47","msg":"logic.Login() failed","error":"sql: no rows in result set"}
 {"level":"ERROR","time":"2024-08-06T00:00:49.091+0800","caller":"controller/user.go:47","msg":"logic.Login() failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-08-16T18:50:35.692+0800","caller":"controller/data.go:38","msg":"logic.GetDataAboutClassifyEssayMsg(essayList) failed","error":"expected slice but got struct"}
+{"level":"ERROR","time":"2024-08-16T18:51:21.759+0800","caller":"controller/data.go:38","msg":"logic.GetDataAboutClassifyEssayMsg(essayList) failed","error":"must pass a pointer, not a value, to StructScan destination"}
+{"level":"ERROR","time":"2024-08-16T18:52:09.301+0800","caller":"controller/data.go:38","msg":"logic.GetDataAboutClassifyEssayMsg(essayList) failed","error":"nil pointer passed to StructScan destination"}

@@ -22,6 +22,11 @@ type DataAboutClassify struct {
 	ID     int    `json:"id" db:"id"`
 }
 
+type DataAboutEssayListAndPage struct {
+	EssayList *[]DataAboutEssay `json:"essayList"`
+	TotalPage int               `json:"totalPage"`
+}
+
 type DataAboutEssay struct {
 	Name         string   `json:"name" db:"name"`
 	Kind         string   `json:"kind" db:"kind"`
