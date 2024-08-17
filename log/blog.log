@@ -129,3 +129,23 @@
 {"level":"ERROR","time":"2024-08-17T14:54:22.205+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
 {"level":"ERROR","time":"2024-08-17T14:54:31.478+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
 {"level":"ERROR","time":"2024-08-17T14:59:32.525+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Content' Error:Field validation for 'Content' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-08-17T19:36:50.416+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:11:26.880+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:11:30.821+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:11:35.325+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:12:15.880+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:12:44.056+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:13:11.294+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:13:35.309+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:13:48.283+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:13:54.311+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:14:01.398+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:15:00.104+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:15:25.300+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:21:34.649+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:22:05.832+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:22:09.672+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:22:31.593+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T21:38:58.964+0800","caller":"controller/keyword.go:16","msg":"c.ShouldBindJSON(keyword) failed","error":"invalid character 'a' looking for beginning of value"}
+{"level":"ERROR","time":"2024-08-17T21:39:19.272+0800","caller":"controller/keyword.go:16","msg":"c.ShouldBindJSON(keyword) failed","error":"invalid character 'a' looking for beginning of value"}
+{"level":"ERROR","time":"2024-08-17T21:39:28.771+0800","caller":"controller/keyword.go:16","msg":"c.ShouldBindJSON(keyword) failed","error":"invalid character 'a' looking for beginning of value"}

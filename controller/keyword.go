@@ -22,9 +22,10 @@ func IncreaseSearchKeywordHandler(c *gin.Context) {
 		ResponseError(c, CodeServeBusy)
 		return
 	}
-
 	//3.返回响应
-	ResponseSuccess(c, nil)
+	var essayList = new([]models.DataAboutEssay)
+	logic.GetEssayListByKeyword(essayList, keyword)
+	ResponseSuccess(c, essayList)
 }
 
 func GetSearchKeywordRankHandel(c *gin.Context) {

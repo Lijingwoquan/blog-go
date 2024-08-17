@@ -36,8 +36,8 @@ type DataAboutEssay struct {
 	Introduction  string   `json:"introduction" db:"introduction"`
 	ID            int      `json:"id" db:"id"`
 	CreatedTime   string   `json:"createdTime,omitempty" db:"createdTime"`
-	Keywords      []string `json:"keywords"`
-	ComplexRouter string   `json:"complexRouter"`
+	Keywords      []string `json:"keywords,omitempty"`
+	ComplexRouter string   `json:"complexRouter,omitempty"`
 }
 
 //文章查询相关
