@@ -29,7 +29,7 @@ func SetupRouter(mode string) *gin.Engine {
 	v0 := r.Group("/api/base")
 	v0.Use(middlewares.SaveUserIp())
 	{
-		v0.GET("/index", controller.ResponseDataAboutIndexAsideHandler)
+		v0.GET("/index", controller.ResponseDataAboutIndexHandler)
 	}
 
 	v1 := r.Group("/api/base")

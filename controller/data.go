@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func ResponseDataAboutIndexAsideHandler(c *gin.Context) {
+func ResponseDataAboutIndexHandler(c *gin.Context) {
 	if cache.Error != nil {
 		ResponseError(c, CodeServeBusy)
 	}
@@ -45,8 +45,8 @@ func ResponseDataAboutEssayListHandler(c *gin.Context) {
 
 func ResponseDataAboutEssayHandler(c *gin.Context) {
 	//1.参数处理
-	query := c.Query("id")
-	id, err := strconv.Atoi(query)
+	queryID := c.Query("id")
+	id, err := strconv.Atoi(queryID)
 	if err != nil {
 		zap.L().Error("strconv.Atoi(query) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)

@@ -52,6 +52,7 @@ func IncreaseSearchKeyword(preKey string, keyword string) (err error) {
 func GetEssayKeywordsForIndex(e *[]models.DataAboutEssay) (err error) {
 	keyPre := getRedisKey(KeyEssayKeyword)
 	for i := range *e {
+
 		ids, err := mysql.GetEssaySnowflakeID((*e)[i].ID)
 		if err != nil {
 			return err

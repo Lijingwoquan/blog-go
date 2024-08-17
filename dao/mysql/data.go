@@ -72,8 +72,8 @@ func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query 
 	return nil
 }
 
-func GetAllEssay(data *[]models.DataAboutEssayRouter) error {
-	sqlStr := `SELECT  kind, router, id 
+func GetAllEssay(data *[]models.DataAboutEssay) error {
+	sqlStr := `SELECT  name, kind, router, introduction, id 
                FROM essay 
                WHERE name!='init'
                ORDER BY id DESC`

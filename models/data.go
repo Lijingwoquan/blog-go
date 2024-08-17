@@ -3,8 +3,8 @@ package models
 // index返回数据相关
 
 type DataAboutIndex struct {
-	DataAboutIndexMenu []DataAboutIndexMenu   `json:"dataAboutIndexMenu"`
-	EssayRouterList    []DataAboutEssayRouter `json:"essayRouterList"`
+	DataAboutIndexMenu []DataAboutIndexMenu `json:"dataAboutIndexMenu"`
+	EssayList          []DataAboutEssay     `json:"essayList"`
 }
 type DataAboutIndexMenu struct {
 	DataAboutKind
@@ -21,11 +21,6 @@ type DataAboutClassify struct {
 	Router string `json:"router" db:"router"`
 	ID     int    `json:"id" db:"id"`
 }
-type DataAboutEssayRouter struct {
-	Router string `json:"router" db:"router"`
-	Kind   string `json:"kind,omitempty" db:"kind"`
-	Id     int    `json:"id" db:"id"`
-}
 
 // 分页查询相关
 
@@ -34,14 +29,15 @@ type DataAboutEssayListAndPage struct {
 	TotalPages int               `json:"totalPages"`
 }
 type DataAboutEssay struct {
-	Name         string   `json:"name" db:"name"`
-	Kind         string   `json:"kind" db:"kind"`
-	Router       string   `json:"router" db:"router"`
-	KindRouter   string   `json:"kindRouter"`
-	Introduction string   `json:"introduction" db:"introduction"`
-	ID           int      `json:"id" db:"id"`
-	CreatedTime  string   `json:"createdTime" db:"createdTime"`
-	Keywords     []string `json:"keywords"`
+	Name          string   `json:"name" db:"name"`
+	Kind          string   `json:"kind" db:"kind"`
+	Router        string   `json:"router" db:"router"`
+	KindRouter    string   `json:"kindRouter,omitempty"`
+	Introduction  string   `json:"introduction" db:"introduction"`
+	ID            int      `json:"id" db:"id"`
+	CreatedTime   string   `json:"createdTime,omitempty" db:"createdTime"`
+	Keywords      []string `json:"keywords"`
+	ComplexRouter string   `json:"complexRouter"`
 }
 
 //文章查询相关
