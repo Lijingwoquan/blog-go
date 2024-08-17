@@ -16,7 +16,13 @@ func ResponseDataAboutIndex(DataAboutIndex *models.DataAboutIndex) (err error) {
 		return err
 	}
 
-	*DataAboutIndex = *sortIndexData(kindList, classifyList)
+	var essayList = new([]models.DataAboutEssayRouter)
+	if err = getAllEssay(essayList); err != nil {
+		return err
+	}
+
+	sortIndexData(DataAboutIndex, kindList, classifyList, essayList)
+
 	return nil
 }
 
@@ -31,14 +37,23 @@ func getClassifyAndDetails(c *[]models.DataAboutClassify) error {
 	return mysql.GetDataAboutClassifyDetails(c)
 }
 
-// 3.整合kind数据和classify数据
+// 3.查询allEssay
+func getAllEssay(data *[]models.DataAboutEssayRouter) error {
+	return mysql.GetAllEssay(data)
+}
+
+// 4.整合数据
 // 整合逻辑
 // 自下而上 先得到classify和kindName组成的map
 // 遍历kindList 再向menu里面插入kind数据 此时使用上文的kindName来插入classify数据
 // 核心点就在于 找到公用新key
 
-func sortIndexData(k *[]models.DataAboutKind, c *[]models.DataAboutClassify) *models.DataAboutIndex {
-	var indexData = models.DataAboutIndex{}
+func sortIndexData(DataAboutIndex *models.DataAboutIndex, k *[]models.DataAboutKind, c *[]models.DataAboutClassify, e *[]models.DataAboutEssayRouter) {
+	sortKindAndClassify(DataAboutIndex, k, c)
+	sortClassifyAndEssay(DataAboutIndex, c, e)
+}
+
+func sortKindAndClassify(DataAboutIndex *models.DataAboutIndex, k *[]models.DataAboutKind, c *[]models.DataAboutClassify) {
 	var indexDataMenu = make([]models.DataAboutIndexMenu, len(*k))
 
 	var kindAndClassifyMap = make(map[string][]models.DataAboutClassify)
@@ -51,6 +66,33 @@ func sortIndexData(k *[]models.DataAboutKind, c *[]models.DataAboutClassify) *mo
 		indexDataMenu[i].Classify = kindAndClassifyMap[kind.ClassifyKind]
 	}
 
-	indexData.DataAboutIndexMenu = indexDataMenu
-	return &indexData
+	DataAboutIndex.DataAboutIndexMenu = indexDataMenu
+}
+
+func sortClassifyAndEssay(DataAboutIndex *models.DataAboutIndex, c *[]models.DataAboutClassify, e *[]models.DataAboutEssayRouter) {
+	var indexDataEssayList = make([]models.DataAboutEssayRouter, 0, len(*e))
+	// 计算 indexDataEssayList 的总大小，并创建具有适当容量的切片
+	var classifyRouterMap = make(map[string]string, len(*c))
+	for _, classify := range *c {
+		classifyRouterMap[classify.Name] = classify.Router
+	}
+
+	var essayClassifyMap = make(map[string][]models.DataAboutEssayRouter, len(*c))
+	for _, essay := range *e {
+		essayClassifyMap[essay.Kind] = append(essayClassifyMap[essay.Kind], essay)
+	}
+
+	for k, v := range essayClassifyMap {
+		kindRoute := classifyRouterMap[k]
+		for _, essay := range v {
+			essayRoute := essay.Router
+			essay.Router = kindRoute + essayRoute
+			indexDataEssayList = append(indexDataEssayList, models.DataAboutEssayRouter{
+				Router: essay.Router,
+				Kind:   "",
+				Id:     essay.Id,
+			})
+		}
+	}
+	DataAboutIndex.EssayRouterList = indexDataEssayList
 }

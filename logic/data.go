@@ -26,5 +26,22 @@ func GetEssayData(data *models.EssayData, id int) error {
 }
 
 func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query models.EssayQuery) error {
-	return mysql.GetDataAboutClassifyEssayMsg(data, query)
+	// 先由参数查询essay的内容
+	if err := mysql.GetDataAboutClassifyEssayMsg(data, query); err != nil {
+		return err
+	}
+	var classifyList = new([]models.DataAboutClassify)
+	if err := mysql.GetDataAboutClassifyDetails(classifyList); err != nil {
+		return err
+	}
+
+	var classifyMap = make(map[string]string)
+	for _, classify := range *classifyList {
+		classifyMap[classify.Name] = classify.Router
+	}
+	// 再遍历essayList为它们加上kindRouter
+	for i, essay := range *data.EssayList {
+		(*data.EssayList)[i].KindRouter = classifyMap[essay.Kind]
+	}
+	return nil
 }

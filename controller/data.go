@@ -16,7 +16,7 @@ func ResponseDataAboutIndexAsideHandler(c *gin.Context) {
 	ResponseSuccess(c, cache.GlobalDataAboutIndex)
 }
 
-func ResponseDataAboutIndexHandler(c *gin.Context) {
+func ResponseDataAboutEssayListHandler(c *gin.Context) {
 	query := models.EssayQuery{}
 	page64, _ := strconv.ParseInt(c.Query("page"), 10, 64)
 	if page64 == 0 {
@@ -37,6 +37,7 @@ func ResponseDataAboutIndexHandler(c *gin.Context) {
 	if err := logic.GetDataAboutClassifyEssayMsg(essayListAndPage, query); err != nil {
 		zap.L().Error("logic.GetDataAboutClassifyEssayMsg(essayList) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
+		return
 	}
 	//得到各大分类种类以及相应的名称
 	ResponseSuccess(c, essayListAndPage)

@@ -34,7 +34,7 @@ func SetupRouter(mode string) *gin.Engine {
 
 	v1 := r.Group("/api/base")
 	{
-		v1.GET("/essay_list", controller.ResponseDataAboutIndexHandler)
+		v1.GET("/essay_list", controller.ResponseDataAboutEssayListHandler)
 		v1.GET("/essay_content", controller.ResponseDataAboutEssayHandler)
 	}
 

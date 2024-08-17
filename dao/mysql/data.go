@@ -29,31 +29,55 @@ func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query 
 	offset := (query.Page - 1) * query.PageSize
 
 	// 使用 LIMIT 和 OFFSET 实现分页
-
-	sqlStr1 := `SELECT name, kind, router, introduction, id, createdTime 
+	var sqlStr string
+	var countSqlStr string
+	var args []interface{}
+	if query.Classify != "" {
+		sqlStr = `SELECT name, kind, router, introduction, id, createdTime 
                FROM essay 
                WHERE name!='init' AND kind = ?
                ORDER BY id DESC 
                LIMIT ? OFFSET ?`
-	sqlStr2 := `SELECT name, kind, router, introduction, id, createdTime 
+		countSqlStr = `SELECT COUNT(*) 
+               FROM essay 
+               WHERE name!='init' AND kind = ?`
+		args = append(args, query.Classify)
+	} else {
+		sqlStr = `SELECT name, kind, router, introduction, id, createdTime 
                FROM essay 
                WHERE name!='init' 
                ORDER BY id DESC 
                LIMIT ? OFFSET ?`
-	if query.Classify != "" {
-		if err := db.Select(data.EssayList, sqlStr1, query.Classify, query.PageSize, offset); err != nil {
-			return err
-		}
+		countSqlStr = `SELECT COUNT(*)  
+               FROM essay 
+               WHERE name!='init'`
 	}
-	if err := db.Select(data.EssayList, sqlStr2, query.PageSize, offset); err != nil {
+	args = append(args, query.PageSize, offset)
+
+	//执行分页查询
+	if err := db.Select(data.EssayList, sqlStr, args...); err != nil {
 		return err
 	}
-	// 计算总页数（向上取整）
-	totalItems := len(*data.EssayList)
-	totalPages := (totalItems + query.PageSize - 1) / query.PageSize
-	//query.PageSize - 1) / query.PageSize 产生的结果加上任何不满分页值都会>=1 从而实现向上取整
-	data.TotalPage = totalPages
+	//执行总记录统计
+	var totalCount int
+	if err := db.Get(&totalCount, countSqlStr, args[:len(args)-2]...); err != nil {
+		return err
+	}
+
+	//计算总记录数
+	totalPages := (totalCount + query.PageSize - 1) / query.PageSize
+
+	// 设置总页数
+	data.TotalPages = totalPages
 	return nil
+}
+
+func GetAllEssay(data *[]models.DataAboutEssayRouter) error {
+	sqlStr := `SELECT  kind, router, id 
+               FROM essay 
+               WHERE name!='init'
+               ORDER BY id DESC`
+	return db.Select(data, sqlStr)
 }
 
 func GetEssayData(data *models.EssayData, id int) error {
@@ -69,7 +93,7 @@ func CleanupInvalidTokens() error {
 	return err
 }
 
-func SaveVisitedTimes(visitedTimesChangedMap map[int64]int64) (err error) {
+func SaveVisitedTimes(visitedTimesChangedMap map[int64]int64) error {
 	tx, err := db.Beginx()
 	if err != nil {
 		return err

@@ -29,3 +29,38 @@
 {"level":"ERROR","time":"2024-08-16T18:50:35.692+0800","caller":"controller/data.go:38","msg":"logic.GetDataAboutClassifyEssayMsg(essayList) failed","error":"expected slice but got struct"}
 {"level":"ERROR","time":"2024-08-16T18:51:21.759+0800","caller":"controller/data.go:38","msg":"logic.GetDataAboutClassifyEssayMsg(essayList) failed","error":"must pass a pointer, not a value, to StructScan destination"}
 {"level":"ERROR","time":"2024-08-16T18:52:09.301+0800","caller":"controller/data.go:38","msg":"logic.GetDataAboutClassifyEssayMsg(essayList) failed","error":"nil pointer passed to StructScan destination"}
+{"level":"ERROR","time":"2024-08-16T20:34:17.864+0800","caller":"controller/data.go:38","msg":"logic.GetDataAboutClassifyEssayMsg(essayList) failed","error":"sql: converting argument $1 type: unsupported type []interface {}, a slice of interface"}
+{"level":"ERROR","time":"2024-08-16T20:34:48.462+0800","caller":"controller/data.go:38","msg":"logic.GetDataAboutClassifyEssayMsg(essayList) failed","error":"sql: converting argument $1 type: unsupported type []interface {}, a slice of interface"}
+{"level":"ERROR","time":"2024-08-16T20:36:04.058+0800","caller":"controller/data.go:38","msg":"logic.GetDataAboutClassifyEssayMsg(essayList) failed","error":"sql: converting argument $1 type: unsupported type []interface {}, a slice of interface"}
+{"level":"ERROR","time":"2024-08-17T07:58:15.815+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T07:58:21.595+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T07:58:32.373+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T07:58:40.843+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T07:58:44.850+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T08:00:30.094+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T08:00:55.362+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T08:02:31.385+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T08:02:32.889+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T08:03:16.509+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T08:03:32.964+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T08:06:14.846+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T08:07:11.020+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T08:15:25.024+0800","caller":"controller/data.go:38","msg":"logic.GetDataAboutClassifyEssayMsg(essayList) failed","error":"sql: Scan error on column index 5, name \"createdTime\": converting NULL to string is unsupported"}
+{"level":"ERROR","time":"2024-08-17T09:17:43.596+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:18:04.302+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:18:20.310+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:18:21.185+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:18:22.475+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:18:27.478+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:18:54.311+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:19:21.308+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:19:22.310+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:21:41.434+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:21:52.777+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:22:26.309+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:23:03.994+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:23:11.374+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:23:36.028+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T09:25:53.006+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T12:22:53.814+0800","caller":"controller/data.go:57","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-17T13:04:16.839+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"\": invalid syntax"}
