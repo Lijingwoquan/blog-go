@@ -63,11 +63,11 @@ func sortKindAndClassify(DataAboutIndex *models.DataAboutIndex, k *[]models.Data
 	}
 
 	for i, kind := range *k {
-		indexDataMenu[i].DataAboutKind = kind
-		indexDataMenu[i].Classify = kindAndClassifyMap[kind.ClassifyKind]
+		indexDataMenu[i].Kind = kind
+		indexDataMenu[i].ClassifyList = kindAndClassifyMap[kind.Name]
 	}
 
-	DataAboutIndex.DataAboutIndexMenu = indexDataMenu
+	DataAboutIndex.Menu = indexDataMenu
 }
 
 func sortClassifyAndEssay(DataAboutIndex *models.DataAboutIndex, c *[]models.DataAboutClassify, e *[]models.DataAboutEssay) {
