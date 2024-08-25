@@ -1,0 +1,17 @@
+1:C 19 Aug 2024 18:41:58.258 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 19 Aug 2024 18:41:58.259 * Redis version=7.2.5, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 19 Aug 2024 18:41:58.260 * Configuration loaded
+1:M 19 Aug 2024 18:41:58.260 * monotonic clock: POSIX clock_gettime
+1:M 19 Aug 2024 18:41:58.262 * Running mode=standalone, port=6379.
+1:M 19 Aug 2024 18:41:58.263 * Server initialized
+1:M 19 Aug 2024 18:41:58.264 * Loading RDB produced by version 7.2.5
+1:M 19 Aug 2024 18:41:58.264 * RDB age 6302448 seconds
+1:M 19 Aug 2024 18:41:58.265 * RDB memory usage when created 0.83 Mb
+1:M 19 Aug 2024 18:41:58.265 * Done loading RDB, keys loaded: 0, keys expired: 0.
+1:M 19 Aug 2024 18:41:58.266 * DB loaded from disk: 0.002 seconds
+1:M 19 Aug 2024 18:41:58.267 * Ready to accept connections tcp
+1:signal-handler (1724064367) Received SIGTERM scheduling shutdown...
+1:M 19 Aug 2024 18:46:07.423 * User requested shutdown...
+1:M 19 Aug 2024 18:46:07.425 * Saving the final RDB snapshot before exiting.
+1:M 19 Aug 2024 18:46:07.433 * DB saved on disk
+1:M 19 Aug 2024 18:46:07.435 # Redis is now ready to exit, bye bye...

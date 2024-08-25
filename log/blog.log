@@ -224,3 +224,24 @@
 {"level":"ERROR","time":"2024-08-19T13:20:06.249+0800","caller":"controller/manager.go:61","msg":"c.ShouldBindJSON(k) failed,err:","error":"Key: 'UpdateKindParams.Name' Error:Field validation for 'Name' failed on the 'required' tag"}
 {"level":"ERROR","time":"2024-08-19T13:20:15.688+0800","caller":"controller/manager.go:61","msg":"c.ShouldBindJSON(k) failed,err:","error":"Key: 'UpdateKindParams.Name' Error:Field validation for 'Name' failed on the 'required' tag"}
 {"level":"ERROR","time":"2024-08-19T13:20:33.137+0800","caller":"controller/manager.go:61","msg":"c.ShouldBindJSON(k) failed,err:","error":"Key: 'UpdateKindParams.Name' Error:Field validation for 'Name' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-08-19T15:22:03.307+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:22:09.311+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:22:11.314+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:22:14.307+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:22:17.096+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:22:18.835+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:22:22.126+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:22:49.310+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:22:58.300+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:23:00.310+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:24:19.031+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:24:20.605+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:24:35.514+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:25:08.313+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:25:17.314+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:26:37.867+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:26:52.799+0800","caller":"controller/data.go:51","msg":"strconv.Atoi(query) failed","error":"strconv.Atoi: parsing \"undefined\": invalid syntax"}
+{"level":"ERROR","time":"2024-08-19T15:53:52.222+0800","caller":"controller/manager.go:79","msg":"c.ShouldBindJSON(classify) failed,err:","error":"Key: 'UpdateClassifyParams.Name' Error:Field validation for 'Name' failed on the 'required' tag\nKey: 'UpdateClassifyParams.Router' Error:Field validation for 'Router' failed on the 'required' tag\nKey: 'UpdateClassifyParams.ID' Error:Field validation for 'ID' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-08-19T19:59:25.259+0800","caller":"controller/manager.go:123","msg":"logic.DeleteEssay(id) failed,err:","error":"no essay found with id 1443"}
+{"level":"ERROR","time":"2024-08-26T00:33:31.263+0800","caller":"controller/manager.go:31","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"ERROR","time":"2024-08-26T00:33:48.249+0800","caller":"controller/manager.go:31","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}

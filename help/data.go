@@ -44,10 +44,6 @@ func getAllEssay(data *[]models.DataAboutEssay) error {
 }
 
 // 4.整合数据
-// 整合逻辑
-// 自下而上 先得到classify和kindName组成的map
-// 遍历kindList 再向menu里面插入kind数据 此时使用上文的kindName来插入classify数据
-// 核心点就在于 找到公用新key
 
 func sortIndexData(DataAboutIndex *models.DataAboutIndex, k *[]models.DataAboutKind, c *[]models.DataAboutClassify, e *[]models.DataAboutEssay) {
 	sortKindAndClassify(DataAboutIndex, k, c)
@@ -59,7 +55,7 @@ func sortKindAndClassify(DataAboutIndex *models.DataAboutIndex, k *[]models.Data
 
 	var kindAndClassifyMap = make(map[string][]models.DataAboutClassify)
 	for _, classify := range *c {
-		kindAndClassifyMap[classify.Kind] = append(kindAndClassifyMap[classify.Name], classify)
+		kindAndClassifyMap[classify.Kind] = append(kindAndClassifyMap[classify.Kind], classify)
 	}
 
 	for i, kind := range *k {
