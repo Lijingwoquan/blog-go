@@ -64,8 +64,7 @@ func SetupRouter(mode string) *gin.Engine {
 	{
 		// 主页数据
 		v3help.POST("/uploadImg", controller.UploadImgHandler)
-		v3help.GET("/getKeywordsRank", controller.GetSearchKeywordRankHandel)
-		v3help.GET("/getUserVisitedCount", controller.GetUserIpCountHandel)
+		v3help.GET("/panel", controller.ResponseDataAboutManagerPanel)
 	}
 
 	v4 := r.Group("/api/keyword")

@@ -25,8 +25,3 @@ func GetEssayListByKeyword(e *[]models.DataAboutEssay, k *models.KeywordParam) {
 		}
 	}
 }
-
-func GetSearchKeywordRank(rankKind *models.RankKindForZset) (err error) {
-	//	得到年月日的keywords的zset
-	return redis.GetSearchKeywordRank(rankKind)
-}

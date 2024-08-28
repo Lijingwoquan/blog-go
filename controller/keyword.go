@@ -27,15 +27,3 @@ func IncreaseSearchKeywordHandler(c *gin.Context) {
 	logic.GetEssayListByKeyword(essayList, keyword)
 	ResponseSuccess(c, essayList)
 }
-
-func GetSearchKeywordRankHandel(c *gin.Context) {
-	rankKind := new(models.RankKindForZset)
-	// 逻辑处理
-	if err := logic.GetSearchKeywordRank(rankKind); err != nil {
-		zap.L().Error("logic.GetSearchKeywordRank(rankKind) failed,err:", zap.Error(err))
-		ResponseError(c, CodeServeBusy)
-		return
-	}
-	//	返回响应
-	ResponseSuccess(c, rankKind)
-}

@@ -9,7 +9,7 @@ func SaveUserIp(ip string) {
 	}
 }
 
-func GetUserIpCount(setKind *models.SetKind) (err error) {
+func GetUserIpCount(ipSet *models.UserIpForSet) (err error) {
 	preKey := getRedisKey(KeyUserIp)
-	return GetYearMonthWeekTimesZoneForSetCount(setKind, preKey)
+	return GetYearMonthWeekTimesZoneForSet(ipSet, preKey)
 }
