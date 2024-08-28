@@ -245,3 +245,22 @@
 {"level":"ERROR","time":"2024-08-19T19:59:25.259+0800","caller":"controller/manager.go:123","msg":"logic.DeleteEssay(id) failed,err:","error":"no essay found with id 1443"}
 {"level":"ERROR","time":"2024-08-26T00:33:31.263+0800","caller":"controller/manager.go:31","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
 {"level":"ERROR","time":"2024-08-26T00:33:48.249+0800","caller":"controller/manager.go:31","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"ERROR","time":"2024-08-27T17:27:20.865+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-08-27T17:37:41.670+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-08-27T17:38:49.595+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-08-27T17:39:11.847+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-08-27T17:39:53.990+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-08-27T17:40:24.650+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-08-27T17:41:12.343+0800","caller":"controller/user.go:47","msg":"logic.Login() failed","error":"登陆失败"}
+{"level":"ERROR","time":"2024-08-27T17:42:25.866+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-08-27T17:42:36.323+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-08-27T17:42:44.734+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Content' Error:Field validation for 'Content' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-08-27T17:44:32.533+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-08-27T17:44:44.187+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
+{"level":"ERROR","time":"2024-08-27T22:22:02.215+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Content' Error:Field validation for 'Content' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-08-28T00:30:19.045+0800","caller":"controller/manager.go:31","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"ERROR","time":"2024-08-28T00:31:01.372+0800","caller":"controller/manager.go:31","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"ERROR","time":"2024-08-28T00:31:09.234+0800","caller":"controller/manager.go:31","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"ERROR","time":"2024-08-28T00:31:24.090+0800","caller":"controller/manager.go:31","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"ERROR","time":"2024-08-28T00:33:37.778+0800","caller":"controller/manager.go:31","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
+{"level":"ERROR","time":"2024-08-28T00:34:26.970+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Content' Error:Field validation for 'Content' failed on the 'required' tag"}

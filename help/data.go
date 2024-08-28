@@ -44,7 +44,6 @@ func getAllEssay(data *[]models.DataAboutEssay) error {
 }
 
 // 4.整合数据
-
 func sortIndexData(DataAboutIndex *models.DataAboutIndex, k *[]models.DataAboutKind, c *[]models.DataAboutClassify, e *[]models.DataAboutEssay) {
 	sortKindAndClassify(DataAboutIndex, k, c)
 	sortClassifyAndEssay(DataAboutIndex, c, e)
