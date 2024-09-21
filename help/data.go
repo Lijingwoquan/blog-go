@@ -17,14 +17,16 @@ func ResponseDataAboutIndex(DataAboutIndex *models.DataAboutIndex) (err error) {
 		return err
 	}
 
-	var essayList = new([]models.DataAboutEssay)
+	//整合数据
+	sortKindAndClassify(DataAboutIndex, kindList, classifyList)
+	return nil
+}
+
+func ResponseDataAboutEssayList(essayList *[]models.DataAboutEssay) (err error) {
 	if err = getAllEssay(essayList); err != nil {
 		return err
 	}
-
-	sortIndexData(DataAboutIndex, kindList, classifyList, essayList)
-
-	return nil
+	return redis.GetEssayKeywordsForIndex(essayList)
 }
 
 // 1.查kind和icon
@@ -44,11 +46,6 @@ func getAllEssay(data *[]models.DataAboutEssay) error {
 }
 
 // 4.整合数据
-func sortIndexData(DataAboutIndex *models.DataAboutIndex, k *[]models.DataAboutKind, c *[]models.DataAboutClassify, e *[]models.DataAboutEssay) {
-	sortKindAndClassify(DataAboutIndex, k, c)
-	sortClassifyAndEssay(DataAboutIndex, c, e)
-}
-
 func sortKindAndClassify(DataAboutIndex *models.DataAboutIndex, k *[]models.DataAboutKind, c *[]models.DataAboutClassify) {
 	var indexDataMenu = make([]models.DataAboutIndexMenu, len(*k))
 
@@ -63,40 +60,4 @@ func sortKindAndClassify(DataAboutIndex *models.DataAboutIndex, k *[]models.Data
 	}
 
 	DataAboutIndex.Menu = indexDataMenu
-}
-
-func sortClassifyAndEssay(DataAboutIndex *models.DataAboutIndex, c *[]models.DataAboutClassify, e *[]models.DataAboutEssay) {
-	var indexDataEssayList = make([]models.DataAboutEssay, 0, len(*e))
-
-	// 计算 indexDataEssayList 的总大小，并创建具有适当容量的切片
-	var classifyRouterMap = make(map[string]string, len(*c))
-	for _, classify := range *c {
-		classifyRouterMap[classify.Name] = classify.Router
-	}
-
-	var essayClassifyMap = make(map[string][]models.DataAboutEssay, len(*c))
-	for _, essay := range *e {
-		essayClassifyMap[essay.Kind] = append(essayClassifyMap[essay.Kind], essay)
-	}
-
-	for k, v := range essayClassifyMap {
-		kindRoute := classifyRouterMap[k]
-		for _, essay := range v {
-			complexRouter := "/essay" + kindRoute + essay.Router
-			indexDataEssayList = append(indexDataEssayList, models.DataAboutEssay{
-				Name:          essay.Name,
-				Kind:          essay.Kind,
-				Router:        essay.Router,
-				ComplexRouter: complexRouter,
-				Introduction:  essay.Introduction,
-				ID:            essay.ID,
-				Keywords:      essay.Keywords,
-			})
-		}
-	}
-
-	if err := redis.GetEssayKeywordsForIndex(&indexDataEssayList); err != nil {
-		return
-	}
-	DataAboutIndex.EssayList = indexDataEssayList
 }

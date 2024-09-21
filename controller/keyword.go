@@ -7,7 +7,7 @@ import (
 	"go.uber.org/zap"
 )
 
-func IncreaseSearchKeywordHandler(c *gin.Context) {
+func ResponseDataAboutSearchKeyword(c *gin.Context) {
 	//1.参数检验
 	keyword := new(models.KeywordParam)
 	if err := c.ShouldBindJSON(keyword); err != nil {
@@ -22,6 +22,7 @@ func IncreaseSearchKeywordHandler(c *gin.Context) {
 		ResponseError(c, CodeServeBusy)
 		return
 	}
+
 	//3.返回响应
 	var essayList = new([]models.DataAboutEssay)
 	logic.GetEssayListByKeyword(essayList, keyword)

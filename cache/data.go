@@ -7,8 +7,9 @@ import (
 )
 
 var (
-	GlobalDataAboutIndex = models.DataAboutIndex{}
-	Error                error
+	GlobalDataAboutIndex     = models.DataAboutIndex{}
+	GlobalDataAboutEssayList = new([]models.DataAboutEssay)
+	Error                    error
 )
 
 func UpdateDataAboutIndex() {
@@ -22,7 +23,27 @@ func UpdateDataAboutIndex() {
 	}()
 	go func() {
 		for err := range errCh {
-			zap.L().Error("happen err in cache Update:%v", zap.Error(err))
+			zap.L().Error("happen err in cache UpdateDataAboutIndex:%v", zap.Error(err))
+		}
+	}()
+	go func() {
+		<-done
+		close(errCh)
+	}()
+}
+
+func UpdateDataAboutEssayList() {
+	errCh := make(chan error)
+	done := make(chan bool)
+	go func() {
+		if err := getEssayList(); err != nil {
+			errCh <- err
+		}
+		done <- true
+	}()
+	go func() {
+		for err := range errCh {
+			zap.L().Error("happen err in cache UpdateDataAboutEssayList:%v", zap.Error(err))
 		}
 	}()
 	go func() {
@@ -33,6 +54,13 @@ func UpdateDataAboutIndex() {
 
 func getDataAboutIndex() error {
 	if Error = help.ResponseDataAboutIndex(&GlobalDataAboutIndex); Error != nil {
+		return Error
+	}
+	return nil
+}
+
+func getEssayList() error {
+	if Error = help.ResponseDataAboutEssayList(GlobalDataAboutEssayList); Error != nil {
 		return Error
 	}
 	return nil

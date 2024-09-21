@@ -22,6 +22,15 @@ func Init() {
 		}
 	}()
 
+	wg.Add(1)
+
+	go func() {
+		defer wg.Done()
+		if err := getEssayList(); err != nil {
+			errCh <- err
+		}
+	}()
+
 	// 错误处理
 	go func() {
 		wg.Wait()

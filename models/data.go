@@ -3,8 +3,7 @@ package models
 // index返回数据相关
 
 type DataAboutIndex struct {
-	Menu      []DataAboutIndexMenu `json:"menu"`
-	EssayList []DataAboutEssay     `json:"essayList"`
+	Menu []DataAboutIndexMenu `json:"menu"`
 }
 type DataAboutIndexMenu struct {
 	Kind         DataAboutKind       `json:"kind"`
@@ -39,6 +38,7 @@ type DataAboutEssay struct {
 	CreatedTime   string   `json:"createdTime,omitempty" db:"createdTime"`
 	Keywords      []string `json:"keywords,omitempty"`
 	ComplexRouter string   `json:"complexRouter,omitempty"`
+	VisitedTimes  int64    `json:"visitedTimes" db:"visitedTimes"`
 }
 
 //文章查询相关
