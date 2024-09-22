@@ -124,6 +124,7 @@ func createEssayTable(db *sqlx.DB) (err error) {
 	introduction VARCHAR(180) NOT NULL,
     router VARCHAR(60) NOT NULL ,
 	visitedTimes BIGINT NOT NULL DEFAULT 0 ,
+    imgUrl varchar(100) NOT NULL,
     createdTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )`
