@@ -66,15 +66,14 @@ func GetEssayKeywordsForIndex(e *[]models.DataAboutEssay) (err error) {
 	return err
 }
 
-func GetEssayKeywordsForOne(e *models.EssayData) (err error) {
+func GetEssayKeywordsForOne(eid int64) (keywords []string, err error) {
 	keyPre := getRedisKey(KeyEssayKeyword)
-	key := fmt.Sprintf("%s%d", keyPre, e.Eid)
-	keywords, err := client.SMembers(key).Result()
+	key := fmt.Sprintf("%s%d", keyPre, eid)
+	keywords, err = client.SMembers(key).Result()
 	if err != nil {
-		return err
+		return nil, err
 	}
-	(*e).Keywords = keywords
-	return err
+	return keywords, nil
 }
 
 func GetSearchKeywordRank(rankKind *models.RankKindForZset) (err error) {

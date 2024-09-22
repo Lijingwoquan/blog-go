@@ -38,7 +38,9 @@ type DataAboutEssay struct {
 	CreatedTime   string   `json:"createdTime,omitempty" db:"createdTime"`
 	Keywords      []string `json:"keywords,omitempty"`
 	ComplexRouter string   `json:"complexRouter,omitempty"`
-	VisitedTimes  int64    `json:"visitedTimes" db:"visitedTimes"`
+	VisitedTimes  int64    `json:"visitedTimes"`
+	ImgUrl        string   `json:"imgUrl" db:"imgUrl"`
+	Eid           int64    `db:"eid"`
 }
 
 //文章查询相关

@@ -33,7 +33,7 @@ func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query 
 	var countSqlStr string
 	var args []interface{}
 	if query.Classify != "" {
-		sqlStr = `SELECT name, kind, router, introduction, id, createdTime 
+		sqlStr = `SELECT name, kind, router, introduction, id, createdTime,eid
                FROM essay 
                WHERE name!='init' AND kind = ?
                ORDER BY id DESC 
@@ -43,7 +43,7 @@ func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query 
                WHERE name!='init' AND kind = ?`
 		args = append(args, query.Classify)
 	} else {
-		sqlStr = `SELECT name, kind, router, introduction, id, createdTime 
+		sqlStr = `SELECT name, kind, router, introduction, id, createdTime ,eid
                FROM essay 
                WHERE name!='init' 
                ORDER BY id DESC 

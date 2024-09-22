@@ -19,7 +19,7 @@ func GetEssayData(data *models.EssayData, id int) error {
 		return err
 	}
 	// 2.查关键字
-	if err = redis.GetEssayKeywordsForOne(data); err != nil {
+	if data.Keywords, err = redis.GetEssayKeywordsForOne(data.Eid); err != nil {
 		return err
 	}
 	return nil
@@ -30,6 +30,19 @@ func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query 
 	if err := mysql.GetDataAboutClassifyEssayMsg(data, query); err != nil {
 		return err
 	}
+
+	for i, essay := range *data.EssayList {
+		// 1.查访问次数
+		var err error
+		if (*data.EssayList)[i].VisitedTimes, err = redis.GetVisitedTimes(essay.Eid); err != nil {
+			return err
+		}
+		// 2.查关键字
+		if (*data.EssayList)[i].Keywords, err = redis.GetEssayKeywordsForOne(essay.Eid); err != nil {
+			return err
+		}
+	}
+
 	var classifyList = new([]models.DataAboutClassify)
 	if err := mysql.GetDataAboutClassifyDetails(classifyList); err != nil {
 		return err
