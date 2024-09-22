@@ -10,9 +10,17 @@ import (
 func GetEssayData(data *models.EssayData, id int) error {
 	var err error
 	//从mysql查数据
+	//1.拿到essay本身数据
 	if err = mysql.GetEssayData(data, id); err != nil {
 		return err
 	}
+	//2.整合classify
+	classify := new(models.DataAboutClassify)
+	classify.Name = data.Kind
+	if err := mysql.GetOneDataAboutClassify(classify); err != nil {
+		return err
+	}
+	data.KindRouter = classify.Router
 
 	//从redis查数据
 	// 1.查访问次数
@@ -50,7 +58,7 @@ func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query 
 	}
 
 	var classifyList = new([]models.DataAboutClassify)
-	if err := mysql.GetDataAboutClassifyDetails(classifyList); err != nil {
+	if err := mysql.GetAllDataAboutClassify(classifyList); err != nil {
 		return err
 	}
 

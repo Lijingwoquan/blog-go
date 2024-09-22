@@ -19,9 +19,14 @@ func GetDataAboutKind(data *[]models.DataAboutKind) error {
 	return db.Select(data, sqlStr)
 }
 
-func GetDataAboutClassifyDetails(data *[]models.DataAboutClassify) error {
+func GetAllDataAboutClassify(data *[]models.DataAboutClassify) error {
 	sqlStr := `SELECT kind,name,router,id FROM classify`
 	return db.Select(data, sqlStr)
+}
+
+func GetOneDataAboutClassify(data *models.DataAboutClassify) error {
+	sqlStr := `SELECT kind,name,router,id FROM classify WHERE name = ?`
+	return db.Get(data, sqlStr, data.Name)
 }
 
 func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query models.EssayQuery) error {
@@ -73,7 +78,7 @@ func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query 
 }
 
 func GetAllEssay(data *[]models.DataAboutEssay) error {
-	sqlStr := `SELECT  name, kind, router, introduction, id 
+	sqlStr := `SELECT  name, kind, router, introduction, id
                FROM essay 
                ORDER BY id DESC`
 	return db.Select(data, sqlStr)

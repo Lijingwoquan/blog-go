@@ -29,18 +29,17 @@ type DataAboutEssayListAndPage struct {
 	TotalPages int               `json:"totalPages"`
 }
 type DataAboutEssay struct {
-	Name          string   `json:"name" db:"name"`
-	Kind          string   `json:"kind" db:"kind"`
-	Router        string   `json:"router" db:"router"`
-	KindRouter    string   `json:"kindRouter,omitempty"`
-	Introduction  string   `json:"introduction" db:"introduction"`
-	ID            int      `json:"id" db:"id"`
-	CreatedTime   string   `json:"createdTime,omitempty" db:"createdTime"`
-	Keywords      []string `json:"keywords,omitempty"`
-	ComplexRouter string   `json:"complexRouter,omitempty"`
-	VisitedTimes  int64    `json:"visitedTimes"`
-	ImgUrl        string   `json:"imgUrl" db:"imgUrl"`
-	Eid           int64    `db:"eid"`
+	Name         string   `json:"name" db:"name"`
+	Kind         string   `json:"kind" db:"kind"`
+	Router       string   `json:"router" db:"router"`
+	KindRouter   string   `json:"kindRouter,omitempty"`
+	Introduction string   `json:"introduction" db:"introduction"`
+	ID           int      `json:"id" db:"id"`
+	CreatedTime  string   `json:"createdTime,omitempty" db:"createdTime"`
+	Keywords     []string `json:"keywords,omitempty"`
+	VisitedTimes int64    `json:"visitedTimes"`
+	ImgUrl       string   `json:"imgUrl" db:"imgUrl"`
+	Eid          int64    `db:"eid"`
 }
 
 //文章查询相关
@@ -51,6 +50,7 @@ type EssayData struct {
 	Id           int      `json:"id" db:"id"`
 	Introduction string   `json:"introduction" db:"introduction"`
 	Router       string   `json:"router"`
+	KindRouter   string   `json:"kindRouter,omitempty"`
 	Content      string   `json:"content" db:"content"`
 	VisitedTimes int64    `json:"visitedTimes" db:"visitedTimes"`
 	CreatedTime  string   `json:"createdTime" db:"createdTime"`
