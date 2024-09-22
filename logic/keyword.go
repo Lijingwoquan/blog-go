@@ -7,13 +7,17 @@ import (
 	"strings"
 )
 
-func IncreaseSearchKeyword(SearchKeyword *models.KeywordParam) (err error) {
-	preKey := redis.KeySearchKeyWordTimes
-	// 向redis中加入keyWord
-	return redis.IncreaseSearchKeyword(preKey, (*SearchKeyword).Keyword)
+func GetDataByKeyword(param *models.SearchParam) (err error) {
+	//判断是否需要添加set值
+	if param.IfAdd {
+		preKey := redis.KeySearchKeyWordTimes
+		// 向redis中加入keyWord
+		return redis.IncreaseSearchKeyword(preKey, (*param).Keyword)
+	}
+	return nil
 }
 
-func GetEssayListByKeyword(e *[]models.DataAboutEssay, k *models.KeywordParam) {
+func GetEssayListByKeyword(e *[]models.DataAboutEssay, k *models.SearchParam) {
 	for _, essay := range *cache.GlobalDataAboutEssayList {
 		// 检查 essay.keyword 数组中是否包含指定的关键字 k
 		for _, keyword := range essay.Keywords {

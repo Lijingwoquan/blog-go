@@ -9,15 +9,15 @@ import (
 
 func ResponseDataAboutSearchKeyword(c *gin.Context) {
 	//1.参数检验
-	keyword := new(models.KeywordParam)
-	if err := c.ShouldBindJSON(keyword); err != nil {
+	searchParam := new(models.SearchParam)
+	if err := c.ShouldBindJSON(searchParam); err != nil {
 		zap.L().Error("c.ShouldBindJSON(keyword) failed", zap.Error(err))
 		ResponseError(c, CodeParamInvalid)
 		return
 	}
 
 	//2.逻辑处理
-	if err := logic.IncreaseSearchKeyword(keyword); err != nil {
+	if err := logic.GetDataByKeyword(searchParam); err != nil {
 		zap.L().Error("logic.IncreaseSearchKeyword(keyword) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
@@ -25,6 +25,6 @@ func ResponseDataAboutSearchKeyword(c *gin.Context) {
 
 	//3.返回响应
 	var essayList = new([]models.DataAboutEssay)
-	logic.GetEssayListByKeyword(essayList, keyword)
+	logic.GetEssayListByKeyword(essayList, searchParam)
 	ResponseSuccess(c, essayList)
 }

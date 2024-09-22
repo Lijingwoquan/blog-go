@@ -51,8 +51,9 @@ type EssayQuery struct {
 	Classify string
 }
 
-type KeywordParam struct {
+type SearchParam struct {
 	Keyword string `json:"keyword" binging:"required"`
+	IfAdd   bool   `json:"ifAdd"`
 }
 
 type EssayIdAndKeyword struct {
