@@ -19,18 +19,48 @@ func InitVisitedTimes(eid int64) error {
 }
 
 func GetVisitedTimes(eid int64) (int64, error) {
-	changeKey := getRedisKey(KeyChangeVisitedTimes)
 	visitedKey := getRedisKey(KeyVisitedTimes)
 	eids := fmt.Sprintf("%d", eid)
-	var finalVT int64
-
+	var vt int64
 	txf := func(tx *redis.Tx) error {
 		//先检查键是否存在
 		exist, err := client.HExists(visitedKey, eids).Result()
 		if err != nil {
 			return fmt.Errorf("client.HExists(key, eid).Result() failed: %w", err)
 		}
+		if !exist {
+			vt, err = mysql.GetVisitedTimesFromMySQL(eids)
+			if err != nil {
+				return fmt.Errorf("mysql.GetVisitedTimesFromMySQL(eid) failed: %w", err)
+			}
+		}
+		var vtStr string
+		if vtStr, err = tx.HGet(visitedKey, eids).Result(); err != nil {
+			return fmt.Errorf("tx.HGet(visitedKey, eids).Result() failed: %w", err)
+		}
+		if vt, err = strconv.ParseInt(vtStr, 10, 64); err != nil {
+			return fmt.Errorf("strconv.ParseInt(vtStr,10,64) failed: %w", err)
+		}
+		return nil
+	}
+	// 执行事务
+	if err := client.Watch(txf, visitedKey); err != nil {
+		return 0, fmt.Errorf("client.Watch(txf, visitedKey): %w", err)
+	}
+	return vt, nil
+}
+
+func AddVisitedTimes(eid int64) (err error) {
+	visitedKey := getRedisKey(KeyVisitedTimes)
+	changeKey := getRedisKey(KeyChangeVisitedTimes)
+	eids := fmt.Sprintf("%d", eid)
+	txf := func(tx *redis.Tx) error {
 		var vt int64
+		//先检查键是否存在
+		exist, err := client.HExists(visitedKey, eids).Result()
+		if err != nil {
+			return fmt.Errorf("client.HExists(key, eid).Result() failed: %w", err)
+		}
 		if !exist {
 			vt, err = mysql.GetVisitedTimesFromMySQL(eids)
 			if err != nil {
@@ -47,16 +77,15 @@ func GetVisitedTimes(eid int64) (int64, error) {
 			return fmt.Errorf("tx.SAdd(key, eid).Result() failed: %w", err)
 		}
 
-		finalVT = vt // 保存最终的访问次数
 		return nil
 	}
 
 	// 执行事务
 	if err := client.Watch(txf, visitedKey); err != nil {
-		return 0, fmt.Errorf("client.Watch(txf, visitedKey): %w", err)
+		return fmt.Errorf("client.Watch(txf, visitedKey): %w", err)
 	}
 
-	return finalVT, nil
+	return nil
 }
 
 func GetAndClearChangedVisitedTimes() (map[int64]int64, error) {

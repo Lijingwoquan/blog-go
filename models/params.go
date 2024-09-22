@@ -20,6 +20,7 @@ type EssayParams struct {
 	Introduction string `json:"introduction" binding:"required"`
 	Content      string `json:"content" binding:"required"`
 	Router       string `json:"router" binding:"required"`
+	ImgUrl       string `json:"imgUrl" binging:"required"`
 }
 
 type UpdateEssayMsgParams struct {

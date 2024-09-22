@@ -264,3 +264,5 @@
 {"level":"ERROR","time":"2024-08-28T00:31:24.090+0800","caller":"controller/manager.go:31","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
 {"level":"ERROR","time":"2024-08-28T00:33:37.778+0800","caller":"controller/manager.go:31","msg":"mysql.AddClassify(classify) failed","error":"该分类已存在"}
 {"level":"ERROR","time":"2024-08-28T00:34:26.970+0800","caller":"controller/manager.go:43","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Content' Error:Field validation for 'Content' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-09-22T11:43:54.255+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"Error 1364 (HY000): Field 'imgUrl' doesn't have a default value"}
+{"level":"ERROR","time":"2024-09-22T11:45:54.348+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"sql: expected 9 arguments, got 8"}

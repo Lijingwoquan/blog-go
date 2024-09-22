@@ -13,12 +13,18 @@ func GetEssayData(data *models.EssayData, id int) error {
 	if err = mysql.GetEssayData(data, id); err != nil {
 		return err
 	}
+
 	//从redis查数据
 	// 1.查访问次数
 	if data.VisitedTimes, err = redis.GetVisitedTimes(data.Eid); err != nil {
 		return err
 	}
-	// 2.查关键字
+	data.VisitedTimes++
+	//2.更新访问次数
+	if err = redis.AddVisitedTimes(data.Eid); err != nil {
+		return err
+	}
+	// 3.查关键字
 	if data.Keywords, err = redis.GetEssayKeywordsForOne(data.Eid); err != nil {
 		return err
 	}

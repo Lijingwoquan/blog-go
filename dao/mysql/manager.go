@@ -92,8 +92,8 @@ func CreateEssay(e *models.EssayParams) (erd int64, err error) {
 		return 0, err
 	}
 	eid := snowflake.GenID()
-	sqlStr := `INSERT INTO essay(kind,name,content,router,Introduction,createdTime,updatedTime,eid) values(?,?,?,?,?,?,?,?)`
-	if _, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Router, e.Introduction, formattedTime, formattedTime, eid); err != nil {
+	sqlStr := `INSERT INTO essay(kind,name,content,router,Introduction,createdTime,updatedTime,eid,imgUrl) values(?,?,?,?,?,?,?,?,?)`
+	if _, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Router, e.Introduction, formattedTime, formattedTime, eid, e.ImgUrl); err != nil {
 		return 0, err
 	}
 	return eid, err

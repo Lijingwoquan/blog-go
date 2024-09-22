@@ -33,24 +33,24 @@ func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query 
 	var countSqlStr string
 	var args []interface{}
 	if query.Classify != "" {
-		sqlStr = `SELECT name, kind, router, introduction, id, createdTime,eid
+		// 根据分类查询
+		sqlStr = `SELECT name, kind, router, introduction, id, createdTime,eid,imgUrl
                FROM essay 
-               WHERE name!='init' AND kind = ?
+               WHERE  kind = ?
                ORDER BY id DESC 
                LIMIT ? OFFSET ?`
 		countSqlStr = `SELECT COUNT(*) 
                FROM essay 
-               WHERE name!='init' AND kind = ?`
+               WHERE kind = ?`
 		args = append(args, query.Classify)
 	} else {
-		sqlStr = `SELECT name, kind, router, introduction, id, createdTime ,eid
+		//返回首页文章列表
+		sqlStr = `SELECT name, kind, router, introduction, id, createdTime ,eid,imgUrl
                FROM essay 
-               WHERE name!='init' 
                ORDER BY id DESC 
                LIMIT ? OFFSET ?`
 		countSqlStr = `SELECT COUNT(*)  
-               FROM essay 
-               WHERE name!='init'`
+               FROM essay`
 	}
 	args = append(args, query.PageSize, offset)
 
@@ -75,7 +75,6 @@ func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query 
 func GetAllEssay(data *[]models.DataAboutEssay) error {
 	sqlStr := `SELECT  name, kind, router, introduction, id 
                FROM essay 
-               WHERE name!='init'
                ORDER BY id DESC`
 	return db.Select(data, sqlStr)
 }
