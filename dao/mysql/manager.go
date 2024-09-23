@@ -117,8 +117,8 @@ func UpdateEssayMsg(data *models.UpdateEssayMsgParams) error {
 	if formattedTime, err = getChineseTime(); err != nil {
 		return err
 	}
-	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,introduction=?,router = ?,updatedTime=? WHERE id = ?`
-	result, err := db.Exec(sqlStr, data.Name, data.Kind, data.Content, data.Introduction, data.Router, formattedTime, data.Id)
+	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,introduction=?,router = ?,updatedTime=?,imgUrl=? WHERE id = ?`
+	result, err := db.Exec(sqlStr, data.Name, data.Kind, data.Content, data.Introduction, data.Router, formattedTime, data.ImgUrl, data.Id)
 	if err != nil {
 		return err
 	}

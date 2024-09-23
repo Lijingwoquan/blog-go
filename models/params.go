@@ -31,6 +31,7 @@ type UpdateEssayMsgParams struct {
 	Content      string   `json:"content" db:"content" binding:"required"`
 	Id           int      `json:"id" db:"id" binding:"required"`
 	Keywords     []string `json:"keywords" binging:"omitempty"`
+	ImgUrl       string   `json:"imgUrl" binging:"required"`
 }
 
 type UpdateKindParams struct {

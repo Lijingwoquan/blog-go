@@ -56,5 +56,6 @@ type EssayData struct {
 	CreatedTime  string   `json:"createdTime" db:"createdTime"`
 	UpdatedTime  string   `json:"updatedTime" db:"updatedTime"`
 	Keywords     []string `json:"keywords"`
-	Eid          int64
+	Eid          int64    `json:"eid" db:"eid"`
+	ImgUrl       string   `json:"imgUrl" binging:"required"  db:"imgUrl"`
 }
