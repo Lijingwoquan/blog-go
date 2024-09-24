@@ -292,3 +292,6 @@
 {"level":"ERROR","time":"2024-09-23T14:28:53.929+0800","caller":"controller/manager.go:49","msg":"mysql.CreateEssay(essay) failed","error":"该文章已存在"}
 {"level":"INFO","time":"2024-09-23T15:01:12.098+0800","caller":"controller/manager.go:145","msg":"File already exists, it will be overwritten:","filename":"love1.jpg"}
 {"level":"INFO","time":"2024-09-23T15:02:13.160+0800","caller":"controller/manager.go:145","msg":"File already exists, it will be overwritten:","filename":"love1.jpg"}
+{"level":"ERROR","time":"2024-09-24T22:11:34.690+0800","caller":"controller/manager.go:105","msg":"mysql.UpdateEssay(data) failed","error":"Error 1292 (22007): Truncated incorrect DOUBLE value: '2.png'"}
+{"level":"ERROR","time":"2024-09-24T22:13:12.161+0800","caller":"controller/manager.go:105","msg":"mysql.UpdateEssay(data) failed","error":"Error 1292 (22007): Truncated incorrect DOUBLE value: '2.png'"}
+{"level":"ERROR","time":"2024-09-24T22:15:01.809+0800","caller":"controller/manager.go:105","msg":"mysql.UpdateEssay(data) failed","error":"Error 1292 (22007): Truncated incorrect DOUBLE value: '2.png'"}

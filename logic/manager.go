@@ -4,6 +4,7 @@ import (
 	"blog/dao/mysql"
 	"blog/dao/redis"
 	"blog/models"
+	"fmt"
 )
 
 // AddClassify 新增分类逻辑
@@ -43,6 +44,7 @@ func CreateEssay(e *models.EssayParams) (err error) {
 func UpdateEssayMsg(u *models.UpdateEssayMsgParams) error {
 	//更新数据
 	if err := mysql.UpdateEssayMsg(u); err != nil {
+		fmt.Println(err)
 		return err
 	}
 	iDAndKeywords := new(models.EssayIdAndKeyword)

@@ -32,11 +32,11 @@ type DataAboutEssay struct {
 	Name         string   `json:"name" db:"name"`
 	Kind         string   `json:"kind" db:"kind"`
 	Router       string   `json:"router" db:"router"`
-	KindRouter   string   `json:"kindRouter,omitempty"`
+	KindRouter   string   `json:"kindRouter"`
 	Introduction string   `json:"introduction" db:"introduction"`
 	ID           int      `json:"id" db:"id"`
-	CreatedTime  string   `json:"createdTime,omitempty" db:"createdTime"`
-	Keywords     []string `json:"keywords,omitempty"`
+	CreatedTime  string   `json:"createdTime" db:"createdTime"`
+	Keywords     []string `json:"keywords"`
 	VisitedTimes int64    `json:"visitedTimes"`
 	ImgUrl       string   `json:"imgUrl" db:"imgUrl"`
 	Eid          int64    `db:"eid"`
@@ -50,7 +50,7 @@ type EssayData struct {
 	Id           int      `json:"id" db:"id"`
 	Introduction string   `json:"introduction" db:"introduction"`
 	Router       string   `json:"router"`
-	KindRouter   string   `json:"kindRouter,omitempty"`
+	KindRouter   string   `json:"kindRouter"`
 	Content      string   `json:"content" db:"content"`
 	VisitedTimes int64    `json:"visitedTimes" db:"visitedTimes"`
 	CreatedTime  string   `json:"createdTime" db:"createdTime"`
@@ -58,4 +58,6 @@ type EssayData struct {
 	Keywords     []string `json:"keywords"`
 	Eid          int64    `json:"eid" db:"eid"`
 	ImgUrl       string   `json:"imgUrl" binging:"required"  db:"imgUrl"`
+	AdvertiseMsg string   `json:"advertiseMsg" db:"advertiseMsg"`
+	AdvertiseImg string   `json:"advertiseImg" db:"advertiseImg"`
 }

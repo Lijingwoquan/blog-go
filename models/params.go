@@ -30,8 +30,10 @@ type UpdateEssayMsgParams struct {
 	Router       string   `json:"router" db:"route" binding:"required"`
 	Content      string   `json:"content" db:"content" binding:"required"`
 	Id           int      `json:"id" db:"id" binding:"required"`
-	Keywords     []string `json:"keywords" binging:"omitempty"`
+	Keywords     []string `json:"keywords" `
 	ImgUrl       string   `json:"imgUrl" binging:"required"`
+	AdvertiseMsg string   `json:"advertiseMsg" db:"advertiseMsg"`
+	AdvertiseImg string   `json:"advertiseImg"  db:"advertiseImg"`
 }
 
 type UpdateKindParams struct {
@@ -59,5 +61,5 @@ type SearchParam struct {
 
 type EssayIdAndKeyword struct {
 	EssayId  int      `json:"essayId" binging:"required"`
-	Keywords []string `json:"keywords" binding:"omitempty"`
+	Keywords []string `json:"keywords"`
 }

@@ -86,7 +86,7 @@ func GetAllEssay(data *[]models.DataAboutEssay) error {
 
 func GetEssayData(data *models.EssayData, id int) error {
 	//在这里得到次数并添加
-	sqlStr := `SELECT content,name,id,introduction,router,kind,createdTime,updatedTime,eid,imgUrl FROM essay where id = ?`
+	sqlStr := `SELECT content,name,id,introduction,router,kind,createdTime,updatedTime,eid,imgUrl,advertiseMsg,advertiseImg FROM essay where id = ?`
 	return db.Get(data, sqlStr, id)
 }
 
