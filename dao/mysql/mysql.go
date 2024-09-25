@@ -127,9 +127,9 @@ func createEssayTable(db *sqlx.DB) (err error) {
     imgUrl varchar(100) NOT NULL,
     createdTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	advertisingMsg VARCHAR(30) ,
-	advertisingImg VARCHAR(100),
-	advertisingHref VARCHAR(100)
+	advertiseMsg VARCHAR(30),
+	advertiseImg VARCHAR(100),
+	advertiseHref VARCHAR(100)
     )`
 	_, err = db.Exec(sqlStr)
 	return err

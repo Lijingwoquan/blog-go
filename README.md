@@ -10,7 +10,6 @@
 
 ## 功能特性
 
-- 没有用户功能，仅仅是用于记录文章
 - 创建、更新、删除和查看博客文章
 - 对文章进行分类和标签管理
 - 管理员可以管理博客内容
@@ -31,18 +30,19 @@
    git clone https://github.com/Lijingwoquan/blog-go.git
 2. 配置环境变量:
     - 在 **./config/config.yaml**下修改自己的环境配置
-    - 在**docker-compose** 下修改 **mysql** 密码
-    - 在目录 **/config/redis.config**下修改**redis**信息
+    - 在**docker-compose** 下修改 **mysql** 密码(如需部署)
+    - 在目录 **/config/redis.config**下修改**redis**信息(如需部署)
 3. 运行应用程序:
 
 ```ssh
+go build main.go
 go run main.go
 ```
 
 ## 部署
 
 - 该项目需要配置证书，需要在ssl文件夹下配置
-
+> 若无证书可以在 `main.go` 中使用运行 `err := r.Run(port)`
 - 该应用程序可以使用Docker进行部署。
 
 ```ssh
