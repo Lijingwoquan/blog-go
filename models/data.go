@@ -45,19 +45,20 @@ type DataAboutEssay struct {
 //文章查询相关
 
 type EssayData struct {
-	Name         string   `json:"name" db:"name"`
-	Kind         string   `json:"kind" db:"kind"`
-	Id           int      `json:"id" db:"id"`
-	Introduction string   `json:"introduction" db:"introduction"`
-	Router       string   `json:"router"`
-	KindRouter   string   `json:"kindRouter"`
-	Content      string   `json:"content" db:"content"`
-	VisitedTimes int64    `json:"visitedTimes" db:"visitedTimes"`
-	CreatedTime  string   `json:"createdTime" db:"createdTime"`
-	UpdatedTime  string   `json:"updatedTime" db:"updatedTime"`
-	Keywords     []string `json:"keywords"`
-	Eid          int64    `json:"eid" db:"eid"`
-	ImgUrl       string   `json:"imgUrl" binging:"required"  db:"imgUrl"`
-	AdvertiseMsg string   `json:"advertiseMsg" db:"advertiseMsg"`
-	AdvertiseImg string   `json:"advertiseImg" db:"advertiseImg"`
+	Name          string   `json:"name" db:"name"`
+	Kind          string   `json:"kind" db:"kind"`
+	Id            int      `json:"id" db:"id"`
+	Introduction  string   `json:"introduction" db:"introduction"`
+	Router        string   `json:"router"`
+	KindRouter    string   `json:"kindRouter"`
+	Content       string   `json:"content" db:"content"`
+	VisitedTimes  int64    `json:"visitedTimes" db:"visitedTimes"`
+	CreatedTime   string   `json:"createdTime" db:"createdTime"`
+	UpdatedTime   string   `json:"updatedTime" db:"updatedTime"`
+	Keywords      []string `json:"keywords"`
+	Eid           int64    `json:"eid" db:"eid"`
+	ImgUrl        string   `json:"imgUrl" binging:"required"  db:"imgUrl"`
+	AdvertiseMsg  string   `json:"advertiseMsg" db:"advertiseMsg"`
+	AdvertiseImg  string   `json:"advertiseImg" db:"advertiseImg"`
+	AdvertiseHref string   `json:"advertiseHref" db:"advertiseHref"`
 }

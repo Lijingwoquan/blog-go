@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// CheckClassifyKindExist 检查分类种类存不存在
+// CheckClassifyKindExist 检查分类种类是否存在
 func CheckClassifyKindExist(c *models.ClassifyParams) error {
 	var row int
 	var err error
@@ -29,7 +29,7 @@ func CheckClassifyKindExist(c *models.ClassifyParams) error {
 	return nil
 }
 
-// CheckClassifyExist 检查分类存不存在
+// CheckClassifyExist 检查分类是否存在
 func CheckClassifyExist(c *models.ClassifyParams) error {
 	var err error
 	sqlStr1 := `SELECT COUNT(*) FROM classify WHERE name = ?`
@@ -75,12 +75,12 @@ func CheckEssayExist(c *models.EssayParams) error {
 	}
 
 	count = 0
-	sqlStr2 := `SELECT COUNT(*) FROM essay WHERE router = ?`
-	if err = db.Get(&count, sqlStr2, c.Router); err != nil {
+	sqlStr2 := `SELECT COUNT(*) FROM essay WHERE router = ? AND kind = ?`
+	if err = db.Get(&count, sqlStr2, c.Router, c.Kind); err != nil {
 		return err
 	}
-	if count > 0 {
-		return errors.New(essayExist)
+	if count > 1 {
+		return errors.New(routerExist)
 	}
 	return nil
 }
@@ -117,8 +117,11 @@ func UpdateEssayMsg(data *models.UpdateEssayMsgParams) error {
 	if formattedTime, err = getChineseTime(); err != nil {
 		return err
 	}
-	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,introduction=?,router = ?,updatedTime=?,imgUrl=?,advertiseMsg=?,advertiseImg=? WHERE id = ?`
-	result, err := db.Exec(sqlStr, data.Name, data.Kind, data.Content, data.Introduction, data.Router, formattedTime, data.ImgUrl, data.AdvertiseMsg, data.AdvertiseImg, data.Id)
+	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,introduction=?,router = ?,updatedTime=?,imgUrl=?,advertiseMsg=?,advertiseImg=?,advertiseHref = ? WHERE id = ?`
+	result, err := db.Exec(
+		sqlStr,
+		data.Name, data.Kind, data.Content, data.Introduction, data.Router, formattedTime, data.ImgUrl, data.AdvertiseMsg, data.AdvertiseImg, data.AdvertiseHref,
+		data.Id)
 	if err != nil {
 		return err
 	}
