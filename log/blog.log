@@ -322,3 +322,9 @@
 {"level":"ERROR","time":"2024-09-25T14:11:05.848+0800","caller":"controller/manager.go:50","msg":"mysql.CreateEssay(essay) failed","error":"Error 1364 (HY000): Field 'advertiseMsg' doesn't have a default value"}
 {"level":"ERROR","time":"2024-09-25T14:12:59.384+0800","caller":"controller/data.go:59","msg":"logic.GetEssayData(essay, id) failed","error":"sql: Scan error on column index 10, name \"advertiseMsg\": converting NULL to string is unsupported"}
 {"level":"ERROR","time":"2024-09-25T14:21:18.377+0800","caller":"controller/data.go:59","msg":"logic.GetEssayData(essay, id) failed","error":"sql: Scan error on column index 10, name \"advertiseMsg\": converting NULL to string is unsupported"}
+{"level":"ERROR","time":"2024-09-25T14:37:20.516+0800","caller":"controller/data.go:59","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-09-25T14:37:31.233+0800","caller":"controller/data.go:59","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-09-25T14:37:42.984+0800","caller":"controller/data.go:59","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-09-25T14:37:57.858+0800","caller":"controller/data.go:59","msg":"logic.GetEssayData(essay, id) failed","error":"sql: no rows in result set"}
+{"level":"ERROR","time":"2024-09-25T18:22:26.692+0800","caller":"controller/manager.go:44","msg":"c.ShouldBindJSON(essay) failed","error":"Key: 'EssayParams.Content' Error:Field validation for 'Content' failed on the 'required' tag"}
+{"level":"ERROR","time":"2024-09-25T18:22:40.822+0800","caller":"controller/data.go:59","msg":"logic.GetEssayData(essay, id) failed","error":"sql: Scan error on column index 10, name \"advertiseMsg\": converting NULL to string is unsupported"}

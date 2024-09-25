@@ -86,12 +86,20 @@ func GetAllEssay(data *[]models.DataAboutEssay) error {
 }
 
 func GetEssayData(data *models.EssayData, id int) (err error) {
-	//在这里得到次数并添加
 	sqlStr := `SELECT content,name,id,introduction,router,kind,createdTime,updatedTime,eid,imgUrl,advertiseMsg,advertiseImg,advertiseHref FROM essay where id = ?`
 
-	if err = db.Get(data, sqlStr, id); err != nil {
+	var advertiseMsg sql.NullString
+	var advertiseImg sql.NullString
+	var advertiseHref sql.NullString
+
+	if err = db.QueryRow(sqlStr, id).Scan(&data.Content, &data.Name, &data.Id, &data.Introduction, &data.Router, &data.Kind, &data.CreatedTime, &data.UpdatedTime, &data.Eid, &data.ImgUrl, &advertiseMsg, &advertiseImg, &advertiseHref); err != nil {
 		return err
 	}
+
+	data.AdvertiseMsg = advertiseMsg.String
+	data.AdvertiseImg = advertiseImg.String
+	data.AdvertiseHref = advertiseHref.String
+
 	if data.Last, data.Next, err = GetAdjacentEssay(id, data.Kind); err != nil {
 		return err
 	}
@@ -107,8 +115,8 @@ func GetAdjacentEssay(currentID int, currentKind string) (models.AdjacentEssay, 
         SELECT 
             (SELECT id FROM essay WHERE id < ? AND kind = ? ORDER BY id DESC LIMIT 1) AS last_id,
             (SELECT name FROM essay WHERE id < ? AND kind = ? ORDER BY id DESC LIMIT 1) AS last_name,
-            (SELECT id FROM essay WHERE id > ? AND kind = ? ORDER BY id ASC LIMIT 1) AS next_id,
-            (SELECT name FROM essay WHERE id > ? AND kind = ? ORDER BY id ASC LIMIT 1) AS next_name
+            (SELECT id FROM essay WHERE id > ? AND kind = ? ORDER BY id  LIMIT 1) AS next_id,
+            (SELECT name FROM essay WHERE id > ? AND kind = ? ORDER BY id  LIMIT 1) AS next_name
     `
 
 	args := []interface{}{currentID, currentKind, currentID, currentKind, currentID, currentKind, currentID, currentKind}
