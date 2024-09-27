@@ -7,6 +7,8 @@ const (
 	KeySearchKeyWordTimes = "keyword:searchTimes:"
 	KeyEssayKeyword       = "essay:keyword:"
 	KeyUserIp             = "user:ip:"
+	KeyLimitIp            = "user:ip:limit:"
+	KeyMaliciousIp        = "user:ip:malicious:"
 )
 
 func getRedisKey(key string) string {

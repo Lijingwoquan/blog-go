@@ -3,7 +3,6 @@ package middlewares
 import (
 	"blog/controller"
 	"blog/dao/mysql"
-	"blog/dao/redis"
 	"blog/pkg/jwt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -65,11 +64,4 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 func JWTInvalidToken(token string) error {
 	//1.查看token是否在数据库中
 	return mysql.CheckTokenIfInvalid(token)
-}
-
-func SaveUserIp() func(c *gin.Context) {
-	return func(c *gin.Context) {
-		redis.SaveUserIp(c.ClientIP())
-		c.Next() // 后续的处理请求的函数中 可以用过c.Get(CtxUserIDKey) 来获取当前请求的用户信息
-	}
 }
