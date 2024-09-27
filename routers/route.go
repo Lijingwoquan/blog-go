@@ -27,7 +27,7 @@ func SetupRouter(mode string) *gin.Engine {
 	r.Static("api/file", "/app/statics/file")
 
 	r.Use(middlewares.SaveUserIp())
-	//r.Use(middlewares.IpLimit())
+	r.Use(middlewares.IpLimit())
 
 	v0 := r.Group("/api/base")
 	{
