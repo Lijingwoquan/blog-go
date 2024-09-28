@@ -11,44 +11,36 @@ const (
 
 func Init() {
 	var wg sync.WaitGroup
-	errCh := make(chan error, tickerTaskCount) // 缓冲通道，避免goroutine泄露
+	errCh := make(chan error, tickerTaskCount)
 
-	// getDataAboutIndex
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		if err := getDataAboutIndex(); err != nil {
-			errCh <- err
-		}
-	}()
+	tasks := []func() error{
+		func() error {
+			_, err := GetDataAboutIndex()
+			return err
+		},
+		func() error {
+			_, err := GetEssayList()
+			return err
+		},
+		getMaliciousMap,
+	}
 
-	//getEssayList
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		if err := getEssayList(); err != nil {
-			errCh <- err
-		}
-	}()
+	for _, task := range tasks {
+		wg.Add(1)
+		go func(t func() error) {
+			defer wg.Done()
+			if err := t(); err != nil {
+				errCh <- err
+			}
+		}(task)
+	}
 
-	wg.Add(1)
-
-	go func() {
-		defer wg.Done()
-		if err := getMaliciousMap(); err != nil {
-			errCh <- err
-		}
-	}()
-
-	// 错误处理
 	go func() {
 		wg.Wait()
-		close(errCh) // 所有任务完成后关闭errCh
-		for err := range errCh {
-			zap.L().Error("Error in cache Init", zap.Error(err))
-		}
+		close(errCh) //关闭通道避免死循环
 	}()
 
-	// 等待所有任务完成
-	wg.Wait()
+	for err := range errCh {
+		zap.L().Error("Error in cache Init", zap.Error(err))
+	}
 }

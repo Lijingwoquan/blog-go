@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	GlobalDataAboutIndex     = models.DataAboutIndex{}
-	GlobalDataAboutEssayList = new([]models.DataAboutEssay)
+	globalDataAboutIndex     = new(models.DataAboutIndex)
+	globalDataAboutEssayList = new([]models.DataAboutEssay)
 	Error                    error
 )
 
@@ -16,7 +16,7 @@ func UpdateDataAboutIndex() {
 	errCh := make(chan error)
 	done := make(chan bool)
 	go func() {
-		if err := getDataAboutIndex(); err != nil {
+		if _, err := GetDataAboutIndex(); err != nil {
 			errCh <- err
 		}
 		done <- true
@@ -36,7 +36,7 @@ func UpdateDataAboutEssayList() {
 	errCh := make(chan error)
 	done := make(chan bool)
 	go func() {
-		if err := getEssayList(); err != nil {
+		if _, err := GetEssayList(); err != nil {
 			errCh <- err
 		}
 		done <- true
@@ -52,16 +52,16 @@ func UpdateDataAboutEssayList() {
 	}()
 }
 
-func getDataAboutIndex() error {
-	if Error = help.ResponseDataAboutIndex(&GlobalDataAboutIndex); Error != nil {
-		return Error
+func GetDataAboutIndex() (*models.DataAboutIndex, error) {
+	if Error = help.ResponseDataAboutIndex(globalDataAboutIndex); Error != nil {
+		return nil, Error
 	}
-	return nil
+	return globalDataAboutIndex, nil
 }
 
-func getEssayList() error {
-	if Error = help.ResponseDataAboutEssayList(GlobalDataAboutEssayList); Error != nil {
-		return Error
+func GetEssayList() (*[]models.DataAboutEssay, error) {
+	if Error = help.ResponseDataAboutEssayList(globalDataAboutEssayList); Error != nil {
+		return nil, Error
 	}
-	return nil
+	return globalDataAboutEssayList, nil
 }

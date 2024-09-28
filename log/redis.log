@@ -47,3 +47,8 @@
 1:M 28 Sep 2024 13:15:13.069 * Done loading RDB, keys loaded: 6, keys expired: 2.
 1:M 28 Sep 2024 13:15:13.070 * DB loaded from disk: 0.007 seconds
 1:M 28 Sep 2024 13:15:13.071 * Ready to accept connections tcp
+1:M 28 Sep 2024 13:20:14.033 * 10 changes in 300 seconds. Saving...
+1:M 28 Sep 2024 13:20:14.039 * Background saving started by pid 202
+202:C 28 Sep 2024 13:20:14.045 * DB saved on disk
+202:C 28 Sep 2024 13:20:14.048 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1:M 28 Sep 2024 13:20:14.141 * Background saving terminated with success

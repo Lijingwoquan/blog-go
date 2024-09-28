@@ -18,7 +18,12 @@ func GetDataByKeyword(param *models.SearchParam) (err error) {
 }
 
 func GetEssayListByKeyword(e *[]models.DataAboutEssay, k *models.SearchParam) {
-	for _, essay := range *cache.GlobalDataAboutEssayList {
+	var essayList = new([]models.DataAboutEssay)
+	var err error
+	if essayList, err = cache.GetEssayList(); err != nil {
+		return
+	}
+	for _, essay := range *essayList {
 		// 检查 essay.keyword 数组中是否包含指定的关键字 k
 		for _, keyword := range essay.Keywords {
 			if strings.Contains(keyword, k.Keyword) {

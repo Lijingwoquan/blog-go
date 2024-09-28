@@ -7,12 +7,14 @@ import (
 	"blog/models"
 )
 
-func GetDataAboutIndex(data *models.DataAboutIndex) error {
+func GetDataAboutIndex(data *models.DataAboutIndex) (err error) {
 	// 从缓存中拿到数据
 	if cache.Error != nil {
 		return cache.Error
 	}
-	data = &cache.GlobalDataAboutIndex
+	if data, err = cache.GetDataAboutIndex(); err != nil {
+		return err
+	}
 	return nil
 }
 
