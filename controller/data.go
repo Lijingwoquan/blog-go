@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"blog/cache"
 	"blog/logic"
 	"blog/models"
 	"github.com/gin-gonic/gin"
@@ -10,10 +9,14 @@ import (
 )
 
 func ResponseDataAboutIndexHandler(c *gin.Context) {
-	if cache.Error != nil {
+	var data = new(models.DataAboutIndex)
+	if err := logic.GetDataAboutIndex(data); err != nil {
 		ResponseError(c, CodeServeBusy)
+		return
 	}
-	ResponseSuccess(c, cache.GlobalDataAboutIndex)
+
+	ResponseSuccess(c, data)
+
 }
 
 func ResponseDataAboutEssayListHandler(c *gin.Context) {

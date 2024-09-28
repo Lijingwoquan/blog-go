@@ -1,10 +1,20 @@
 package logic
 
 import (
+	"blog/cache"
 	"blog/dao/mysql"
 	"blog/dao/redis"
 	"blog/models"
 )
+
+func GetDataAboutIndex(data *models.DataAboutIndex) error {
+	// 从缓存中拿到数据
+	if cache.Error != nil {
+		return cache.Error
+	}
+	data = &cache.GlobalDataAboutIndex
+	return nil
+}
 
 // GetEssayData 得到文章数据
 func GetEssayData(data *models.EssayData, id int) error {
