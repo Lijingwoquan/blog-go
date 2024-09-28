@@ -19,6 +19,7 @@ func ResponseDataAboutIndex(DataAboutIndex *models.DataAboutIndex) (err error) {
 
 	//整合数据
 	sortKindAndClassify(DataAboutIndex, kindList, classifyList)
+
 	return nil
 }
 
@@ -72,5 +73,5 @@ func sortKindAndClassify(DataAboutIndex *models.DataAboutIndex, k *[]models.Data
 		indexDataMenu[i].ClassifyList = kindAndClassifyMap[kind.Name]
 	}
 
-	DataAboutIndex.Menu = indexDataMenu
+	(*DataAboutIndex).Menu = indexDataMenu
 }

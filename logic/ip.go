@@ -29,7 +29,6 @@ func IpLimit(ip string) (err error) {
 	var exist bool
 	exist = cache.IfIpInMaliciousMap(ip)
 	if exist {
-		zap.L().Error("cache.GetMaliciousIpMap(ip),err:%v", zap.Error(err))
 		return fmt.Errorf(ipForbid)
 	}
 

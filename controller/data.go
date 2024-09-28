@@ -10,13 +10,12 @@ import (
 
 func ResponseDataAboutIndexHandler(c *gin.Context) {
 	var data = new(models.DataAboutIndex)
-	if err := logic.GetDataAboutIndex(data); err != nil {
+	err := logic.GetDataAboutIndex(data)
+	if err != nil {
 		ResponseError(c, CodeServeBusy)
 		return
 	}
-
-	ResponseSuccess(c, data)
-
+	ResponseSuccess(c, *data)
 }
 
 func ResponseDataAboutEssayListHandler(c *gin.Context) {

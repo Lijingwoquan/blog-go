@@ -12,9 +12,11 @@ func GetDataAboutIndex(data *models.DataAboutIndex) (err error) {
 	if cache.Error != nil {
 		return cache.Error
 	}
-	if data, err = cache.GetDataAboutIndex(); err != nil {
+	var temp = new(models.DataAboutIndex)
+	if temp, err = cache.GetDataAboutIndex(); err != nil {
 		return err
 	}
+	*data = *temp
 	return nil
 }
 
