@@ -60,8 +60,8 @@ func main() {
 	r := routers.SetupRouter(viper.GetString("app.mode"))
 
 	port := fmt.Sprintf(":%d", viper.GetInt("app.port"))
-	//err := r.RunTLS(port, "ssl/server.crt", "ssl/server.key")
-	err := r.Run(port)
+	err := r.RunTLS(port, "ssl/server.crt", "ssl/server.key")
+	//err := r.Run(port)
 
 	if err != nil {
 		fmt.Printf("run server failed,err:%v", err)
