@@ -35,3 +35,15 @@
 1:M 27 Sep 2024 22:53:59.217 * Saving the final RDB snapshot before exiting.
 1:M 27 Sep 2024 22:53:59.222 * DB saved on disk
 1:M 27 Sep 2024 22:53:59.225 # Redis is now ready to exit, bye bye...
+1:C 28 Sep 2024 13:15:13.051 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 28 Sep 2024 13:15:13.052 * Redis version=7.4.0, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 28 Sep 2024 13:15:13.054 * Configuration loaded
+1:M 28 Sep 2024 13:15:13.056 * monotonic clock: POSIX clock_gettime
+1:M 28 Sep 2024 13:15:13.059 * Running mode=standalone, port=6379.
+1:M 28 Sep 2024 13:15:13.061 * Server initialized
+1:M 28 Sep 2024 13:15:13.064 * Loading RDB produced by version 7.4.0
+1:M 28 Sep 2024 13:15:13.066 * RDB age 51674 seconds
+1:M 28 Sep 2024 13:15:13.067 * RDB memory usage when created 1.12 Mb
+1:M 28 Sep 2024 13:15:13.069 * Done loading RDB, keys loaded: 6, keys expired: 2.
+1:M 28 Sep 2024 13:15:13.070 * DB loaded from disk: 0.007 seconds
+1:M 28 Sep 2024 13:15:13.071 * Ready to accept connections tcp

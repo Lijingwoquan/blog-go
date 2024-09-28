@@ -12,11 +12,12 @@ const (
 	MaxExpirationTime   = 10 * time.Second
 )
 
-func SaveUserIp(ip string) {
+func SaveUserIp(ip string) error {
 	preKey := getRedisKey(KeyUserIp)
 	if err := SetYearMonthWeekTimesZoneForSet(preKey, ip); err != nil {
-		return
+		return err
 	}
+	return nil
 }
 
 func GetUserIpCount(ipSet *models.UserIpForSet) (err error) {
@@ -69,9 +70,14 @@ func IncreaseIpRequestTimes(ip string) (times int64, err error) {
 	return times, err
 }
 
-func CheckIpIfMalicious(ip string) (bool, error) {
+func GetAllMaliciousIp() (pips *[]string, err error) {
 	preKey := getRedisKey(KeyMaliciousIp)
-	return client.SIsMember(preKey, ip).Result()
+	var ips = make([]string, 10)
+	if ips, err = client.SMembers(preKey).Result(); err != nil {
+		return nil, err
+	}
+	pips = &ips
+	return pips, err
 }
 
 func SetIpMalicious(ip string) (err error) {

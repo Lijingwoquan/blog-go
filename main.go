@@ -31,37 +31,37 @@ func main() {
 		}
 	}()
 
-	//初始化雪花算法
+	//3.初始化雪花算法
 	if err := snowflake.Init(viper.GetString("app.start_time"), viper.GetInt64("app.machine_id")); err != nil {
 		fmt.Printf("snowflake init failed,err:%v", err)
 		return
 	}
 
-	//3.初始化mysql
+	//4.初始化mysql
 	if err := mysql.Init(); err != nil {
 		fmt.Printf("init mysql failed! err:%v", err)
 		return
 	}
 
-	//4.初始化redis
+	//5.初始化redis
 	if err := redis.Init(); err != nil {
 		fmt.Printf("init redis failed err:%v", err)
 		return
 	}
 	defer redis.Close()
 
-	//初始计时器
+	//6.初始计时器
 	ticker.Init()
 
-	//初始缓存
+	//7初始缓存
 	cache.Init()
 
-	//5.注册路由
+	//8.注册路由
 	r := routers.SetupRouter(viper.GetString("app.mode"))
 
 	port := fmt.Sprintf(":%d", viper.GetInt("app.port"))
-	err := r.RunTLS(port, "ssl/server.crt", "ssl/server.key")
-	//err := r.Run(port)
+	//err := r.RunTLS(port, "ssl/server.crt", "ssl/server.key")
+	err := r.Run(port)
 
 	if err != nil {
 		fmt.Printf("run server failed,err:%v", err)

@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"blog/cache"
 	"blog/dao/redis"
 	"fmt"
 	"go.uber.org/zap"
@@ -16,15 +17,19 @@ const (
 	ipForbid           = "恭喜你!ip已被永久封禁"
 )
 
+func SaveUserIp(ip string) error {
+	if err := redis.SaveUserIp(ip); err != nil {
+		return err
+	}
+	return nil
+}
+
 func IpLimit(ip string) (err error) {
 	// 1.检查ip是否在恶意请求里
 	var exist bool
-	exist, err = redis.CheckIpIfMalicious(ip)
-	if err != nil {
-		zap.L().Error("redis.CheckIpIfMalicious(ip),err:%v", zap.Error(err))
-		return err
-	}
+	exist = cache.IfIpInMaliciousMap(ip)
 	if exist {
+		zap.L().Error("cache.GetMaliciousIpMap(ip),err:%v", zap.Error(err))
 		return fmt.Errorf(ipForbid)
 	}
 
@@ -37,10 +42,13 @@ func IpLimit(ip string) (err error) {
 
 	// 3.是否超出恶意指标处理
 	if times > maliciousTimes {
+		//在redis里存放
 		if err = redis.SetIpMalicious(ip); err != nil {
 			zap.L().Error("redis.SetIpMalicious(ip) failed,err:%v", zap.Error(err))
 			return err
 		}
+		//在缓存里存放
+		cache.AddMaliciousIpMap(ip)
 		return fmt.Errorf(ipForbid)
 	}
 

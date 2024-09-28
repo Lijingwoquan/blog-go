@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	tickerTaskCount = 1
+	tickerTaskCount = 3
 )
 
 func Init() {
@@ -22,11 +22,20 @@ func Init() {
 		}
 	}()
 
+	//getEssayList
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := getEssayList(); err != nil {
+			errCh <- err
+		}
+	}()
+
 	wg.Add(1)
 
 	go func() {
 		defer wg.Done()
-		if err := getEssayList(); err != nil {
+		if err := getMaliciousMap(); err != nil {
 			errCh <- err
 		}
 	}()
