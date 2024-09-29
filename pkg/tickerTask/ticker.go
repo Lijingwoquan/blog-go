@@ -12,23 +12,23 @@ const (
 	cleanInvalidToken       = time.Hour * 24
 	saveVisitedTimes        = time.Hour * 24
 	cleanLowFrequentKeyword = time.Hour * 24 * 30
-	taskCount               = 3
+	taskCount               = 2
 )
 
 var (
 	wg    sync.WaitGroup
-	errCh = make(chan error, 3)
+	errCh = make(chan error, taskCount)
 )
 
 func Init() {
 	wg.Add(taskCount + 1) // 为所有任务和错误处理 goroutine 加 1
 
-	taskList := []func() error{cleanupInvalidTokensTask, saveVisitedTimesTask, cleanLowFrequentKeywordTask}
+	taskList := []func() error{saveVisitedTimesTask, cleanLowFrequentKeywordTask}
 
 	// 启动错误处理goroutine
 	go func() {
 		defer wg.Done()
-		go handleErrors()
+		handleErrors()
 	}()
 
 	// 启动任务
@@ -54,7 +54,7 @@ func runTask(task func() error) error {
 func handleErrors() {
 	for err := range errCh {
 		// 使用你的日志库记录错误，这里用zap作为示例
-		zap.L().Error("Task error", zap.Error(err))
+		zap.L().Error("Task happen error", zap.Error(err))
 	}
 }
 
@@ -95,6 +95,7 @@ func cleanLowFrequentKeywordTask() error {
 		if err != nil {
 			return err
 		}
+
 	}
 	return nil
 }
