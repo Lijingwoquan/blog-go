@@ -12,15 +12,32 @@ func ResponseDataAboutIndex(DataAboutIndex *models.DataAboutIndex) (err error) {
 	if err = getKindAndIcon(kindList); err != nil {
 		return err
 	}
-	var classifyList = new([]models.DataAboutClassify)
+	var classifyList = new([]models.DataAboutLabel)
 	if err = getClassifyAndDetails(classifyList); err != nil {
 		return err
 	}
 
 	//整合数据
-	sortKindAndClassify(DataAboutIndex, kindList, classifyList)
+	DataAboutIndex.KindList = *kindList
+	DataAboutIndex.LabelList = *classifyList
 
 	return nil
+}
+
+// 1.查kind和icon
+func getKindAndIcon(k *[]models.DataAboutKind) error {
+	return mysql.GetDataAboutKind(k)
+}
+
+// 2.查classifyDetails
+func getClassifyAndDetails(c *[]models.DataAboutLabel) error {
+	//得到了所有的分类
+	return mysql.GetAllDataAboutClassify(c)
+}
+
+// 3.查询allEssay
+func getAllEssay(data *[]models.DataAboutEssay) error {
+	return mysql.GetAllEssay(data)
 }
 
 func ResponseDataAboutEssayList(essayList *[]models.DataAboutEssay) (err error) {
@@ -28,7 +45,7 @@ func ResponseDataAboutEssayList(essayList *[]models.DataAboutEssay) (err error) 
 		return err
 	}
 	// 整合classify
-	var classifyList = new([]models.DataAboutClassify)
+	var classifyList = new([]models.DataAboutLabel)
 	if err = mysql.GetAllDataAboutClassify(classifyList); err != nil {
 		return err
 	}
@@ -41,37 +58,4 @@ func ResponseDataAboutEssayList(essayList *[]models.DataAboutEssay) (err error) 
 		(*essayList)[i].KindRouter = classifyMap[essay.Kind]
 	}
 	return redis.GetEssayKeywordsForIndex(essayList)
-}
-
-// 1.查kind和icon
-func getKindAndIcon(k *[]models.DataAboutKind) error {
-	return mysql.GetDataAboutKind(k)
-}
-
-// 2.查classifyDetails
-func getClassifyAndDetails(c *[]models.DataAboutClassify) error {
-	//得到了所有的分类
-	return mysql.GetAllDataAboutClassify(c)
-}
-
-// 3.查询allEssay
-func getAllEssay(data *[]models.DataAboutEssay) error {
-	return mysql.GetAllEssay(data)
-}
-
-// 4.整合数据
-func sortKindAndClassify(DataAboutIndex *models.DataAboutIndex, k *[]models.DataAboutKind, c *[]models.DataAboutClassify) {
-	var indexDataMenu = make([]models.DataAboutIndexMenu, len(*k))
-
-	var kindAndClassifyMap = make(map[string][]models.DataAboutClassify)
-	for _, classify := range *c {
-		kindAndClassifyMap[classify.Kind] = append(kindAndClassifyMap[classify.Kind], classify)
-	}
-
-	for i, kind := range *k {
-		indexDataMenu[i].Kind = kind
-		indexDataMenu[i].ClassifyList = kindAndClassifyMap[kind.Name]
-	}
-
-	(*DataAboutIndex).Menu = indexDataMenu
 }

@@ -38,9 +38,9 @@ func Init() (err error) {
 		zap.L().Error("createKindTable(db) failed,err:%v", zap.Error(err))
 		return err
 	}
-	err = createClassifyTable(db)
+	err = createLabelTable(db)
 	if err != nil {
-		zap.L().Error(" createClassifyTable(db) failed,err:%v", zap.Error(err))
+		zap.L().Error(" createLabelTable(db) failed,err:%v", zap.Error(err))
 		return err
 	}
 	err = createEssayTable(db)
@@ -99,13 +99,15 @@ func createKindTable(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS kind(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(60) NOT NULL,
-	icon VARCHAR(60) NOT NULL)`
+	icon VARCHAR(60) NOT NULL,
+	router varchar(60) NOT NULL,
+	essayCount TINYINT  NULL DEFAULT  0)`
 	_, err = db.Exec(sqlStr)
 	return err
 }
 
-func createClassifyTable(db *sqlx.DB) (err error) {
-	sqlStr := `CREATE TABLE IF NOT EXISTS classify(
+func createLabelTable(db *sqlx.DB) (err error) {
+	sqlStr := `CREATE TABLE IF NOT EXISTS label(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	kind VARCHAR(60) NOT NULL,
 	name VARCHAR(60) NOT NULL,
@@ -129,7 +131,8 @@ func createEssayTable(db *sqlx.DB) (err error) {
 	updatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	advertiseMsg VARCHAR(30),
 	advertiseImg VARCHAR(100),
-	advertiseHref VARCHAR(100)
+	advertiseHref VARCHAR(100),
+	ifRecommend BOOL NOT NULL DEFAULT FALSE
     )`
 	_, err = db.Exec(sqlStr)
 	return err

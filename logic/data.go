@@ -29,7 +29,7 @@ func GetEssayData(data *models.EssayData, id int) error {
 		return err
 	}
 	//2.整合classify
-	classify := new(models.DataAboutClassify)
+	classify := new(models.DataAboutLabel)
 	classify.Name = data.Kind
 	if err := mysql.GetOneDataAboutClassify(classify); err != nil {
 		return err
@@ -71,7 +71,7 @@ func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query 
 		}
 	}
 
-	var classifyList = new([]models.DataAboutClassify)
+	var classifyList = new([]models.DataAboutLabel)
 	if err := mysql.GetAllDataAboutClassify(classifyList); err != nil {
 		return err
 	}

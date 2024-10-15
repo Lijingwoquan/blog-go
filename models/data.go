@@ -3,19 +3,17 @@ package models
 // index返回数据相关
 
 type DataAboutIndex struct {
-	Menu []DataAboutIndexMenu `json:"menu"`
+	KindList  []DataAboutKind  `json:"kindList"`
+	LabelList []DataAboutLabel `json:"labelList"`
 }
-type DataAboutIndexMenu struct {
-	Kind         DataAboutKind       `json:"kind"`
-	ClassifyList []DataAboutClassify `json:"classifyList"`
-}
-
 type DataAboutKind struct {
-	Name string `json:"name" db:"name"`
-	Icon string `json:"icon" db:"icon"`
-	Id   int    `json:"id" db:"id"`
+	Name       string `json:"name" db:"name"`
+	Icon       string `json:"icon" db:"icon"`
+	Id         int    `json:"id" db:"id"`
+	Router     string `json:"router" db:"router"`
+	EssayCount int8   `json:"essayCount" db:"essayCount"`
 }
-type DataAboutClassify struct {
+type DataAboutLabel struct {
 	Kind   string `json:"kind" db:"kind"`
 	Name   string `json:"name"  db:"name"`
 	Router string `json:"router" db:"router"`
