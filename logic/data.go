@@ -29,7 +29,6 @@ func GetEssayData(data *models.EssayData, id int) error {
 	if err := mysql.GetOneDataAboutClassify(classify); err != nil {
 		return err
 	}
-	data.KindRouter = classify.Router
 
 	//从redis查数据
 	// 1.查访问次数

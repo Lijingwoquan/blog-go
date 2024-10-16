@@ -100,8 +100,8 @@ func createKindTable(db *sqlx.DB) (err error) {
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(60) NOT NULL,
 	icon VARCHAR(60) NOT NULL,
-	router varchar(60) NOT NULL,
-	essayCount TINYINT  NULL DEFAULT  0)`
+	essayCount TINYINT  NULL DEFAULT  0
+	)`
 	_, err = db.Exec(sqlStr)
 	return err
 }
@@ -110,8 +110,8 @@ func createLabelTable(db *sqlx.DB) (err error) {
 	sqlStr := `CREATE TABLE IF NOT EXISTS label(
 	id INT AUTO_INCREMENT PRIMARY KEY,
 	kind VARCHAR(60) NOT NULL,
-	name VARCHAR(60) NOT NULL,
-	router VARCHAR(60) NOT NULL )`
+	name VARCHAR(60) NOT NULL
+	)`
 	_, err = db.Exec(sqlStr)
 	return err
 }
@@ -124,14 +124,10 @@ func createEssayTable(db *sqlx.DB) (err error) {
 	name VARCHAR(60) NOT NULL,
 	content TEXT NOT NULL,
 	introduction VARCHAR(180) NOT NULL,
-    router VARCHAR(60) NOT NULL ,
 	visitedTimes BIGINT NOT NULL DEFAULT 0 ,
     imgUrl varchar(100) NOT NULL,
     createdTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	advertiseMsg VARCHAR(30),
-	advertiseImg VARCHAR(100),
-	advertiseHref VARCHAR(100),
 	ifRecommend BOOL NOT NULL DEFAULT FALSE
     )`
 	_, err = db.Exec(sqlStr)

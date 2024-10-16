@@ -11,15 +11,13 @@ type DataAboutKind struct {
 	ID         int    `json:"id" db:"id"`
 	Name       string `json:"name" db:"name"`
 	Icon       string `json:"icon" db:"icon"`
-	Router     string `json:"router" db:"router"`
 	EssayCount int8   `json:"essayCount" db:"essayCount"`
 }
 
 type DataAboutLabel struct {
-	ID     int    `json:"id" db:"id"`
-	Kind   string `json:"kind" db:"kind"`
-	Name   string `json:"name"  db:"name"`
-	Router string `json:"router" db:"router"`
+	ID   int    `json:"id" db:"id"`
+	Kind string `json:"kind" db:"kind"`
+	Name string `json:"name"  db:"name"`
 }
 
 type DataAboutEssay struct {

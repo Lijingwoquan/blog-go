@@ -32,22 +32,15 @@ func CheckClassifyKindExist(c *models.ClassifyParams) error {
 // CheckClassifyExist 检查分类是否存在
 func CheckClassifyExist(c *models.ClassifyParams) error {
 	var err error
-	sqlStr1 := `SELECT COUNT(*) FROM classify WHERE name = ?`
+	sqlStr := `SELECT COUNT(*) FROM classify WHERE name = ?`
 	var count int
-	if err = db.Get(&count, sqlStr1, c.Name); err != nil {
+	if err = db.Get(&count, sqlStr, c.Name); err != nil {
 		return err
 	}
 	if count > 0 {
 		return errors.New(classifyExist)
 	}
 	count = 0
-	sqlStr2 := `SELECT COUNT(*) FROM classify WHERE router = ?`
-	if err = db.Get(&count, sqlStr2, c.Router); err != nil {
-		return err
-	}
-	if count > 0 {
-		return errors.New(classifyExist)
-	}
 	return nil
 }
 
@@ -55,7 +48,7 @@ func CheckClassifyExist(c *models.ClassifyParams) error {
 func AddClassify(c *models.ClassifyParams) error {
 	var err error
 	sqlStr := `INSERT INTO classify(kind, name,router) VALUES(?,?,?)`
-	if _, err = db.Exec(sqlStr, c.Kind, c.Name, c.Router); err != nil {
+	if _, err = db.Exec(sqlStr, c.Kind, c.Name); err != nil {
 		return err
 	}
 	return nil
@@ -64,23 +57,14 @@ func AddClassify(c *models.ClassifyParams) error {
 // CheckEssayExist 检测文章是否存在
 func CheckEssayExist(c *models.EssayParams) error {
 	var err error
-	sqlStr1 := `SELECT COUNT(*) FROM essay WHERE  kind = ? AND  name = ? `
+	sqlStr := `SELECT COUNT(*) FROM essay WHERE  kind = ? AND  name = ? `
 	var count int
-	if err = db.Get(&count, sqlStr1, c.Kind, c.Name); err != nil {
+	if err = db.Get(&count, sqlStr, c.Kind, c.Name); err != nil {
 		return err
 	}
 
 	if count > 0 {
 		return errors.New(essayExist)
-	}
-
-	count = 0
-	sqlStr2 := `SELECT COUNT(*) FROM essay WHERE router = ? AND kind = ?`
-	if err = db.Get(&count, sqlStr2, c.Router, c.Kind); err != nil {
-		return err
-	}
-	if count > 1 {
-		return errors.New(routerExist)
 	}
 	return nil
 }
@@ -93,7 +77,7 @@ func CreateEssay(e *models.EssayParams) (erd int64, err error) {
 	}
 	eid := snowflake.GenID()
 	sqlStr := `INSERT INTO essay(kind,name,content,router,Introduction,createdTime,updatedTime,eid,imgUrl) values(?,?,?,?,?,?,?,?,?)`
-	if _, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Router, e.Introduction, formattedTime, formattedTime, eid, e.ImgUrl); err != nil {
+	if _, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Introduction, formattedTime, formattedTime, eid, e.ImgUrl); err != nil {
 		return 0, err
 	}
 	return eid, err
@@ -120,7 +104,7 @@ func UpdateEssayMsg(data *models.UpdateEssayMsgParams) error {
 	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,introduction=?,router = ?,updatedTime=?,imgUrl=?,advertiseMsg=?,advertiseImg=?,advertiseHref = ? WHERE id = ?`
 	result, err := db.Exec(
 		sqlStr,
-		data.Name, data.Kind, data.Content, data.Introduction, data.Router, formattedTime, data.ImgUrl, data.AdvertiseMsg, data.AdvertiseImg, data.AdvertiseHref,
+		data.Name, data.Kind, data.Content, data.Introduction, formattedTime, data.ImgUrl, data.AdvertiseMsg, data.AdvertiseImg, data.AdvertiseHref,
 		data.Id)
 	if err != nil {
 		return err
@@ -187,7 +171,7 @@ func UpdateClassify(oldName string, c *models.UpdateClassifyParams) (err error) 
 	}()
 	//更新classify的name
 	sqlStr1 := `UPDATE classify SET name=?,router=? WHERE  id = ?`
-	_, err = tx.Exec(sqlStr1, c.Name, c.Router, c.ID)
+	_, err = tx.Exec(sqlStr1, c.Name, c.ID)
 	if err != nil {
 		return err
 	}

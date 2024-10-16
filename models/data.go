@@ -13,8 +13,6 @@ type EssayData struct {
 	Kind          string        `json:"kind" db:"kind"`
 	Id            int           `json:"id" db:"id"`
 	Introduction  string        `json:"introduction" db:"introduction"`
-	Router        string        `json:"router"`
-	KindRouter    string        `json:"kindRouter"`
 	Content       string        `json:"content" db:"content"`
 	VisitedTimes  int64         `json:"visitedTimes" db:"visitedTimes"`
 	CreatedTime   string        `json:"createdTime" db:"createdTime"`

@@ -38,10 +38,6 @@ func ResponseDataAboutEssayList(essayList *[]models.DataAboutEssay) (err error) 
 	if err = mysql.GetLabelList(labelList); err != nil {
 		return err
 	}
-	var classifyMap = make(map[string]string)
-	for _, label := range *labelList {
-		classifyMap[label.Name] = label.Router
-	}
 
 	return redis.GetEssayKeywordsForIndex(essayList)
 }

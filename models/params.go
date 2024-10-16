@@ -8,10 +8,9 @@ type UserParams struct {
 }
 
 type ClassifyParams struct {
-	Kind   string `json:"kind" binding:"required"`
-	Name   string `json:"name" binding:"required"`
-	Router string `json:"router" binding:"required"`
-	Icon   string `json:"icon" binding:"omitempty"`
+	Kind string `json:"kind" binding:"required"`
+	Name string `json:"name" binding:"required"`
+	Icon string `json:"icon" binding:"omitempty"`
 }
 
 type EssayParams struct {
@@ -19,7 +18,6 @@ type EssayParams struct {
 	Name         string `json:"name" binding:"required"`
 	Introduction string `json:"introduction" binding:"required"`
 	Content      string `json:"content" binding:"required"`
-	Router       string `json:"router" binding:"required"`
 	ImgUrl       string `json:"imgUrl" binging:"required"`
 }
 
@@ -27,7 +25,6 @@ type UpdateEssayMsgParams struct {
 	Name          string   `json:"name" db:"name" binding:"required"`
 	Introduction  string   `json:"introduction" db:"introduction" binding:"required"`
 	Kind          string   `json:"kind" db:"kind" binding:"required"`
-	Router        string   `json:"router" db:"route" binding:"required"`
 	Content       string   `json:"content" db:"content" binding:"required"`
 	Id            int      `json:"id" db:"id" binding:"required"`
 	Keywords      []string `json:"keywords"`
@@ -44,9 +41,8 @@ type UpdateKindParams struct {
 }
 
 type UpdateClassifyParams struct {
-	Name   string `json:"name" binding:"required" db:"name"`
-	Router string `json:"router" binding:"required" db:"router"`
-	ID     int    `json:"id" binding:"required" db:"id"`
+	Name string `json:"name" binding:"required" db:"name"`
+	ID   int    `json:"id" binding:"required" db:"id"`
 }
 
 type EssayQuery struct {

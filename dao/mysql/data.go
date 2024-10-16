@@ -90,7 +90,7 @@ func GetEssayData(data *models.EssayData, id int) (err error) {
 	var advertiseImg sql.NullString
 	var advertiseHref sql.NullString
 
-	if err = db.QueryRow(sqlStr, id).Scan(&data.Content, &data.Name, &data.Id, &data.Introduction, &data.Router, &data.Kind, &data.CreatedTime, &data.UpdatedTime, &data.Eid, &data.ImgUrl, &advertiseMsg, &advertiseImg, &advertiseHref); err != nil {
+	if err = db.QueryRow(sqlStr, id).Scan(&data.Content, &data.Name, &data.Id, &data.Introduction, &data.Kind, &data.CreatedTime, &data.UpdatedTime, &data.Eid, &data.ImgUrl, &advertiseMsg, &advertiseImg, &advertiseHref); err != nil {
 		return err
 	}
 
