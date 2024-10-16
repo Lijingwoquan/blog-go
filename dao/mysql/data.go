@@ -17,12 +17,12 @@ func GetEssaySnowflakeID(id int) (eid int64, err error) {
 }
 
 func GetKindList(data *[]models.DataAboutKind) error {
-	sqlStr := `SELECT name,icon,id,router,essayCount FROM kind `
+	sqlStr := `SELECT name,icon,id,essayCount FROM kind `
 	return db.Select(data, sqlStr)
 }
 
 func GetLabelList(data *[]models.DataAboutLabel) error {
-	sqlStr := `SELECT kind,name,router,id FROM label`
+	sqlStr := `SELECT kind,name,id FROM label`
 	return db.Select(data, sqlStr)
 }
 
@@ -72,7 +72,7 @@ func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuer
 }
 
 func GetOneDataAboutClassify(data *models.DataAboutLabel) error {
-	sqlStr := `SELECT kind,name,router,id FROM label WHERE name = ?`
+	sqlStr := `SELECT kind,name,id FROM label WHERE name = ?`
 	return db.Get(data, sqlStr, data.Name)
 }
 

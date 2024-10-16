@@ -47,7 +47,7 @@ func CheckClassifyExist(c *models.ClassifyParams) error {
 // AddClassify 添加新分类
 func AddClassify(c *models.ClassifyParams) error {
 	var err error
-	sqlStr := `INSERT INTO classify(kind, name,router) VALUES(?,?,?)`
+	sqlStr := `INSERT INTO classify(kind, name) VALUES(?,?)`
 	if _, err = db.Exec(sqlStr, c.Kind, c.Name); err != nil {
 		return err
 	}
@@ -76,7 +76,7 @@ func CreateEssay(e *models.EssayParams) (erd int64, err error) {
 		return 0, err
 	}
 	eid := snowflake.GenID()
-	sqlStr := `INSERT INTO essay(kind,name,content,router,Introduction,createdTime,updatedTime,eid,imgUrl) values(?,?,?,?,?,?,?,?,?)`
+	sqlStr := `INSERT INTO essay(kind,name,content,Introduction,createdTime,updatedTime,eid,imgUrl) values(?,?,?,?,?,?,?,?)`
 	if _, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Introduction, formattedTime, formattedTime, eid, e.ImgUrl); err != nil {
 		return 0, err
 	}
@@ -101,7 +101,7 @@ func UpdateEssayMsg(data *models.UpdateEssayMsgParams) error {
 	if formattedTime, err = getChineseTime(); err != nil {
 		return err
 	}
-	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,introduction=?,router = ?,updatedTime=?,imgUrl=?,advertiseMsg=?,advertiseImg=?,advertiseHref = ? WHERE id = ?`
+	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,introduction=?,updatedTime=?,imgUrl=?,advertiseMsg=?,advertiseImg=?,advertiseHref = ? WHERE id = ?`
 	result, err := db.Exec(
 		sqlStr,
 		data.Name, data.Kind, data.Content, data.Introduction, formattedTime, data.ImgUrl, data.AdvertiseMsg, data.AdvertiseImg, data.AdvertiseHref,
@@ -170,7 +170,7 @@ func UpdateClassify(oldName string, c *models.UpdateClassifyParams) (err error) 
 		}
 	}()
 	//更新classify的name
-	sqlStr1 := `UPDATE classify SET name=?,router=? WHERE  id = ?`
+	sqlStr1 := `UPDATE classify SET name=? WHERE  id = ?`
 	_, err = tx.Exec(sqlStr1, c.Name, c.ID)
 	if err != nil {
 		return err
