@@ -9,14 +9,13 @@ import (
 var (
 	globalDataAboutIndex     = new(models.DataAboutIndex)
 	globalDataAboutEssayList = new([]models.DataAboutEssay)
-	Error                    error
 )
 
 func UpdateDataAboutIndex() {
 	errCh := make(chan error)
 	done := make(chan bool)
 	go func() {
-		if _, err := GetDataAboutIndex(); err != nil {
+		if _, err := GetIndexData(); err != nil {
 			errCh <- err
 		}
 		done <- true
@@ -52,16 +51,18 @@ func UpdateDataAboutEssayList() {
 	}()
 }
 
-func GetDataAboutIndex() (*models.DataAboutIndex, error) {
-	if Error = help.ResponseDataAboutIndex(globalDataAboutIndex); Error != nil {
-		return nil, Error
+func GetIndexData() (*models.DataAboutIndex, error) {
+	if err := help.ResponseIndexData(globalDataAboutIndex); err != nil {
+		zap.L().Error("help.ResponseDataAboutIndex(globalDataAboutIndex) failed,err:", zap.Error(err))
+		return nil, err
 	}
 	return globalDataAboutIndex, nil
 }
 
 func GetEssayList() (*[]models.DataAboutEssay, error) {
-	if Error = help.ResponseDataAboutEssayList(globalDataAboutEssayList); Error != nil {
-		return nil, Error
+	if err := help.ResponseDataAboutEssayList(globalDataAboutEssayList); err != nil {
+		zap.L().Error("help.ResponseDataAboutEssayList(globalDataAboutEssayList) filed,err:", zap.Error(err))
+		return nil, err
 	}
 	return globalDataAboutEssayList, nil
 }

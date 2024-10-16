@@ -8,9 +8,10 @@ import (
 	"strconv"
 )
 
-func ResponseDataAboutIndexHandler(c *gin.Context) {
+func ResponseIndexDataHandler(c *gin.Context) {
 	var data = new(models.DataAboutIndex)
-	err := logic.GetDataAboutIndex(data)
+	var err error
+	data, err = logic.GetIndexData()
 	if err != nil {
 		ResponseError(c, CodeServeBusy)
 		return
@@ -18,7 +19,7 @@ func ResponseDataAboutIndexHandler(c *gin.Context) {
 	ResponseSuccess(c, *data)
 }
 
-func ResponseDataAboutEssayListHandler(c *gin.Context) {
+func ResponseEssayListHandler(c *gin.Context) {
 	query := models.EssayQuery{}
 	page64, _ := strconv.ParseInt(c.Query("page"), 10, 64)
 	if page64 == 0 {
@@ -32,11 +33,12 @@ func ResponseDataAboutEssayListHandler(c *gin.Context) {
 	}
 	query.PageSize = int(pageSize64)
 
-	query.Classify = c.Query("classify")
+	query.Label = c.Query("label")
+	query.Kind = c.Query("kind")
 
 	var essayListAndPage = new(models.DataAboutEssayListAndPage)
 	essayListAndPage.EssayList = new([]models.DataAboutEssay)
-	if err := logic.GetDataAboutClassifyEssayMsg(essayListAndPage, query); err != nil {
+	if err := logic.GetEssayList(essayListAndPage, query); err != nil {
 		zap.L().Error("logic.GetDataAboutClassifyEssayMsg(essayList) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return

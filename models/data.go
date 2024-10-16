@@ -1,43 +1,9 @@
 package models
 
-// index返回数据相关
-
-type DataAboutIndex struct {
-	KindList  []DataAboutKind  `json:"kindList"`
-	LabelList []DataAboutLabel `json:"labelList"`
-}
-type DataAboutKind struct {
-	Name       string `json:"name" db:"name"`
-	Icon       string `json:"icon" db:"icon"`
-	Id         int    `json:"id" db:"id"`
-	Router     string `json:"router" db:"router"`
-	EssayCount int8   `json:"essayCount" db:"essayCount"`
-}
-type DataAboutLabel struct {
-	Kind   string `json:"kind" db:"kind"`
-	Name   string `json:"name"  db:"name"`
-	Router string `json:"router" db:"router"`
-	ID     int    `json:"id" db:"id"`
-}
-
-// 分页查询相关
-
+// DataAboutEssayListAndPage 分页查询相关
 type DataAboutEssayListAndPage struct {
 	EssayList  *[]DataAboutEssay `json:"list"`
 	TotalPages int               `json:"totalPages"`
-}
-type DataAboutEssay struct {
-	Name         string   `json:"name" db:"name"`
-	Kind         string   `json:"kind" db:"kind"`
-	Router       string   `json:"router" db:"router"`
-	KindRouter   string   `json:"kindRouter"`
-	Introduction string   `json:"introduction" db:"introduction"`
-	ID           int      `json:"id" db:"id"`
-	CreatedTime  string   `json:"createdTime" db:"createdTime"`
-	Keywords     []string `json:"keywords"`
-	VisitedTimes int64    `json:"visitedTimes"`
-	ImgUrl       string   `json:"imgUrl" db:"imgUrl"`
-	Eid          int64    `db:"eid"`
 }
 
 //文章查询相关

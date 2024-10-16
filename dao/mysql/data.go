@@ -4,6 +4,7 @@ import (
 	"blog/models"
 	"database/sql"
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -15,51 +16,44 @@ func GetEssaySnowflakeID(id int) (eid int64, err error) {
 	return eid, nil
 }
 
-func GetDataAboutKind(data *[]models.DataAboutKind) error {
+func GetKindList(data *[]models.DataAboutKind) error {
 	sqlStr := `SELECT name,icon,id,router,essayCount FROM kind `
 	return db.Select(data, sqlStr)
 }
 
-func GetAllDataAboutClassify(data *[]models.DataAboutLabel) error {
+func GetLabelList(data *[]models.DataAboutLabel) error {
 	sqlStr := `SELECT kind,name,router,id FROM label`
 	return db.Select(data, sqlStr)
 }
 
-func GetOneDataAboutClassify(data *models.DataAboutLabel) error {
-	sqlStr := `SELECT kind,name,router,id FROM label WHERE name = ?`
-	return db.Get(data, sqlStr, data.Name)
+func GetRecommendEssayList(data *[]models.DataAboutEssay) error {
+	sqlStr := `SELECT id, name, createdTime, imgUrl FROM essay WHERE ifRecommend = true`
+	return db.Select(data, sqlStr)
 }
 
-func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query models.EssayQuery) error {
+func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuery) error {
 	// 计算偏移量
 	offset := (query.Page - 1) * query.PageSize
-
-	// 使用 LIMIT 和 OFFSET 实现分页
-	var sqlStr string
-	var countSqlStr string
-	var args []interface{}
-	if query.Classify != "" {
-		// 根据分类查询
-		sqlStr = `SELECT name, kind, router, introduction, id, createdTime,eid,imgUrl
-               FROM essay 
-               WHERE  kind = ?
-               ORDER BY id DESC 
-               LIMIT ? OFFSET ?`
-		countSqlStr = `SELECT COUNT(*) 
-               FROM essay 
-               WHERE kind = ?`
-		args = append(args, query.Classify)
-	} else {
-		//返回首页文章列表
-		sqlStr = `SELECT name, kind, router, introduction, id, createdTime ,eid,imgUrl
-               FROM essay 
-               ORDER BY id DESC 
-               LIMIT ? OFFSET ?`
-		countSqlStr = `SELECT COUNT(*)  
-               FROM essay`
+	baseSelect := `SELECT id, name, label, kind, ifRecommend,introduction, createdTime, visitedTimes, eid, imgUrl
+	          FROM essay`
+	baseCount := `SELECT COUNT(*) FROM essay`
+	where := make([]string, 0)
+	args := make([]interface{}, 0)
+	if query.Label != "" {
+		where = append(where, "label = ?")
+		args = append(args, query.Label)
 	}
+	if query.Kind != "" {
+		where = append(where, "kind = ?")
+		args = append(args, query.Kind)
+	}
+	whereClause := ""
+	if len(where) > 0 {
+		whereClause = "WHERE " + strings.Join(where, " AND ")
+	}
+	sqlStr := fmt.Sprintf("%s %s ORDER BY id DESC LIMIT ? OFFSET ?", baseSelect, whereClause)
+	countSqlStr := fmt.Sprintf("%s %s", baseCount, whereClause)
 	args = append(args, query.PageSize, offset)
-
 	//执行分页查询
 	if err := db.Select(data.EssayList, sqlStr, args...); err != nil {
 		return err
@@ -69,24 +63,28 @@ func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query 
 	if err := db.Get(&totalCount, countSqlStr, args[:len(args)-2]...); err != nil {
 		return err
 	}
-
 	//计算总记录数
-	totalPages := (totalCount + query.PageSize - 1) / query.PageSize
-
+	totalPages := totalCount/query.PageSize + (+query.PageSize-1)/query.PageSize
 	// 设置总页数
 	data.TotalPages = totalPages
+
 	return nil
 }
 
+func GetOneDataAboutClassify(data *models.DataAboutLabel) error {
+	sqlStr := `SELECT kind,name,router,id FROM label WHERE name = ?`
+	return db.Get(data, sqlStr, data.Name)
+}
+
 func GetAllEssay(data *[]models.DataAboutEssay) error {
-	sqlStr := `SELECT  name, kind, router, introduction, id
+	sqlStr := `SELECT  name, kind, introduction, id
                FROM essay 
                ORDER BY id DESC`
 	return db.Select(data, sqlStr)
 }
 
 func GetEssayData(data *models.EssayData, id int) (err error) {
-	sqlStr := `SELECT content,name,id,introduction,router,kind,createdTime,updatedTime,eid,imgUrl,advertiseMsg,advertiseImg,advertiseHref FROM essay where id = ?`
+	sqlStr := `SELECT content,name,id,introduction,kind,createdTime,updatedTime,eid,imgUrl FROM essay where id = ?`
 
 	var advertiseMsg sql.NullString
 	var advertiseImg sql.NullString

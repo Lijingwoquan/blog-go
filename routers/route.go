@@ -23,20 +23,20 @@ func SetupRouter(mode string) *gin.Engine {
 	config.AllowHeaders = []string{"Origin", "Content-Type", "Authorization"}
 
 	r.Use(cors.New(config))
-	r.Static("api/img", "/app/statics/img")
-	r.Static("api/file", "/app/statics/file")
+	r.Static("/api/img", "/app/statics/img")
+	r.Static("/api/file", "/app/statics/file")
 
 	//r.Use(middlewares.IpLimit())
 
 	v0 := r.Group("/api/base")
 	v0.Use(middlewares.SaveUserIp())
 	{
-		v0.GET("/index", controller.ResponseDataAboutIndexHandler)
+		v0.GET("/index", controller.ResponseIndexDataHandler)
 	}
 
 	v1 := r.Group("/api/base")
 	{
-		v1.GET("/essay_list", controller.ResponseDataAboutEssayListHandler)
+		v1.GET("/essay_list", controller.ResponseEssayListHandler)
 		v1.GET("/essay_content", controller.ResponseDataAboutEssayHandler)
 	}
 

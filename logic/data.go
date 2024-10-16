@@ -7,17 +7,12 @@ import (
 	"blog/models"
 )
 
-func GetDataAboutIndex(data *models.DataAboutIndex) (err error) {
+func GetIndexData() (data *models.DataAboutIndex, err error) {
 	// 从缓存中拿到数据
-	if cache.Error != nil {
-		return cache.Error
+	if data, err = cache.GetIndexData(); err != nil {
+		return nil, err
 	}
-	var temp = new(models.DataAboutIndex)
-	if temp, err = cache.GetDataAboutIndex(); err != nil {
-		return err
-	}
-	*data = *temp
-	return nil
+	return data, nil
 }
 
 // GetEssayData 得到文章数据
@@ -53,36 +48,9 @@ func GetEssayData(data *models.EssayData, id int) error {
 	return nil
 }
 
-func GetDataAboutClassifyEssayMsg(data *models.DataAboutEssayListAndPage, query models.EssayQuery) error {
-	// 先由参数查询essay的内容
-	if err := mysql.GetDataAboutClassifyEssayMsg(data, query); err != nil {
+func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuery) error {
+	if err := mysql.GetEssayList(data, query); err != nil {
 		return err
-	}
-
-	for i, essay := range *data.EssayList {
-		// 1.查访问次数
-		var err error
-		if (*data.EssayList)[i].VisitedTimes, err = redis.GetVisitedTimes(essay.Eid); err != nil {
-			return err
-		}
-		// 2.查关键字
-		if (*data.EssayList)[i].Keywords, err = redis.GetEssayKeywordsForOne(essay.Eid); err != nil {
-			return err
-		}
-	}
-
-	var classifyList = new([]models.DataAboutLabel)
-	if err := mysql.GetAllDataAboutClassify(classifyList); err != nil {
-		return err
-	}
-
-	var classifyMap = make(map[string]string)
-	for _, classify := range *classifyList {
-		classifyMap[classify.Name] = classify.Router
-	}
-	// 再遍历essayList为它们加上kindRouter
-	for i, essay := range *data.EssayList {
-		(*data.EssayList)[i].KindRouter = classifyMap[essay.Kind]
 	}
 	return nil
 }
