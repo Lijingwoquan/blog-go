@@ -47,32 +47,32 @@ func SetupRouter(mode string) *gin.Engine {
 		//v2.POST("/logout", controller.LogoutHandler)
 		//v2.POST("/updateUserMsg", middlewares.JWTAuthMiddleware(), controller.UpdateUserMsgHandler)
 	}
-
-	v3 := r.Group("/api/manager")
-	v3.Use(middlewares.JWTAuthMiddleware(), middlewares.UpdateDataMiddleware())
-	{
-		//文章
-		v3.POST("/addEssay", controller.AddEssayHandler)
-		v3.PUT("/updateEssayMsg", controller.UpdateEssayMSgHandler)
-		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler)
-
-		//分类
-		v3.PUT("/updateKind", controller.UpdateKindHandler)
-		v3.POST("/addClassify", controller.AddClassifyHandler)
-		v3.PUT("/updateClassify", controller.UpdateClassifyHandler)
-	}
-	v3help := r.Group("/api/manager")
-	v3help.Use(middlewares.JWTAuthMiddleware())
-	{
-		// 主页数据
-		v3help.POST("/uploadImg", controller.UploadImgHandler)
-		v3help.GET("/panel", controller.ResponseDataAboutManagerPanel)
-	}
-
-	v4 := r.Group("/api/keyword")
-	{
-		v4.POST("/search", controller.ResponseDataAboutSearchKeyword)
-	}
+	//
+	//v3 := r.Group("/api/manager")
+	//v3.Use(middlewares.JWTAuthMiddleware(), middlewares.UpdateDataMiddleware())
+	//{
+	//	//文章
+	//	v3.POST("/addEssay", controller.AddEssayHandler)
+	//	v3.PUT("/updateEssayMsg", controller.UpdateEssayMSgHandler)
+	//	v3.DELETE("/deleteEssay", controller.DeleteEssayHandler)
+	//
+	//	//分类
+	//	v3.PUT("/updateKind", controller.UpdateKindHandler)
+	//	v3.POST("/addClassify", controller.AddClassifyHandler)
+	//	v3.PUT("/updateClassify", controller.UpdateClassifyHandler)
+	//}
+	//v3help := r.Group("/api/manager")
+	//v3help.Use(middlewares.JWTAuthMiddleware())
+	//{
+	//	// 主页数据
+	//	v3help.POST("/uploadImg", controller.UploadImgHandler)
+	//	v3help.GET("/panel", controller.ResponseDataAboutManagerPanel)
+	//}
+	//
+	//v4 := r.Group("/api/keyword")
+	//{
+	//	v4.POST("/search", controller.ResponseDataAboutSearchKeyword)
+	//}
 
 	r.NoRoute(func(c *gin.Context) {
 		c.JSONP(404, gin.H{

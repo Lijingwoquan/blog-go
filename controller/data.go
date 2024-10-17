@@ -3,6 +3,7 @@ package controller
 import (
 	"blog/logic"
 	"blog/models"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"strconv"
@@ -33,11 +34,15 @@ func ResponseEssayListHandler(c *gin.Context) {
 	}
 	query.PageSize = int(pageSize64)
 
-	query.Label = c.Query("label")
-	query.Kind = c.Query("kind")
+	lID, _ := strconv.ParseInt(c.Query("label_id"), 10, 64)
+	KID, _ := strconv.ParseInt(c.Query("kind_id"), 10, 64)
+
+	query.LabelID = int(lID)
+	query.KindID = int(KID)
+
+	fmt.Println(query)
 
 	var essayListAndPage = new(models.DataAboutEssayListAndPage)
-	essayListAndPage.EssayList = new([]models.DataAboutEssay)
 	if err := logic.GetEssayList(essayListAndPage, query); err != nil {
 		zap.L().Error("logic.GetDataAboutClassifyEssayMsg(essayList) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
