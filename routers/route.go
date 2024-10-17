@@ -69,10 +69,10 @@ func SetupRouter(mode string) *gin.Engine {
 	//	v3help.GET("/panel", controller.ResponseDataAboutManagerPanel)
 	//}
 	//
-	//v4 := r.Group("/api/keyword")
-	//{
-	//	v4.POST("/search", controller.ResponseDataAboutSearchKeyword)
-	//}
+	v4 := r.Group("/api/keyword")
+	{
+		v4.POST("/search", controller.ResponseDataAboutSearchKeyword)
+	}
 
 	r.NoRoute(func(c *gin.Context) {
 		c.JSONP(404, gin.H{

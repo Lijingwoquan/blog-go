@@ -16,15 +16,14 @@ func ResponseDataAboutSearchKeyword(c *gin.Context) {
 		return
 	}
 
+	var essayList = new([]models.DataAboutEssay)
 	//2.逻辑处理
-	if err := logic.GetDataByKeyword(searchParam); err != nil {
+	if err := logic.GetDataByKeyword(essayList, searchParam); err != nil {
 		zap.L().Error("logic.IncreaseSearchKeyword(keyword) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
 	}
 
 	//3.返回响应
-	var essayList = new([]models.DataAboutEssay)
-	logic.GetEssayListByKeyword(essayList, searchParam)
 	ResponseSuccess(c, essayList)
 }

@@ -33,11 +33,6 @@ func ResponseDataAboutEssayList(essayList *[]models.DataAboutEssay) (err error) 
 	if err = mysql.GetAllEssay(essayList); err != nil {
 		return err
 	}
-	// 整合classify
-	var labelList = new([]models.DataAboutLabel)
-	if err = mysql.GetLabelList(labelList); err != nil {
-		return err
-	}
 
 	return redis.GetEssayKeywordsForIndex(essayList)
 }

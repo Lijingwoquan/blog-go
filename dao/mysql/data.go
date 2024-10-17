@@ -9,6 +9,12 @@ import (
 	"time"
 )
 
+type rawData struct {
+	models.DataAboutEssay
+	LabelIDs   string `db:"label_ids"`
+	LabelNames string `db:"label_names"`
+}
+
 func GetEssaySnowflakeID(id int) (eid int64, err error) {
 	sqlStr := `SELECT eid FROM essay WHERE id = ?`
 	if err = db.Get(&eid, sqlStr, id); err != nil {
@@ -34,46 +40,6 @@ func GetRecommendEssayList(data *[]models.DataAboutEssay) error {
 		WHERE ifRecommend = true
 	`
 	return db.Select(data, sqlStr)
-}
-
-func test(data *[]models.DataAboutEssay) error {
-	type rawData struct {
-		models.DataAboutEssay
-		LabelIDs   string `db:"label_ids"`
-		LabelNames string `db:"label_names"`
-	}
-	var rawDataList = new([]rawData)
-	sqlStr := `
-		SELECT e.id, e.name, e.createdTime, e.imgUrl,e.kind_id,
-		       k.name AS kind_name,
-		       GROUP_CONCAT(el.label_id) AS label_ids ,GROUP_CONCAT(el.label_name) AS label_names
-		FROM essay e
-		LEFT JOIN kind k on e.kind_id = k.id
-		LEFT JOIN essay_label el on e.id = el.essay_id
-		WHERE  e.ifRecommend = true
-		GROUP BY e.id, e.name, e.createdTime, e.imgUrl, e.kind_id,  k.name
-	`
-	var err error
-	if err = db.Select(rawDataList, sqlStr); err != nil {
-		return err
-	}
-	*data = make([]models.DataAboutEssay, len(*rawDataList))
-	for i, raw := range *rawDataList {
-		(*data)[i] = raw.DataAboutEssay
-		if raw.LabelNames != "" && raw.LabelIDs != "" {
-			ids := strings.Split(raw.LabelIDs, ",")
-			names := strings.Split(raw.LabelNames, ",")
-			(*data)[i].LabelList = make([]models.Label, len(ids))
-			for j := range ids {
-				id, _ := strconv.Atoi(ids[j])
-				(*data)[i].LabelList[j] = models.Label{
-					ID:   id,
-					Name: names[j],
-				}
-			}
-		}
-	}
-	return err
 }
 
 func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuery) error {
@@ -118,12 +84,6 @@ func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuer
 		baseSelect, whereClause, groupBy)
 	countSqlStr := fmt.Sprintf("%s %s", baseCount, whereClause)
 	args = append(args, query.PageSize, offset)
-	// 创建临时结构体来接收原始数据
-	type rawData struct {
-		models.DataAboutEssay
-		LabelIDs   string `db:"label_ids"`
-		LabelNames string `db:"label_names"`
-	}
 
 	var rawDataList []rawData
 
@@ -171,10 +131,38 @@ func GetOneDataAboutClassify(data *models.DataAboutLabel) error {
 }
 
 func GetAllEssay(data *[]models.DataAboutEssay) error {
-	sqlStr := `SELECT  name,  introduction, id
-               FROM essay 
-               ORDER BY id DESC`
-	return db.Select(data, sqlStr)
+	var rawDataList = new([]rawData)
+	sqlStr := `
+		SELECT e.id, e.name, e.createdTime, e.imgUrl,e.kind_id,
+		       k.name AS kind_name,
+		       GROUP_CONCAT(el.label_id) AS label_ids ,GROUP_CONCAT(el.label_name) AS label_names
+		FROM essay e
+		LEFT JOIN kind k on e.kind_id = k.id
+		LEFT JOIN essay_label el on e.id = el.essay_id
+		GROUP BY e.id, e.name, e.createdTime, e.imgUrl, e.kind_id,  k.name
+		ORDER BY id DESC
+	`
+	var err error
+	if err = db.Select(rawDataList, sqlStr); err != nil {
+		return err
+	}
+	*data = make([]models.DataAboutEssay, len(*rawDataList))
+	for i, raw := range *rawDataList {
+		(*data)[i] = raw.DataAboutEssay
+		if raw.LabelNames != "" && raw.LabelIDs != "" {
+			ids := strings.Split(raw.LabelIDs, ",")
+			names := strings.Split(raw.LabelNames, ",")
+			(*data)[i].LabelList = make([]models.Label, len(ids))
+			for j := range ids {
+				id, _ := strconv.Atoi(ids[j])
+				(*data)[i].LabelList[j] = models.Label{
+					ID:   id,
+					Name: names[j],
+				}
+			}
+		}
+	}
+	return err
 }
 
 func GetEssayData(data *models.EssayData, id int) (err error) {
