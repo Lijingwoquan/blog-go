@@ -12,13 +12,13 @@ func GetDataByKeyword(e *[]models.DataAboutEssay, param *models.SearchParam) (er
 	if param.IfAdd {
 		preKey := redis.KeySearchKeyWordTimes
 		// 向redis中加入keyWord
-		return redis.IncreaseSearchKeyword(preKey, (*param).Keyword)
+		if err = redis.IncreaseSearchKeyword(preKey, (*param).Keyword); err != nil {
+			return err
+		}
 	}
 
 	var essayList = new([]models.DataAboutEssay)
-	if essayList, err = cache.GetEssayList(); err != nil {
-		return
-	}
+	essayList = cache.GetAllEssayList()
 	for _, essay := range *essayList {
 		// 检查 essay.keyword 数组中是否包含指定的关键字 k
 		for _, keyword := range essay.Keywords {
