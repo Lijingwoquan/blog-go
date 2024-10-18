@@ -2,10 +2,18 @@ package logic
 
 import (
 	"blog/cache"
+	"blog/dao/mysql"
 	"blog/dao/redis"
 	"blog/models"
 	"strings"
 )
+
+func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuery) error {
+	if err := mysql.GetEssayList(data, query); err != nil {
+		return err
+	}
+	return nil
+}
 
 func GetDataByKeyword(e *[]models.DataAboutEssay, param *models.SearchParam) (err error) {
 	//判断是否需要添加访问值

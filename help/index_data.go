@@ -2,7 +2,6 @@ package help
 
 import (
 	"blog/dao/mysql"
-	"blog/dao/redis"
 	"blog/models"
 )
 
@@ -27,12 +26,4 @@ func ResponseIndexData(DataAboutIndex *models.DataAboutIndex) (err error) {
 	DataAboutIndex.LabelList = *labelList
 	DataAboutIndex.EssayList = *essayList
 	return nil
-}
-
-func ResponseDataAboutEssayList(essayList *[]models.DataAboutEssay) (err error) {
-	if err = mysql.GetAllEssay(essayList); err != nil {
-		return err
-	}
-
-	return redis.GetEssayKeywordsForIndex(essayList)
 }

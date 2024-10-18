@@ -9,17 +9,6 @@ import (
 	"strconv"
 )
 
-func ResponseIndexDataHandler(c *gin.Context) {
-	var data = new(models.DataAboutIndex)
-	var err error
-	data, err = logic.GetIndexData()
-	if err != nil {
-		ResponseError(c, CodeServeBusy)
-		return
-	}
-	ResponseSuccess(c, *data)
-}
-
 func ResponseEssayListHandler(c *gin.Context) {
 	query := models.EssayQuery{}
 	page64, _ := strconv.ParseInt(c.Query("page"), 10, 64)
@@ -52,23 +41,23 @@ func ResponseEssayListHandler(c *gin.Context) {
 	ResponseSuccess(c, essayListAndPage)
 }
 
-func ResponseDataAboutEssayHandler(c *gin.Context) {
-	//1.参数处理
-	queryID := c.Query("id")
-	id, err := strconv.Atoi(queryID)
-	if err != nil {
-		zap.L().Error("strconv.Atoi(query) failed", zap.Error(err))
+func ResponseDataAboutSearchKeyword(c *gin.Context) {
+	//1.参数检验
+	searchParam := new(models.SearchParam)
+	if err := c.ShouldBindJSON(searchParam); err != nil {
+		zap.L().Error("c.ShouldBindJSON(keyword) failed", zap.Error(err))
+		ResponseError(c, CodeParamInvalid)
+		return
+	}
+
+	var essayList = new([]models.DataAboutEssay)
+	//2.逻辑处理
+	if err := logic.GetDataByKeyword(essayList, searchParam); err != nil {
+		zap.L().Error("logic.IncreaseSearchKeyword(keyword) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
 	}
 
-	//2.业务处理
-	var essay = new(models.EssayData)
-	if err = logic.GetEssayData(essay, id); err != nil {
-		zap.L().Error("logic.GetEssayData(essay, id) failed", zap.Error(err))
-		ResponseError(c, CodeServeBusy)
-		return
-	}
 	//3.返回响应
-	ResponseSuccess(c, essay)
+	ResponseSuccess(c, essayList)
 }

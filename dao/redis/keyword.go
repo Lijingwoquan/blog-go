@@ -49,7 +49,8 @@ func IncreaseSearchKeyword(preKey string, keyword string) (err error) {
 	return SetYearMonthWeekTimesZoneForZset(preKey, keyword, defaultIncreaseCount)
 }
 
-func GetEssayKeywordsForIndex(e *[]models.DataAboutEssay) (err error) {
+// GetEssayKeywords 获取文章关键字
+func GetEssayKeywords(e *[]models.DataAboutEssay) (err error) {
 	keyPre := getRedisKey(KeyEssayKeyword)
 	for i := range *e {
 		ids, err := mysql.GetEssaySnowflakeID((*e)[i].ID)
@@ -64,16 +65,6 @@ func GetEssayKeywordsForIndex(e *[]models.DataAboutEssay) (err error) {
 		(*e)[i].Keywords = append(keywords, (*e)[i].Name)
 	}
 	return err
-}
-
-func GetEssayKeywordsForOne(eid int64) (keywords []string, err error) {
-	keyPre := getRedisKey(KeyEssayKeyword)
-	key := fmt.Sprintf("%s%d", keyPre, eid)
-	keywords, err = client.SMembers(key).Result()
-	if err != nil {
-		return nil, err
-	}
-	return keywords, nil
 }
 
 func GetSearchKeywordRank(rankKind *models.RankKindForZset) (err error) {

@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"encoding/hex"
 	"errors"
+	"time"
 )
 
 func CheckUserExist(username string, email string) (err error) {
@@ -120,4 +121,11 @@ func UpdateUserMsg(user *models.UserParams, id int64) (err error) {
 func GetUserMsg(user *models.UserParams, id int64) error {
 	sqlStr := `SELECT username,email FROM users where user_id = ?`
 	return db.Get(user, sqlStr, id)
+}
+
+func CleanupInvalidTokens() error {
+	now := time.Now()
+	sqlStr := `DELETE FROM tokenInvalid WHERE expiration < ? `
+	_, err := db.Exec(sqlStr, now)
+	return err
 }
