@@ -19,7 +19,7 @@ func Init() {
 			return err
 		},
 		func() error {
-			_, err := GetEssayList()
+			_, err := GetEssayListInit()
 			return err
 		},
 		getMaliciousMap,

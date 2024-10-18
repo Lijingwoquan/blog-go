@@ -23,7 +23,7 @@ var (
 func Init() {
 	wg.Add(taskCount + 1) // 为所有任务和错误处理 goroutine 加 1
 
-	taskList := []func() error{saveVisitedTimesTask, cleanLowFrequentKeywordTask}
+	taskList := []func() error{cleanLowFrequentKeywordTask}
 
 	// 启动错误处理goroutine
 	go func() {
@@ -65,22 +65,6 @@ func cleanupInvalidTokensTask() error {
 		// 清理过期的 token
 		err := mysql.CleanupInvalidTokens()
 		if err != nil {
-			return err
-		}
-	}
-	return nil
-}
-
-func saveVisitedTimesTask() error {
-	ticker := time.NewTicker(saveVisitedTimes)
-	defer ticker.Stop()
-	for range ticker.C {
-		// 得到浏览次数
-		visitedTimesChangedMap, err := redis.GetAndClearChangedVisitedTimes()
-		if err != nil {
-			return err
-		}
-		if mysql.SaveVisitedTimes(visitedTimesChangedMap) != nil {
 			return err
 		}
 	}

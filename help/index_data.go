@@ -2,7 +2,6 @@ package help
 
 import (
 	"blog/dao/mysql"
-	"blog/dao/redis"
 	"blog/models"
 )
 
@@ -22,6 +21,7 @@ func ResponseDataAboutIndex(DataAboutIndex *models.DataAboutIndex) (err error) {
 
 	return nil
 }
+<<<<<<< HEAD:help/data.go
 
 func ResponseDataAboutEssayList(essayList *[]models.DataAboutEssay) (err error) {
 	if err = getAllEssay(essayList); err != nil {
@@ -75,3 +75,5 @@ func sortKindAndClassify(DataAboutIndex *models.DataAboutIndex, k *[]models.Data
 
 	(*DataAboutIndex).Menu = indexDataMenu
 }
+=======
+>>>>>>> dev:help/index_data.go

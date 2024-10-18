@@ -52,7 +52,12 @@ type UpdateClassifyParams struct {
 type EssayQuery struct {
 	Page     int
 	PageSize int
+<<<<<<< HEAD
 	Classify string
+=======
+	LabelID  int
+	KindID   int
+>>>>>>> dev
 }
 
 type SearchParam struct {

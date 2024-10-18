@@ -36,7 +36,7 @@ func UpdateDataAboutEssayList() {
 	errCh := make(chan error)
 	done := make(chan bool)
 	go func() {
-		if _, err := GetEssayList(); err != nil {
+		if _, err := GetEssayListInit(); err != nil {
 			errCh <- err
 		}
 		done <- true
@@ -59,9 +59,20 @@ func GetDataAboutIndex() (*models.DataAboutIndex, error) {
 	return globalDataAboutIndex, nil
 }
 
+<<<<<<< HEAD
 func GetEssayList() (*[]models.DataAboutEssay, error) {
 	if Error = help.ResponseDataAboutEssayList(globalDataAboutEssayList); Error != nil {
 		return nil, Error
+=======
+func GetEssayListInit() (*[]models.DataAboutEssay, error) {
+	if err := help.ResponseDataAboutEssayList(globalDataAboutEssayList); err != nil {
+		zap.L().Error("help.ResponseDataAboutEssayList(globalDataAboutEssayList) filed,err:", zap.Error(err))
+		return nil, err
+>>>>>>> dev
 	}
 	return globalDataAboutEssayList, nil
+}
+
+func GetAllEssayList() *[]models.DataAboutEssay {
+	return globalDataAboutEssayList
 }
