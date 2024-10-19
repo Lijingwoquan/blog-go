@@ -3,7 +3,6 @@ package controller
 import (
 	"blog/logic"
 	"blog/models"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"strconv"
@@ -28,8 +27,6 @@ func ResponseEssayListHandler(c *gin.Context) {
 
 	query.LabelID = int(lID)
 	query.KindID = int(KID)
-
-	fmt.Println(query)
 
 	var essayListAndPage = new(models.DataAboutEssayListAndPage)
 	if err := logic.GetEssayList(essayListAndPage, query); err != nil {

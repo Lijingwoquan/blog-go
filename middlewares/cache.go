@@ -14,7 +14,7 @@ func UpdateDataMiddleware() gin.HandlerFunc {
 		c.Next()
 
 		// 在请求被处理之后，更新数据
-		cache.UpdateDataAboutIndex()
+		cache.UpdateIndexData()
 		cache.UpdateDataAboutEssayList()
 	}
 }

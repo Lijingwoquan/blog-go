@@ -5,10 +5,7 @@ import (
 	"blog/models"
 )
 
-func GetIndexData() (data *models.DataAboutIndex, err error) {
+func GetIndexData(data **models.IndexData) {
 	// 从缓存中拿到数据
-	if data, err = cache.GetIndexData(); err != nil {
-		return nil, err
-	}
-	return data, nil
+	cache.GetIndexData(data)
 }

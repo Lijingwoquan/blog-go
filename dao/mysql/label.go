@@ -5,12 +5,12 @@ import (
 	"errors"
 )
 
-func GetLabelList(data *[]models.DataAboutLabel) error {
+func GetLabelList(data *[]models.LabelData) error {
 	sqlStr := `SELECT name,id FROM label`
 	return db.Select(data, sqlStr)
 }
 
-func GetOneDataAboutClassify(data *models.DataAboutLabel) error {
+func GetOneDataAboutClassify(data *models.LabelData) error {
 	sqlStr := `SELECT name,id FROM label WHERE name = ?`
 	return db.Get(data, sqlStr, data.Name)
 }

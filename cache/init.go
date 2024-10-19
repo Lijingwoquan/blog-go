@@ -15,7 +15,7 @@ func Init() {
 
 	tasks := []func() error{
 		func() error {
-			_, err := GetIndexData()
+			err := InitIndexData()
 			return err
 		},
 		func() error {

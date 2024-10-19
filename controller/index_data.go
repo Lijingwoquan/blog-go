@@ -7,12 +7,7 @@ import (
 )
 
 func ResponseIndexDataHandler(c *gin.Context) {
-	var data = new(models.DataAboutIndex)
-	var err error
-	data, err = logic.GetIndexData()
-	if err != nil {
-		ResponseError(c, CodeServeBusy)
-		return
-	}
+	var data = new(models.IndexData)
+	logic.GetIndexData(&data)
 	ResponseSuccess(c, *data)
 }

@@ -74,12 +74,12 @@ func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuer
 		if raw.LabelIDs != "" && raw.LabelNames != "" {
 			ids := strings.Split(raw.LabelIDs, ",")
 			names := strings.Split(raw.LabelNames, ",")
-			data.EssayList[i].LabelList = make([]models.Label, len(ids))
+			data.EssayList[i].LabelList = make([]models.LabelData, len(ids))
 
 			for j := range ids {
 				id, _ := strconv.Atoi(ids[j])
 				name := names[j]
-				data.EssayList[i].LabelList[j] = models.Label{
+				data.EssayList[i].LabelList[j] = models.LabelData{
 					ID:   id,
 					Name: name,
 				}
@@ -94,7 +94,7 @@ func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuer
 	}
 
 	// 计算总页数
-	data.TotalPages = (totalCount + query.PageSize - 1) / query.PageSize
+	data.TotalPage = (totalCount + query.PageSize - 1) / query.PageSize
 
 	return nil
 }
@@ -121,10 +121,10 @@ func GetAllEssay(data *[]models.DataAboutEssay) error {
 		if raw.LabelNames != "" && raw.LabelIDs != "" {
 			ids := strings.Split(raw.LabelIDs, ",")
 			names := strings.Split(raw.LabelNames, ",")
-			(*data)[i].LabelList = make([]models.Label, len(ids))
+			(*data)[i].LabelList = make([]models.LabelData, len(ids))
 			for j := range ids {
 				id, _ := strconv.Atoi(ids[j])
-				(*data)[i].LabelList[j] = models.Label{
+				(*data)[i].LabelList[j] = models.LabelData{
 					ID:   id,
 					Name: names[j],
 				}
