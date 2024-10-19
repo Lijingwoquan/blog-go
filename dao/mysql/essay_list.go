@@ -12,6 +12,8 @@ func GetRecommendEssayList(data *[]models.EssayData) error {
 		SELECT e.id, e.name, e.createdTime, e.imgUrl 
 		FROM essay e 
 		WHERE ifRecommend = true
+		ORDER BY e.id DESC 
+		LIMIT 5
 	`
 	return db.Select(data, sqlStr)
 }
@@ -20,23 +22,18 @@ func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error 
 	// 计算偏移量
 	offset := (query.Page - 1) * query.PageSize
 	baseSelect := `
-		 SELECT  e.id, e.name, e.kind_id, e.ifRecommend, e.introduction, e.createdTime, e.visitedTimes, e.imgUrl,
+        SELECT e.id, e.name, e.kind_id, e.ifRecommend, e.ifTop, e.introduction, e.createdTime, e.visitedTimes, e.imgUrl,
             k.name AS kind_name,
             GROUP_CONCAT(el.label_id) AS label_ids,
             GROUP_CONCAT(el.label_name) AS label_names
         FROM essay e
         LEFT JOIN kind k ON e.kind_id = k.id
-        LEFT JOIN essay_label el ON e.id = el.essay_id`
-
-	baseCount := `
-		SELECT COUNT(DISTINCT e.id)
-        FROM essay e 
-        LEFT JOIN kind k ON e.kind_id = k.id
         LEFT JOIN essay_label el ON e.id = el.essay_id
-		`
+        `
 
 	where := make([]string, 0)
 	args := make([]interface{}, 0)
+
 	if query.LabelID != 0 {
 		where = append(where, "el.label_id = ?")
 		args = append(args, query.LabelID)
@@ -45,23 +42,26 @@ func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error 
 		where = append(where, "e.kind_id = ?")
 		args = append(args, query.KindID)
 	}
+
 	whereClause := ""
 	if len(where) > 0 {
 		whereClause = "WHERE " + strings.Join(where, " AND ")
 	}
 
 	// 添加GROUP BY子句
-	groupBy := "GROUP BY e.id, e.name, e.kind_id, e.ifRecommend, e.introduction, e.createdTime, e.visitedTimes, e.imgUrl, k.name"
+	groupBy := "GROUP BY e.id"
+
+	// 修改ORDER BY子句，优先排序ifTop为true的记录
+	orderBy := "ORDER BY e.ifTop DESC, e.id DESC"
 
 	// 构建完整的SQL语句
-	sqlStr := fmt.Sprintf("%s %s %s ORDER BY e.id DESC LIMIT ? OFFSET ?",
-		baseSelect, whereClause, groupBy)
-	countSqlStr := fmt.Sprintf("%s %s", baseCount, whereClause)
+	sqlStr := fmt.Sprintf("%s %s %s %s LIMIT ? OFFSET ?",
+		baseSelect, whereClause, groupBy, orderBy)
+
 	args = append(args, query.PageSize, offset)
 
-	var rawDataList []rawData
+	rawDataList := make([]rawData, 0, 5)
 
-	// 执行分页查询
 	if err := db.Select(&rawDataList, sqlStr, args...); err != nil {
 		return err
 	}
@@ -87,13 +87,21 @@ func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error 
 		}
 	}
 
-	// 执行总记录统计
+	baseCount := `
+        SELECT COUNT(DISTINCT e.id)
+        FROM essay e 
+        LEFT JOIN kind k ON e.kind_id = k.id
+        LEFT JOIN essay_label el ON e.id = el.essay_id
+        `
+
+	countSqlStr := fmt.Sprintf("%s %s", baseCount, whereClause)
+
 	var totalCount int
+
 	if err := db.Get(&totalCount, countSqlStr, args[:len(args)-2]...); err != nil {
 		return err
 	}
 
-	// 计算总页数
 	data.TotalPage = (totalCount + query.PageSize - 1) / query.PageSize
 
 	return nil
