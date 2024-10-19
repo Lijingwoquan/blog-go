@@ -28,7 +28,7 @@ func ResponseEssayListHandler(c *gin.Context) {
 	query.LabelID = int(lID)
 	query.KindID = int(KID)
 
-	var essayListAndPage = new(models.DataAboutEssayListAndPage)
+	var essayListAndPage = new(models.EssayListAndPage)
 	if err := logic.GetEssayList(essayListAndPage, query); err != nil {
 		zap.L().Error("logic.GetDataAboutClassifyEssayMsg(essayList) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
@@ -47,7 +47,7 @@ func ResponseDataAboutSearchKeyword(c *gin.Context) {
 		return
 	}
 
-	var essayList = new([]models.DataAboutEssay)
+	var essayList = new([]models.EssayData)
 	//2.逻辑处理
 	if err := logic.GetDataByKeyword(essayList, searchParam); err != nil {
 		zap.L().Error("logic.IncreaseSearchKeyword(keyword) failed", zap.Error(err))

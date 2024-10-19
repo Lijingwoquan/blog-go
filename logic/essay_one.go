@@ -8,12 +8,8 @@ import (
 )
 
 // GetEssayData 得到文章数据
-func GetEssayData(data *models.EssayData, id int) error {
-	var err error
-	if err = mysql.GetEssayData(data, id); err != nil {
-		return err
-	}
-	return nil
+func GetEssayData(data *models.EssayContent, id int) error {
+	return mysql.GetEssayData(data, id)
 }
 
 // CreateEssay 新增文章逻辑

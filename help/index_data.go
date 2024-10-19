@@ -16,7 +16,7 @@ func ResponseIndexData(DataAboutIndex *models.IndexData) (err error) {
 		return err
 	}
 
-	var essayList = new([]models.DataAboutEssay)
+	var essayList = new([]models.EssayData)
 	if err = mysql.GetRecommendEssayList(essayList); err != nil {
 		return err
 	}

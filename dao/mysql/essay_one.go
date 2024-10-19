@@ -4,26 +4,39 @@ import (
 	"blog/models"
 	"blog/pkg/snowflake"
 	"blog/utils"
-	"database/sql"
 	"errors"
 	"fmt"
 )
 
-func GetEssayData(data *models.EssayData, id int) (err error) {
-	sqlStr := `SELECT content,name,id,introduction,kind,createdTime,updatedTime,eid,imgUrl FROM essay where id = ?`
+func GetEssayData(data *models.EssayContent, id int) (err error) {
+	sqlStr := `SELECT id, name,kind_id, content, introduction, createdTime, visitedTimes
+			FROM essay where id = ?`
 
-	var advertiseMsg sql.NullString
-	var advertiseImg sql.NullString
-	var advertiseHref sql.NullString
-
-	if err = db.QueryRow(sqlStr, id).Scan(&data.Content, &data.Name, &data.Id, &data.Introduction, &data.Kind, &data.CreatedTime, &data.Eid, &data.ImgUrl, &advertiseMsg, &advertiseImg, &advertiseHref); err != nil {
+	if err = db.Get(data, sqlStr, id); err != nil {
 		return err
 	}
 
-	if data.Last, data.Next, err = GetAdjacentEssay(id, data.Kind); err != nil {
+	if err = GetNearbyEssays(&data.NearEssayList, data.KindID, data.Id); err != nil {
 		return err
 	}
 	return nil
+}
+
+func GetNearbyEssays(data *[]models.EssayData, kID int, eID int) error {
+	sqlStr := `
+		(SELECT id, name, kind_id, introduction, createdTime, imgUrl
+			FROM essay 
+			WHERE kind_id = ? AND id < ?
+			ORDER BY id 
+			LIMIT 2)
+		UNION ALL
+		(SELECT id, name,  kind_id, introduction, createdTime, imgUrl
+			FROM essay 
+			WHERE kind_id = ? AND id > ?
+			ORDER BY id 
+		LIMIT 2)
+    `
+	return db.Select(data, sqlStr, kID, eID, kID, eID)
 }
 
 func DeleteEssay(id int) error {
@@ -40,32 +53,6 @@ func DeleteEssay(id int) error {
 		return errors.New(essayNotExist)
 	}
 	return nil
-}
-
-func GetAdjacentEssay(currentID int, currentKind string) (models.AdjacentEssay, models.AdjacentEssay, error) {
-	var lastEssay, nextEssay models.AdjacentEssay
-	var lastID, nextID sql.NullInt64
-	var lastName, nextName sql.NullString
-
-	sqlStr := `
-        SELECT 
-            (SELECT id FROM essay WHERE id < ? AND kind = ? ORDER BY id DESC LIMIT 1) AS last_id,
-            (SELECT name FROM essay WHERE id < ? AND kind = ? ORDER BY id DESC LIMIT 1) AS last_name,
-            (SELECT id FROM essay WHERE id > ? AND kind = ? ORDER BY id  LIMIT 1) AS next_id,
-            (SELECT name FROM essay WHERE id > ? AND kind = ? ORDER BY id  LIMIT 1) AS next_name
-    `
-
-	args := []interface{}{currentID, currentKind, currentID, currentKind, currentID, currentKind, currentID, currentKind}
-
-	err := db.QueryRow(sqlStr, args...).Scan(&lastID, &lastName, &nextID, &nextName)
-	if err != nil {
-		return models.AdjacentEssay{}, models.AdjacentEssay{}, err
-	}
-
-	lastEssay = models.AdjacentEssay{Id: int(lastID.Int64), Name: lastName.String}
-	nextEssay = models.AdjacentEssay{Id: int(nextID.Int64), Name: nextName.String}
-
-	return lastEssay, nextEssay, nil
 }
 
 func GetEssaySnowflakeID(id int) (eid int64, err error) {

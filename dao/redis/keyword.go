@@ -50,7 +50,7 @@ func IncreaseSearchKeyword(preKey string, keyword string) (err error) {
 }
 
 // GetEssayKeywords 获取文章关键字
-func GetEssayKeywords(e *[]models.DataAboutEssay) (err error) {
+func GetEssayKeywords(e *[]models.EssayData) (err error) {
 	keyPre := getRedisKey(KeyEssayKeyword)
 	for i := range *e {
 		ids, err := mysql.GetEssaySnowflakeID((*e)[i].ID)

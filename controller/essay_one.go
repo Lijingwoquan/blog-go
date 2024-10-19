@@ -14,7 +14,7 @@ const (
 	addEssaySuccess    = "添加文章成功"
 )
 
-func ResponseDataAboutEssayHandler(c *gin.Context) {
+func ResponseEssayDataHandler(c *gin.Context) {
 	//1.参数处理
 	queryID := c.Query("id")
 	id, err := strconv.Atoi(queryID)
@@ -25,7 +25,7 @@ func ResponseDataAboutEssayHandler(c *gin.Context) {
 	}
 
 	//2.业务处理
-	var essay = new(models.EssayData)
+	var essay = new(models.EssayContent)
 	if err = logic.GetEssayData(essay, id); err != nil {
 		zap.L().Error("logic.GetEssayData(essay, id) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)

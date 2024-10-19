@@ -37,30 +37,30 @@ func SetupRouter(mode string) *gin.Engine {
 	v1 := r.Group("/api/base")
 	{
 		v1.GET("/essay_list", controller.ResponseEssayListHandler)
-		v1.GET("/essay_content", controller.ResponseDataAboutEssayHandler)
+		v1.GET("/essay_content", controller.ResponseEssayDataHandler)
 	}
 
-	v2 := r.Group("/api/manager")
+	//v2 := r.Group("/api/manager")
 	{
-		v2.POST("/login", controller.LoginHandler)
+		//v2.POST("/login", controller.LoginHandler)
 		//v2.POST("/signup", controller.SignupHandler)
 		//v2.POST("/logout", controller.LogoutHandler)
 		//v2.POST("/updateUserMsg", middlewares.JWTAuthMiddleware(), controller.UpdateUserMsgHandler)
 	}
-	//
-	//v3 := r.Group("/api/manager")
-	//v3.Use(middlewares.JWTAuthMiddleware(), middlewares.UpdateDataMiddleware())
-	//{
-	//	//文章
-	//	v3.POST("/addEssay", controller.AddEssayHandler)
-	//	v3.PUT("/updateEssayMsg", controller.UpdateEssayMSgHandler)
-	//	v3.DELETE("/deleteEssay", controller.DeleteEssayHandler)
-	//
-	//	//分类
-	//	v3.PUT("/updateKind", controller.UpdateKindHandler)
-	//	v3.POST("/addClassify", controller.AddClassifyHandler)
-	//	v3.PUT("/updateClassify", controller.UpdateClassifyHandler)
-	//}
+
+	v3 := r.Group("/api/manager")
+	v3.Use(middlewares.JWTAuthMiddleware(), middlewares.UpdateDataMiddleware())
+	{
+		//文章
+		v3.POST("/addEssay", controller.AddEssayHandler)
+		v3.PUT("/updateEssayMsg", controller.UpdateEssayMSgHandler)
+		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler)
+
+		//分类
+		v3.PUT("/updateKind", controller.UpdateKindHandler)
+		v3.POST("/addClassify", controller.AddClassifyHandler)
+		v3.PUT("/updateClassify", controller.UpdateClassifyHandler)
+	}
 	//v3help := r.Group("/api/manager")
 	//v3help.Use(middlewares.JWTAuthMiddleware())
 	//{

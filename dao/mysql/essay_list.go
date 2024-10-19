@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func GetRecommendEssayList(data *[]models.DataAboutEssay) error {
+func GetRecommendEssayList(data *[]models.EssayData) error {
 	sqlStr := `
 		SELECT e.id, e.name, e.createdTime, e.imgUrl 
 		FROM essay e 
@@ -16,7 +16,7 @@ func GetRecommendEssayList(data *[]models.DataAboutEssay) error {
 	return db.Select(data, sqlStr)
 }
 
-func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuery) error {
+func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error {
 	// 计算偏移量
 	offset := (query.Page - 1) * query.PageSize
 	baseSelect := `
@@ -29,7 +29,7 @@ func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuer
         LEFT JOIN essay_label el ON e.id = el.essay_id`
 
 	baseCount := `
-		 SELECT COUNT(DISTINCT e.id)
+		SELECT COUNT(DISTINCT e.id)
         FROM essay e 
         LEFT JOIN kind k ON e.kind_id = k.id
         LEFT JOIN essay_label el ON e.id = el.essay_id
@@ -67,9 +67,9 @@ func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuer
 	}
 
 	// 处理查询结果
-	data.EssayList = make([]models.DataAboutEssay, len(rawDataList))
+	data.EssayList = make([]models.EssayData, len(rawDataList))
 	for i, raw := range rawDataList {
-		data.EssayList[i] = raw.DataAboutEssay
+		data.EssayList[i] = raw.EssayData
 		// 处理标签数据
 		if raw.LabelIDs != "" && raw.LabelNames != "" {
 			ids := strings.Split(raw.LabelIDs, ",")
@@ -99,7 +99,7 @@ func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuer
 	return nil
 }
 
-func GetAllEssay(data *[]models.DataAboutEssay) error {
+func GetAllEssay(data *[]models.EssayData) error {
 	var rawDataList = new([]rawData)
 	sqlStr := `
 		SELECT e.id, e.name, e.createdTime, e.imgUrl,e.kind_id,
@@ -115,9 +115,9 @@ func GetAllEssay(data *[]models.DataAboutEssay) error {
 	if err = db.Select(rawDataList, sqlStr); err != nil {
 		return err
 	}
-	*data = make([]models.DataAboutEssay, len(*rawDataList))
+	*data = make([]models.EssayData, len(*rawDataList))
 	for i, raw := range *rawDataList {
-		(*data)[i] = raw.DataAboutEssay
+		(*data)[i] = raw.EssayData
 		if raw.LabelNames != "" && raw.LabelIDs != "" {
 			ids := strings.Split(raw.LabelIDs, ",")
 			names := strings.Split(raw.LabelNames, ",")

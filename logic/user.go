@@ -40,15 +40,15 @@ func Login(u *models.User) (err error) {
 	return nil
 }
 
-//func Logout(token string) error {
-//	//1.得到token还剩余的时间
-//	MyClaims, err := jwt.ParseToken(token)
-//	if err != nil {
-//		return err
-//	}
-//	//2.将该token储存在数据库中
-//	return mysql.Logout(token, MyClaims.ExpiresAt)
-//}
+func Logout(token string) error {
+	//1.得到token还剩余的时间
+	MyClaims, err := jwt.ParseToken(token)
+	if err != nil {
+		return err
+	}
+	//2.将该token储存在数据库中
+	return mysql.Logout(token, MyClaims.ExpiresAt.Unix())
+}
 
 func UpdateUserMsg(user *models.UserParams, id int64) error {
 	//从数据库中修改数据

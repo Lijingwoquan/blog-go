@@ -7,10 +7,10 @@ import (
 )
 
 var (
-	globalDataAboutEssayList = new([]models.DataAboutEssay)
+	globalDataAboutEssayList = new([]models.EssayData)
 )
 
-func GetEssayListInit() (*[]models.DataAboutEssay, error) {
+func GetEssayListInit() (*[]models.EssayData, error) {
 	if err := help.ResponseDataAboutEssayList(globalDataAboutEssayList); err != nil {
 		zap.L().Error("help.ResponseDataAboutEssayList(globalDataAboutEssayList) filed,err:", zap.Error(err))
 		return nil, err
@@ -18,7 +18,7 @@ func GetEssayListInit() (*[]models.DataAboutEssay, error) {
 	return globalDataAboutEssayList, nil
 }
 
-func GetAllEssayList() *[]models.DataAboutEssay {
+func GetAllEssayList() *[]models.EssayData {
 	return globalDataAboutEssayList
 }
 

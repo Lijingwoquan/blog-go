@@ -5,6 +5,7 @@ import (
 	"blog/models"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+	"strings"
 )
 
 const (
@@ -54,22 +55,22 @@ func LoginHandler(c *gin.Context) {
 }
 
 // LogoutHandler 退出登录
-//func LogoutHandler(c *gin.Context) {
-//	//1.参数验证 --> 得到相应的token
-//	authHeader := c.Request.Header.Get("Authorization")
-//	parts := strings.SplitN(authHeader, " ", 2)
-//	//得到token
-//	token := parts[1]
-//
-//	//2.业务处理 --> 将该token储存在数据库中
-//	if err := logic.Logout(token); err != nil {
-//		zap.L().Error("logic.Logout(token) failed", zap.Error(err))
-//		ResponseError(c, CodeServeBusy)
-//		return
-//	}
-//	//3.返回响应
-//	ResponseSuccess(c, CodeSuccess)
-//}
+func LogoutHandler(c *gin.Context) {
+	//1.参数验证 --> 得到相应的token
+	authHeader := c.Request.Header.Get("Authorization")
+	parts := strings.SplitN(authHeader, " ", 2)
+	//得到token
+	token := parts[1]
+
+	//2.业务处理 --> 将该token储存在数据库中
+	if err := logic.Logout(token); err != nil {
+		zap.L().Error("logic.Logout(token) failed", zap.Error(err))
+		ResponseError(c, CodeServeBusy)
+		return
+	}
+	//3.返回响应
+	ResponseSuccess(c, CodeSuccess)
+}
 
 // UpdateUserMsgHandler 修改用户信息
 func UpdateUserMsgHandler(c *gin.Context) {

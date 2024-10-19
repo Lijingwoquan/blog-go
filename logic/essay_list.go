@@ -8,14 +8,14 @@ import (
 	"strings"
 )
 
-func GetEssayList(data *models.DataAboutEssayListAndPage, query models.EssayQuery) error {
+func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error {
 	if err := mysql.GetEssayList(data, query); err != nil {
 		return err
 	}
 	return nil
 }
 
-func GetDataByKeyword(e *[]models.DataAboutEssay, param *models.SearchParam) (err error) {
+func GetDataByKeyword(e *[]models.EssayData, param *models.SearchParam) (err error) {
 	//判断是否需要添加访问值
 	if param.IfAdd {
 		preKey := redis.KeySearchKeyWordTimes
@@ -25,7 +25,7 @@ func GetDataByKeyword(e *[]models.DataAboutEssay, param *models.SearchParam) (er
 		}
 	}
 
-	var essayList = new([]models.DataAboutEssay)
+	var essayList = new([]models.EssayData)
 	essayList = cache.GetAllEssayList()
 	for _, essay := range *essayList {
 		// 检查 essay.keyword 数组中是否包含指定的关键字 k
