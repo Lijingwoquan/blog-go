@@ -3,12 +3,15 @@ package mysql
 import (
 	"blog/models"
 	"blog/utils"
+	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/jmoiron/sqlx"
 )
 
 const (
-	invalidLabelIds = "labels参撒无效"
+	invalidLabelIds = "labels参数无效"
+	essayNoExist    = "该文章不存在"
 )
 
 func GetEssayData(data *models.EssayContent, id int) (err error) {
@@ -51,82 +54,143 @@ func GetNearbyEssays(data *[]models.EssayData, kID int, eID int) error {
 	return db.Select(data, sqlStr, kID, eID, kID, eID)
 }
 
-func CreateEssay(e *models.EssayParams) (err error) {
+// CreateEssay 主函数
+func CreateEssay(e *models.EssayParams) error {
+	var err error
+
+	if len(e.LabelIds) == 0 {
+		return fmt.Errorf(invalidLabelIds)
+	}
+
 	if e.CreatedTime, err = utils.GetChineseTime(); err != nil {
-		return err
+		return fmt.Errorf("get chinese time failed: %w", err)
 	}
 
-	tx, err := db.Beginx()
-	if err != nil {
-		return err
-	}
-	defer func() {
+	return withTx(func(tx *sqlx.Tx) error {
+		result, err := insertEssay(tx, e)
 		if err != nil {
-			_ = tx.Rollback()
+			return fmt.Errorf("insert essay failed: %w", err)
 		}
-	}()
 
-	// 在essay表添加数据
+		eid64, err := result.LastInsertId()
+		if err != nil {
+			return err
+		}
+
+		eid := int(eid64)
+
+		if err := insertEssayLabels(tx, eid, e.LabelIds); err != nil {
+			return fmt.Errorf("insert essay label failed: %w", err)
+		}
+
+		if err := updateKindEssayCount(tx, e.KindID, true); err != nil {
+			return fmt.Errorf("update kind essay_count failed: %w", err)
+		}
+		return nil
+	})
+}
+
+// 插入文章
+func insertEssay(tx *sqlx.Tx, e *models.EssayParams) (sql.Result, error) {
 	sqlStr := `
-		INSERT INTO essay(name, kind_id, if_top,content, if_recommend, introduction, created_time, img_url) 
-			values(:name, :kind_id, :if_top,:content, :if_recommend, :introduction, :created_time, :img_url)`
-
+        INSERT INTO essay(name, kind_id, if_top, content, if_recommend, introduction, created_time, img_url) 
+        VALUES (:name, :kind_id, :if_top, :content, :if_recommend, :introduction, :created_time, :img_url)
+    `
 	result, err := tx.NamedExec(sqlStr, e)
 	if err != nil {
-		return err
+		return nil, err
+	}
+	return result, nil
+}
+
+// 插入文章标签关联
+func insertEssayLabels(tx *sqlx.Tx, eid int, lIDs []int) error {
+	sqlStr := `
+        INSERT INTO essay_label (essay_id, label_id, label_name) 
+        SELECT ?, ?, name
+        FROM label 
+        WHERE id = ?
+    `
+
+	for _, labelID := range lIDs {
+		result, err := tx.Exec(sqlStr, eid, labelID, labelID)
+		if err != nil {
+			return err
+		}
+
+		affected, err := result.RowsAffected()
+		if err = noAffectedRowErr(affected, err, invalidLabelIds); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// 更新分类文章计数
+func updateKindEssayCount(tx *sqlx.Tx, kid int, ifAdd bool) error {
+	var sqlStr string
+	sqlStr = `
+        UPDATE kind 
+        SET essay_count = essay_count  - 1
+        WHERE id = ?`
+
+	if ifAdd {
+		sqlStr = `
+        UPDATE kind 
+        SET essay_count = essay_count + 1
+        WHERE id = ?`
 	}
 
-	essayID, _ := result.LastInsertId()
+	_, err := tx.Exec(sqlStr, kid)
 	if err != nil {
 		return err
 	}
 
-	//  添加标签关联
-	if len(e.LabelIds) > 0 {
-		sqlStr2 := `
-            INSERT INTO essay_label (essay_id, label_id, label_name) 
-            SELECT ?, ?, name
-            FROM label 
-            WHERE id = ?
-        `
-		for _, labelID := range e.LabelIds {
-			result, err := tx.Exec(sqlStr2, essayID, labelID, labelID)
-			if err != nil {
-				return err
-			}
-			affected, err := result.RowsAffected()
-			if err = noAffectedRowErr(affected, err, invalidLabelIds); err != nil {
-				return err
-			}
-		}
-	} else {
-		return fmt.Errorf("请求参数缺少label")
-	}
-
-	// 在相应的kind表中增加essay_count的值
-	sqlStr3 := `
-		UPDATE kind SET essay_count = essay_count + 1
-		WHERE id = ?`
-
-	if _, err = tx.Exec(sqlStr3, e.KindID); err != nil {
-		return err
-	}
-
-	return tx.Commit()
+	return nil
 }
 
 func DeleteEssay(id int) error {
-	sqlStr := `DELETE  FROM essay WHERE id=?`
-	result, err := db.Exec(sqlStr, id)
+	return withTx(func(tx *sqlx.Tx) error {
+		if err := deleteLabels(tx, id); err != nil {
+			return fmt.Errorf("deleteLabels failed,err:%w", err)
+		}
+		kid, err := deleteEssay(tx, id)
+		if err != nil {
+			return fmt.Errorf("deleteEssay failed,err:%w", err)
+		}
+
+		if err := updateKindEssayCount(tx, kid, false); err != nil {
+			return fmt.Errorf("updateKindEssayCount failed,err:%w", err)
+		}
+
+		return nil
+	})
+}
+
+func deleteEssay(tx *sqlx.Tx, eid int) (kid int, err error) {
+	sqlStr1 := `SELECT kind_id FROM essay WHERE id = ?`
+	sqlStr2 := `DELETE FROM essay WHERE id = ?`
+
+	if err = tx.QueryRow(sqlStr1, eid).Scan(&kid); err != nil {
+		return 0, err
+	}
+
+	result, err := tx.Exec(sqlStr2, eid)
 	if err != nil {
-		return err
+		return 0, err
 	}
-	var RowsAffected int64
-	if RowsAffected, err = result.RowsAffected(); err != nil {
-		return err
+
+	affected, err := result.RowsAffected()
+	if err = noAffectedRowErr(affected, err, essayNoExist); err != nil {
+		return 0, err
 	}
-	if RowsAffected == 0 {
-		return errors.New(essayNotExist)
+	return kid, err
+}
+
+func deleteLabels(tx *sqlx.Tx, eid int) error {
+	sqlStr := `DELETE FROM essay_label WHERE essay_id = ?`
+	if _, err := tx.Exec(sqlStr, eid); err != nil {
+		return err
 	}
 	return nil
 }

@@ -26,7 +26,6 @@ func DeleteEssay(id int) error {
 
 	//删除redis中文章的相关数据
 	return mysql.DeleteEssay(id)
-
 }
 
 // UpdateEssayMsg 更新文章逻辑
