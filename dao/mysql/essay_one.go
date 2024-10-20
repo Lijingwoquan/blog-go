@@ -7,6 +7,10 @@ import (
 	"fmt"
 )
 
+const (
+	invalidLabelIds = "labels参撒无效"
+)
+
 func GetEssayData(data *models.EssayContent, id int) (err error) {
 	sqlStr := `
 		SELECT e.id,e.name,e.kind_id, e.content, e.introduction, e.created_time, e.visited_times,
@@ -86,30 +90,26 @@ func CreateEssay(e *models.EssayParams) (err error) {
             WHERE id = ?
         `
 		for _, labelID := range e.LabelIds {
-			if _, err := tx.Exec(sqlStr2, essayID, labelID, labelID); err != nil {
+			result, err := tx.Exec(sqlStr2, essayID, labelID, labelID)
+			if err != nil {
+				return err
+			}
+			affected, err := result.RowsAffected()
+			if err = noAffectedRowErr(affected, err, invalidLabelIds); err != nil {
 				return err
 			}
 		}
+	} else {
+		return fmt.Errorf("请求参数缺少label")
 	}
 
 	// 在相应的kind表中增加essay_count的值
 	sqlStr3 := `
 		UPDATE kind SET essay_count = essay_count + 1
-		WHERE id = ?
-	`
+		WHERE id = ?`
 
 	if _, err = tx.Exec(sqlStr3, e.KindID); err != nil {
-		_ = tx.Rollback()
 		return err
-	}
-
-	// 检查是否成功更新了kind表
-	affected, err := result.RowsAffected()
-	if err != nil {
-		return err
-	}
-	if affected == 0 {
-		return fmt.Errorf("kind with id %d not found", e.KindID)
 	}
 
 	return tx.Commit()
