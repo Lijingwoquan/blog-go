@@ -1,7 +1,6 @@
 package redis
 
 import (
-	"blog/dao/mysql"
 	"blog/models"
 	"fmt"
 	"strings"
@@ -15,12 +14,8 @@ const (
 )
 
 func SetEssayKeyword(essayKeyword *models.EssayIdAndKeyword) (err error) {
-	var eid int64
-	if eid, err = mysql.GetEssaySnowflakeID((*essayKeyword).EssayId); err != nil {
-		return err
-	}
 
-	key := fmt.Sprintf("%s%d", getRedisKey(KeyEssayKeyword), eid)
+	key := fmt.Sprintf("%s%d", getRedisKey(KeyEssayKeyword), essayKeyword.EssayId)
 
 	// 创建 Redis 管道
 	pipe := client.Pipeline()
@@ -53,11 +48,7 @@ func IncreaseSearchKeyword(preKey string, keyword string) (err error) {
 func GetEssayKeywords(e *[]models.EssayData) (err error) {
 	keyPre := getRedisKey(KeyEssayKeyword)
 	for i := range *e {
-		ids, err := mysql.GetEssaySnowflakeID((*e)[i].ID)
-		if err != nil {
-			return err
-		}
-		key := fmt.Sprintf("%s%d", keyPre, ids)
+		key := fmt.Sprintf("%s%d", keyPre, (*e)[i].ID)
 		keywords, err := client.SMembers(key).Result()
 		if err != nil {
 			return err

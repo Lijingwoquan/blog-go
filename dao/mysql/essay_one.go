@@ -2,15 +2,19 @@ package mysql
 
 import (
 	"blog/models"
-	"blog/pkg/snowflake"
 	"blog/utils"
 	"errors"
 	"fmt"
 )
 
 func GetEssayData(data *models.EssayContent, id int) (err error) {
-	sqlStr := `SELECT id, name,kind_id, content, introduction, createdTime, visitedTimes
-			FROM essay where id = ?`
+	sqlStr := `
+		SELECT e.id,e.name,e.kind_id, e.content, e.introduction, e.created_time, e.visited_times,
+			k.name AS kind_name
+		FROM essay e 
+		LEFT JOIN kind k on e.kind_id = k.id
+		where e.id = ?
+		`
 
 	if err = db.Get(data, sqlStr, id); err != nil {
 		return err
@@ -24,19 +28,91 @@ func GetEssayData(data *models.EssayContent, id int) (err error) {
 
 func GetNearbyEssays(data *[]models.EssayData, kID int, eID int) error {
 	sqlStr := `
-		(SELECT id, name, kind_id, introduction, createdTime, imgUrl
-			FROM essay 
-			WHERE kind_id = ? AND id < ?
-			ORDER BY id 
+		(SELECT e.id, e.name, e.kind_id, e.introduction, e.created_time, e.img_url,
+		 	k.name AS kind_name
+			FROM essay e 
+			LEFT JOIN kind k on k.id = e.kind_id
+			WHERE e.kind_id = ? AND e.id < ?
+			ORDER BY e.id 
 			LIMIT 2)
 		UNION ALL
-		(SELECT id, name,  kind_id, introduction, createdTime, imgUrl
-			FROM essay 
-			WHERE kind_id = ? AND id > ?
-			ORDER BY id 
+		(SELECT e.id, e.name, e.kind_id, e.introduction, e.created_time, e.img_url,
+		 	k.name AS kindName
+			FROM essay e 
+			LEFT JOIN kind k on k.id = e.kind_id
+			WHERE e.kind_id = ? AND e.id > ?
+			ORDER BY e.id 
 		LIMIT 2)
     `
 	return db.Select(data, sqlStr, kID, eID, kID, eID)
+}
+
+func CreateEssay(e *models.EssayParams) (err error) {
+	if e.CreatedTime, err = utils.GetChineseTime(); err != nil {
+		return err
+	}
+
+	tx, err := db.Beginx()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback()
+		}
+	}()
+
+	// 在essay表添加数据
+	sqlStr := `
+		INSERT INTO essay(name, kind_id, if_top,content, if_recommend, introduction, created_time, img_url) 
+			values(:name, :kind_id, :if_top,:content, :if_recommend, :introduction, :created_time, :img_url)`
+
+	result, err := tx.NamedExec(sqlStr, e)
+	if err != nil {
+		return err
+	}
+
+	essayID, _ := result.LastInsertId()
+	if err != nil {
+		return err
+	}
+
+	//  添加标签关联
+	if len(e.LabelIds) > 0 {
+		sqlStr2 := `
+            INSERT INTO essay_label (essay_id, label_id, label_name) 
+            SELECT ?, ?, name
+            FROM label 
+            WHERE id = ?
+        `
+		for _, labelID := range e.LabelIds {
+			if _, err := tx.Exec(sqlStr2, essayID, labelID, labelID); err != nil {
+				return err
+			}
+		}
+	}
+
+	// 在相应的kind表中增加essay_count的值
+	sqlStr3 := `
+		UPDATE kind SET essay_count = essay_count + 1
+		WHERE id = ?
+	`
+
+	if _, err = tx.Exec(sqlStr3, e.KindID); err != nil {
+		_ = tx.Rollback()
+		return err
+	}
+
+	// 检查是否成功更新了kind表
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if affected == 0 {
+		return fmt.Errorf("kind with id %d not found", e.KindID)
+	}
+
+	return tx.Commit()
 }
 
 func DeleteEssay(id int) error {
@@ -55,44 +131,6 @@ func DeleteEssay(id int) error {
 	return nil
 }
 
-func GetEssaySnowflakeID(id int) (eid int64, err error) {
-	sqlStr := `SELECT eid FROM essay WHERE id = ?`
-	if err = db.Get(&eid, sqlStr, id); err != nil {
-		return 0, fmt.Errorf("no essay found with id %d", id)
-	}
-	return eid, nil
-}
-
-// CheckEssayExist 检测文章是否存在
-func CheckEssayExist(c *models.EssayParams) error {
-	var err error
-	sqlStr := `SELECT COUNT(*) FROM essay WHERE  kind = ? AND  name = ? `
-	var count int
-	if err = db.Get(&count, sqlStr, c.Kind, c.Name); err != nil {
-		return err
-	}
-
-	if count > 0 {
-		return errors.New(essayExist)
-	}
-	return nil
-}
-
-// CreateEssay 添加新文章
-func CreateEssay(e *models.EssayParams) (erd int64, err error) {
-	var formattedTime string
-	if formattedTime, err = utils.GetChineseTime(); err != nil {
-		return 0, err
-	}
-	eid := snowflake.GenID()
-	sqlStr := `INSERT INTO essay(kind,name,content,Introduction,createdTime,updatedTime,eid,imgUrl) values(?,?,?,?,?,?,?,?)`
-	if _, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Introduction, formattedTime, formattedTime, eid, e.ImgUrl); err != nil {
-		return 0, err
-	}
-	return eid, err
-}
-
-// UpdateEssayMsg 更新文章基本信息
 func UpdateEssayMsg(data *models.UpdateEssayMsgParams) error {
 	var err error
 	var formattedTime string

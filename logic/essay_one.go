@@ -13,18 +13,8 @@ func GetEssayData(data *models.EssayContent, id int) error {
 }
 
 // CreateEssay 新增文章逻辑
-func CreateEssay(e *models.EssayParams) (err error) {
-	//1.检测该文章是否已经存在
-	if err = mysql.CheckEssayExist(e); err != nil {
-		return err
-	}
-
-	//mysql处理数据
-	if _, err = mysql.CreateEssay(e); err != nil {
-		return err
-	}
-
-	return
+func CreateEssay(e *models.EssayParams) error {
+	return mysql.CreateEssay(e)
 }
 
 // DeleteEssay 删除文章逻辑

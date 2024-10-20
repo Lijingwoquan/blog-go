@@ -9,7 +9,7 @@ type KindData struct {
 	ID         int    `json:"id" db:"id"`
 	Name       string `json:"name" db:"name"`
 	Icon       string `json:"icon" db:"icon"`
-	EssayCount int8   `json:"essayCount" db:"essayCount"`
+	EssayCount int8   `json:"essayCount" db:"essay_count"`
 }
 type LabelData struct {
 	ID    int    `json:"id" db:"id"`

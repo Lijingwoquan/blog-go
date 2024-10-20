@@ -9,9 +9,9 @@ import (
 
 func GetRecommendEssayList(data *[]models.EssayData) error {
 	sqlStr := `
-		SELECT e.id, e.name, e.createdTime, e.imgUrl 
+		SELECT e.id, e.name, e.created_time, e.img_url 
 		FROM essay e 
-		WHERE ifRecommend = true
+		WHERE if_recommend = true
 		ORDER BY e.id DESC 
 		LIMIT 5
 	`
@@ -22,7 +22,7 @@ func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error 
 	// 计算偏移量
 	offset := (query.Page - 1) * query.PageSize
 	baseSelect := `
-        SELECT e.id, e.name, e.kind_id, e.ifRecommend, e.ifTop, e.introduction, e.createdTime, e.visitedTimes, e.imgUrl,
+        SELECT e.id, e.name, e.kind_id, e.if_recommend, e.if_top, e.introduction, e.created_time, e.visited_times, e.img_url,
             k.name AS kind_name,
             GROUP_CONCAT(el.label_id) AS label_ids,
             GROUP_CONCAT(el.label_name) AS label_names
@@ -52,7 +52,7 @@ func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error 
 	groupBy := "GROUP BY e.id"
 
 	// 修改ORDER BY子句，优先排序ifTop为true的记录
-	orderBy := "ORDER BY e.ifTop DESC, e.id DESC"
+	orderBy := "ORDER BY e.if_top DESC, e.id DESC"
 
 	// 构建完整的SQL语句
 	sqlStr := fmt.Sprintf("%s %s %s %s LIMIT ? OFFSET ?",
@@ -108,18 +108,18 @@ func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error 
 }
 
 func GetAllEssay(data *[]models.EssayData) error {
-	var rawDataList = new([]rawData)
 	sqlStr := `
-		SELECT e.id, e.name, e.createdTime, e.imgUrl,e.kind_id,
+		SELECT e.id, e.name, e.created_time, e.img_url,e.kind_id,
 		       k.name AS kind_name,
 		       GROUP_CONCAT(el.label_id) AS label_ids ,GROUP_CONCAT(el.label_name) AS label_names
 		FROM essay e
 		LEFT JOIN kind k on e.kind_id = k.id
 		LEFT JOIN essay_label el on e.id = el.essay_id
-		GROUP BY e.id, e.name, e.createdTime, e.imgUrl, e.kind_id,  k.name
-		ORDER BY id DESC
+		GROUP BY e.id
+		ORDER BY e.id DESC
 	`
 	var err error
+	var rawDataList = new([]rawData)
 	if err = db.Select(rawDataList, sqlStr); err != nil {
 		return err
 	}

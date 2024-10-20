@@ -40,9 +40,9 @@ func SetupRouter(mode string) *gin.Engine {
 		v1.GET("/essay_content", controller.ResponseEssayDataHandler)
 	}
 
-	//v2 := r.Group("/api/manager")
+	v2 := r.Group("/api/manager")
 	{
-		//v2.POST("/login", controller.LoginHandler)
+		v2.POST("/login", controller.LoginHandler)
 		//v2.POST("/signup", controller.SignupHandler)
 		//v2.POST("/logout", controller.LogoutHandler)
 		//v2.POST("/updateUserMsg", middlewares.JWTAuthMiddleware(), controller.UpdateUserMsgHandler)
@@ -52,7 +52,7 @@ func SetupRouter(mode string) *gin.Engine {
 	v3.Use(middlewares.JWTAuthMiddleware(), middlewares.UpdateDataMiddleware())
 	{
 		//文章
-		v3.POST("/addEssay", controller.AddEssayHandler)
+		v3.POST("/createEssay", controller.CreateEssayHandler)
 		v3.PUT("/updateEssayMsg", controller.UpdateEssayMSgHandler)
 		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler)
 

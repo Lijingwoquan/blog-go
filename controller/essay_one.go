@@ -35,7 +35,7 @@ func ResponseEssayDataHandler(c *gin.Context) {
 	ResponseSuccess(c, essay)
 }
 
-func AddEssayHandler(c *gin.Context) {
+func CreateEssayHandler(c *gin.Context) {
 	//1.参数处理
 	var essay = new(models.EssayParams)
 	if err := c.ShouldBindJSON(essay); err != nil {

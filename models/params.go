@@ -13,14 +13,6 @@ type ClassifyParams struct {
 	Icon string `json:"icon" binding:"omitempty"`
 }
 
-type EssayParams struct {
-	Kind         string `json:"kind" binding:"required" `
-	Name         string `json:"name" binding:"required"`
-	Introduction string `json:"introduction" binding:"required"`
-	Content      string `json:"content" binding:"required"`
-	ImgUrl       string `json:"imgUrl" binging:"required"`
-}
-
 type UpdateEssayMsgParams struct {
 	Name          string   `json:"name" db:"name" binding:"required"`
 	Introduction  string   `json:"introduction" db:"introduction" binding:"required"`
