@@ -26,7 +26,8 @@ func ResponseEssayDataHandler(c *gin.Context) {
 
 	//2.业务处理
 	var essay = new(models.EssayContent)
-	if err = logic.GetEssayData(essay, id); err != nil {
+	essay.Id = id
+	if err = logic.GetEssayData(essay); err != nil {
 		zap.L().Error("logic.GetEssayData(essay, id) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return

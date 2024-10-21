@@ -4,6 +4,7 @@ type EssayContent struct {
 	Name          string      `json:"name" db:"name"`
 	KindID        int         `json:"kind_id,omitempty" db:"kind_id"`
 	KindName      string      `json:"kindName" db:"kind_name"`
+	LabelList     []LabelData `json:"labelList"`
 	Id            int         `json:"id" db:"id"`
 	Introduction  string      `json:"introduction" db:"introduction"`
 	Content       string      `json:"content" db:"content"`

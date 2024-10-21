@@ -14,25 +14,26 @@ const (
 	essayNoExist    = "该文章不存在"
 )
 
-func GetEssayData(data *models.EssayContent, id int) error {
-	if err := getEssay(data, id); err != nil {
+func GetEssayData(data *models.EssayContent) error {
+	if err := getEssay(data); err != nil {
 		return fmt.Errorf("getEssay failed,err:%w", err)
 	}
 
 	data.NearEssayList = make([]models.EssayData, 0, 5)
-	if err := getNearbyEssays(&data.NearEssayList, data.KindID, id); err != nil {
+	if err := getNearbyEssays(&data.NearEssayList, data.KindID, data.Id); err != nil {
 		return fmt.Errorf("getNearbyEssays failed,err:%w", err)
 	}
 	return nil
 }
 
-func getEssay(data *models.EssayContent, id int) error {
+func getEssay(data *models.EssayContent) error {
 	var wg sync.WaitGroup
-	wg.Add(2)
-	var errChan = make(chan error, 2)
+	taskCount := 3
+	wg.Add(taskCount)
+	var errChan = make(chan error, taskCount)
 	go func() {
 		defer wg.Done()
-		if err := getEssayContent(data, id); err != nil {
+		if err := getEssayContent(data); err != nil {
 			errChan <- fmt.Errorf("getEssayContent failed,err:%w", err)
 			return
 		}
@@ -40,7 +41,15 @@ func getEssay(data *models.EssayContent, id int) error {
 
 	go func() {
 		defer wg.Done()
-		if err := increaseEssayCount(id); err != nil {
+		if err := getEssayLabelList(&((*data).LabelList), data.Id); err != nil {
+			errChan <- fmt.Errorf("getEssayLabelList failed,err:%w", err)
+			return
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		if err := increaseEssayCount(data.Id); err != nil {
 			errChan <- fmt.Errorf("increaseEssayCount failed,err:%w", err)
 			return
 		}
@@ -56,7 +65,7 @@ func getEssay(data *models.EssayContent, id int) error {
 	return nil
 }
 
-func getEssayContent(data *models.EssayContent, id int) error {
+func getEssayContent(data *models.EssayContent) error {
 	sqlStr := `
 		SELECT e.id,e.name,e.kind_id, e.content, e.introduction, e.created_time, e.visited_times,
 			k.name AS kind_name
@@ -64,7 +73,15 @@ func getEssayContent(data *models.EssayContent, id int) error {
 		LEFT JOIN kind k on e.kind_id = k.id
 		where e.id = ?
 		`
-	return db.Get(data, sqlStr, id)
+	return db.Get(data, sqlStr, data.Id)
+}
+
+func getEssayLabelList(data *[]models.LabelData, eid int) error {
+	sqlStr := `
+		SELECT el.label_id AS id ,el.label_name as name
+		FROM essay_label el
+		WHERE essay_id = ?`
+	return db.Select(data, sqlStr, eid)
 }
 
 func increaseEssayCount(id int) error {
@@ -306,4 +323,9 @@ func updateEssay(tx *sqlx.Tx, data *models.EssayParams) error {
                WHERE id = :id`
 	_, err := tx.NamedExec(sqlStr, data)
 	return err
+}
+
+func updateEssayLabel(tx *sqlx.Tx, data *models.EssayParams) error {
+
+	return nil
 }

@@ -11,9 +11,17 @@ const (
 	updateKindSuccess = "修改大纲成功"
 )
 
+func CreateKindHandler(c *gin.Context) {
+
+}
+
+func DeleteKindHandler(c *gin.Context) {
+
+}
+
 func UpdateKindHandler(c *gin.Context) {
 	//1.参数检验
-	var k = new(models.UpdateKindParams)
+	var k = new(models.KindParams)
 	if err := c.ShouldBindJSON(k); err != nil {
 		zap.L().Error("c.ShouldBindJSON(k) failed,err:", zap.Error(err))
 		ResponseError(c, CodeParamInvalid)

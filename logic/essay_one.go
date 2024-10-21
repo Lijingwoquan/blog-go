@@ -4,12 +4,10 @@ import (
 	"blog/dao/mysql"
 	"blog/dao/redis"
 	"blog/models"
-	"fmt"
 )
 
-// GetEssayData 得到文章数据
-func GetEssayData(data *models.EssayContent, id int) error {
-	return mysql.GetEssayData(data, id)
+func GetEssayData(data *models.EssayContent) error {
+	return mysql.GetEssayData(data)
 }
 
 // CreateEssay 新增文章逻辑
@@ -32,12 +30,10 @@ func DeleteEssay(id int) error {
 func UpdateEssay(e *models.EssayParams) error {
 	//更新数据
 	if err := mysql.UpdateEssay(e); err != nil {
-		fmt.Println(err)
 		return err
 	}
-	//iDAndKeywords := new(models.EssayIdAndKeyword)
-	//iDAndKeywords.EssayId = e.id
-	//iDAndKeywords.Keywords = e.Keywords
-	//return redis.SetEssayKeyword(iDAndKeywords)
-	return nil
+	idKeywords := new(models.EssayIdAndKeyword)
+	idKeywords.EssayId = e.ID
+	idKeywords.Keywords = e.Keywords
+	return redis.SetEssayKeyword(idKeywords)
 }
