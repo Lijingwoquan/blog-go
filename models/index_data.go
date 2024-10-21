@@ -14,5 +14,5 @@ type KindData struct {
 type LabelData struct {
 	ID    int    `json:"id" db:"id"`
 	Name  string `json:"name"  db:"name"`
-	Color string `json:"color"`
+	Color string `json:"color,omitempty"`
 }

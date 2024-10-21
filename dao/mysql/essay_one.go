@@ -4,9 +4,9 @@ import (
 	"blog/models"
 	"blog/utils"
 	"database/sql"
-	"errors"
 	"fmt"
 	"github.com/jmoiron/sqlx"
+	"sync"
 )
 
 const (
@@ -14,43 +14,85 @@ const (
 	essayNoExist    = "该文章不存在"
 )
 
-func GetEssayData(data *models.EssayContent, id int) (err error) {
-	sqlStr := `
-		SELECT e.id,e.name,e.kind_id, e.content, e.introduction, e.created_time, e.visited_times,
-			k.name AS kind_name
-		FROM essay e 
-		LEFT JOIN kind k on e.kind_id = k.id
-		where e.id = ?
-		`
-
-	if err = db.Get(data, sqlStr, id); err != nil {
-		return err
+func GetEssayData(data *models.EssayContent, id int) error {
+	if err := getEssay(data, id); err != nil {
+		return fmt.Errorf("getEssay failed,err:%w", err)
 	}
 
-	if err = GetNearbyEssays(&data.NearEssayList, data.KindID, data.Id); err != nil {
-		return err
+	data.NearEssayList = make([]models.EssayData, 0, 5)
+	if err := getNearbyEssays(&data.NearEssayList, data.KindID, id); err != nil {
+		return fmt.Errorf("getNearbyEssays failed,err:%w", err)
 	}
 	return nil
 }
 
-func GetNearbyEssays(data *[]models.EssayData, kID int, eID int) error {
+func getEssay(data *models.EssayContent, id int) error {
+	var wg sync.WaitGroup
+	wg.Add(2)
+	var errChan = make(chan error, 2)
+	go func() {
+		defer wg.Done()
+		if err := getEssayContent(data, id); err != nil {
+			errChan <- fmt.Errorf("getEssayContent failed,err:%w", err)
+			return
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		if err := increaseEssayCount(id); err != nil {
+			errChan <- fmt.Errorf("increaseEssayCount failed,err:%w", err)
+			return
+		}
+	}()
+
+	wg.Wait()
+	close(errChan)
+	for err := range errChan {
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func getEssayContent(data *models.EssayContent, id int) error {
+	sqlStr := `
+		SELECT e.id,e.name,e.kind_id, e.content, e.introduction, e.created_time, e.visited_times,
+			k.name AS kind_name
+		FROM essay e
+		LEFT JOIN kind k on e.kind_id = k.id
+		where e.id = ?
+		`
+	return db.Get(data, sqlStr, id)
+}
+
+func increaseEssayCount(id int) error {
+	sqlStr := `
+	UPDATE essay SET visited_times = visited_times + 1
+		WHERE id = ?`
+	_, err := db.Exec(sqlStr, id)
+	return err
+}
+
+func getNearbyEssays(data *[]models.EssayData, kID int, eID int) error {
 	sqlStr := `
 		(SELECT e.id, e.name, e.kind_id, e.introduction, e.created_time, e.img_url,
 		 	k.name AS kind_name
-			FROM essay e 
+			FROM essay e
 			LEFT JOIN kind k on k.id = e.kind_id
 			WHERE e.kind_id = ? AND e.id < ?
-			ORDER BY e.id 
+			ORDER BY e.id
 			LIMIT 2)
 		UNION ALL
 		(SELECT e.id, e.name, e.kind_id, e.introduction, e.created_time, e.img_url,
 		 	k.name AS kindName
-			FROM essay e 
+			FROM essay e
 			LEFT JOIN kind k on k.id = e.kind_id
 			WHERE e.kind_id = ? AND e.id > ?
-			ORDER BY e.id 
+			ORDER BY e.id
 		LIMIT 2)
-    `
+  `
 	return db.Select(data, sqlStr, kID, eID, kID, eID)
 }
 
@@ -105,24 +147,39 @@ func insertEssay(tx *sqlx.Tx, e *models.EssayParams) (sql.Result, error) {
 
 // 插入文章标签关联
 func insertEssayLabels(tx *sqlx.Tx, eid int, lIDs []int) error {
+	// 构建批量插入的SQL和参数
 	sqlStr := `
-        INSERT INTO essay_label (essay_id, label_id, label_name) 
-        SELECT ?, ?, name
-        FROM label 
-        WHERE id = ?
+        INSERT INTO essay_label (essay_id, label_id, label_name)
+        SELECT ?, l.id, l.name 
+        FROM label l
+        WHERE l.id IN (?)
     `
 
-	for _, labelID := range lIDs {
-		result, err := tx.Exec(sqlStr, eid, labelID, labelID)
-		if err != nil {
-			return err
-		}
-
-		affected, err := result.RowsAffected()
-		if err = noAffectedRowErr(affected, err, invalidLabelIds); err != nil {
-			return err
-		}
+	// 通过sqlx.In来处理IN查询
+	query, args, err := sqlx.In(sqlStr, eid, lIDs)
+	if err != nil {
+		return err
 	}
+
+	// 将SQL转换为底层数据库驱动可执行的格式
+	query = tx.Rebind(query)
+
+	result, err := tx.Exec(query, args...)
+	if err != nil {
+		return err
+	}
+
+	// 检查影响的行数是否符合预期
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	// 如果影响的行数与传入的标签ID数量不匹配,说明有无效的标签ID
+	if int(affected) != len(lIDs) {
+		return fmt.Errorf(invalidLabelIds)
+	}
+
 	return nil
 }
 
@@ -195,23 +252,58 @@ func deleteLabels(tx *sqlx.Tx, eid int) error {
 	return nil
 }
 
-func UpdateEssayMsg(data *models.UpdateEssayMsgParams) error {
-	var err error
-	var formattedTime string
-	if formattedTime, err = utils.GetChineseTime(); err != nil {
+func UpdateEssay(data *models.EssayParams) error {
+	return withTx(func(tx *sqlx.Tx) error {
+		var err error
+		var okid int
+		// 先查essay表 得到kind_id
+		if okid, err = getEssayKindID(tx, data.ID); err != nil {
+			return fmt.Errorf("getEssayKindID failed,err:%w", err)
+		}
+		// 判断是否需要更新kind表
+		if okid != data.KindID {
+			// 原来的kind减1
+			if err = updateKindEssayCount(tx, okid, false); err != nil {
+				return fmt.Errorf("updateKindEssayCount failed,err:%w", err)
+			}
+			// 新的kind加1
+			if err = updateKindEssayCount(tx, data.KindID, true); err != nil {
+				return fmt.Errorf("updateKindEssayCount failed,err:%w", err)
+			}
+		}
+
+		// 更新essay_label
+		// 删除原来的essay_label表关联的数据 然后重建?
+
+		// 更新essay表
+		if err = updateEssay(tx, data); err != nil {
+			return fmt.Errorf("updateEssay failed,err%w", err)
+		}
 		return err
+	})
+
+}
+
+func getEssayKindID(tx *sqlx.Tx, eid int) (kid int, err error) {
+	sqlStr := `SELECT kind_id FROM essay WHERE id = ?`
+
+	if err := tx.QueryRow(sqlStr, eid).Scan(&kid); err != nil {
+		return 0, err
 	}
-	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,introduction=?,updatedTime=?,imgUrl=?,advertiseMsg=?,advertiseImg=?,advertiseHref = ? WHERE id = ?`
-	result, err := db.Exec(
-		sqlStr,
-		data.Name, data.Kind, data.Content, data.Introduction, formattedTime, data.ImgUrl, data.AdvertiseMsg, data.AdvertiseImg, data.AdvertiseHref,
-		data.Id)
-	if err != nil {
-		return err
-	}
-	var rowsAffected int64
-	if rowsAffected, err = result.RowsAffected(); rowsAffected == 0 {
-		return errors.New(essayNotExist)
-	}
-	return nil
+
+	return kid, nil
+}
+
+func updateEssay(tx *sqlx.Tx, data *models.EssayParams) error {
+	sqlStr := `UPDATE essay SET 
+               name = :name,
+               kind_id = :kind_id,
+               introduction = :introduction,
+               content = :content,
+               img_url = :img_url,
+               if_top = :if_top,
+               if_recommend = :if_recommend
+               WHERE id = :id`
+	_, err := tx.NamedExec(sqlStr, data)
+	return err
 }

@@ -13,19 +13,6 @@ type ClassifyParams struct {
 	Icon string `json:"icon" binding:"omitempty"`
 }
 
-type UpdateEssayMsgParams struct {
-	Name          string   `json:"name" db:"name" binding:"required"`
-	Introduction  string   `json:"introduction" db:"introduction" binding:"required"`
-	Kind          string   `json:"kind" db:"kind" binding:"required"`
-	Content       string   `json:"content" db:"content" binding:"required"`
-	Id            int      `json:"id" db:"id" binding:"required"`
-	Keywords      []string `json:"keywords"`
-	ImgUrl        string   `json:"imgUrl" binging:"required"`
-	AdvertiseMsg  string   `json:"advertiseMsg" db:"advertiseMsg"`
-	AdvertiseImg  string   `json:"advertiseImg"  db:"advertiseImg"`
-	AdvertiseHref string   `json:"advertiseHref" db:"advertiseHref"`
-}
-
 type UpdateKindParams struct {
 	Name string `json:"name" binding:"required" db:"name"`
 	Icon string `json:"icon" binding:"required" db:"icon"`

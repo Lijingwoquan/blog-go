@@ -13,7 +13,7 @@ type EssayData struct {
 	ImgUrl       string      `json:"imgUrl" db:"img_url"`
 	Keywords     []string    `json:"keywords,omitempty"`
 	IfRecommend  bool        `json:"ifRecommend" db:"if_recommend"`
-	IfTop        bool        `json:"ifTop,omitempty" db:"if_top"`
+	IfTop        bool        `json:"ifTop" db:"if_top"`
 }
 
 // EssayListAndPage 分页查询相关

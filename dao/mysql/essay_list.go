@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 func GetRecommendEssayList(data *[]models.EssayData) error {
@@ -19,18 +20,10 @@ func GetRecommendEssayList(data *[]models.EssayData) error {
 }
 
 func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error {
+	var wg sync.WaitGroup
+	var errChan = make(chan error, 2)
 	// 计算偏移量
 	offset := (query.Page - 1) * query.PageSize
-	baseSelect := `
-        SELECT e.id, e.name, e.kind_id, e.if_recommend, e.if_top, e.introduction, e.created_time, e.visited_times, e.img_url,
-            k.name AS kind_name,
-            GROUP_CONCAT(el.label_id) AS label_ids,
-            GROUP_CONCAT(el.label_name) AS label_names
-        FROM essay e
-        LEFT JOIN kind k ON e.kind_id = k.id
-        LEFT JOIN essay_label el ON e.id = el.essay_id
-        `
-
 	where := make([]string, 0)
 	args := make([]interface{}, 0)
 
@@ -48,19 +41,58 @@ func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error 
 		whereClause = "WHERE " + strings.Join(where, " AND ")
 	}
 
-	// 添加GROUP BY子句
-	groupBy := "GROUP BY e.id"
-
-	// 修改ORDER BY子句，优先排序ifTop为true的记录
-	orderBy := "ORDER BY e.if_top DESC, e.id DESC"
-
-	// 构建完整的SQL语句
-	sqlStr := fmt.Sprintf("%s %s %s %s LIMIT ? OFFSET ?",
-		baseSelect, whereClause, groupBy, orderBy)
-
 	args = append(args, query.PageSize, offset)
 
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := getList(data, whereClause, args); err != nil {
+			errChan <- fmt.Errorf("getList failed,err:%w", err)
+			return
+		}
+	}()
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		if err := getCount(data, query.PageSize, whereClause, args); err != nil {
+			errChan <- fmt.Errorf("getList failed,err:%w", err)
+			return
+		}
+	}()
+
+	wg.Wait()
+
+	close(errChan)
+
+	for err := range errChan {
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func getList(data *models.EssayListAndPage, whereClause string, args []interface{}) error {
 	rawDataList := make([]rawData, 0, 5)
+	baseSelect := `
+        SELECT e.id, e.name, e.kind_id, e.if_recommend, e.if_top, e.introduction, e.created_time, e.visited_times, e.img_url,
+            k.name AS kind_name,
+            GROUP_CONCAT(el.label_id) AS label_ids,
+            GROUP_CONCAT(el.label_name) AS label_names
+        FROM essay e
+        LEFT JOIN kind k ON e.kind_id = k.id
+        LEFT JOIN essay_label el ON e.id = el.essay_id
+        `
+
+	groupBy := "GROUP BY e.id"
+
+	// 优先排序ifTop为true的记录
+	orderBy := "ORDER BY e.if_top DESC, e.id DESC"
+
+	sqlStr := fmt.Sprintf("%s %s %s %s LIMIT ? OFFSET ?",
+		baseSelect, whereClause, groupBy, orderBy)
 
 	if err := db.Select(&rawDataList, sqlStr, args...); err != nil {
 		return err
@@ -86,24 +118,24 @@ func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error 
 			}
 		}
 	}
+	return nil
+}
 
-	baseCount := `
+func getCount(data *models.EssayListAndPage, PageSize int, whereClause string, args []interface{}) error {
+	baseSql := `
         SELECT COUNT(DISTINCT e.id)
         FROM essay e 
         LEFT JOIN kind k ON e.kind_id = k.id
         LEFT JOIN essay_label el ON e.id = el.essay_id
-        `
-
-	countSqlStr := fmt.Sprintf("%s %s", baseCount, whereClause)
+   	`
 
 	var totalCount int
-
-	if err := db.Get(&totalCount, countSqlStr, args[:len(args)-2]...); err != nil {
+	sqlStr := fmt.Sprintf("%s %s", baseSql, whereClause)
+	if err := db.Get(&totalCount, sqlStr, args[:len(args)-2]...); err != nil {
 		return err
 	}
 
-	data.TotalPage = (totalCount + query.PageSize - 1) / query.PageSize
-
+	data.TotalPage = (totalCount + PageSize - 1) / PageSize
 	return nil
 }
 

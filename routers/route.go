@@ -54,7 +54,7 @@ func SetupRouter(mode string) *gin.Engine {
 		//文章
 		v3.POST("/createEssay", controller.CreateEssayHandler)
 		v3.DELETE("/deleteEssay", controller.DeleteEssayHandler)
-		v3.PUT("/updateEssayMsg", controller.UpdateEssayMSgHandler)
+		v3.PUT("/updateEssay", controller.UpdateEssayHandler)
 
 		//分类
 		v3.PUT("/updateKind", controller.UpdateKindHandler)

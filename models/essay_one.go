@@ -14,13 +14,15 @@ type EssayContent struct {
 }
 
 type EssayParams struct {
-	Name         string `json:"name" binding:"required" db:"name"`
-	KindID       int    `json:"kindID" binding:"required" db:"kind_id"`
-	LabelIds     []int  `json:"labelIds" bind:"required"`
-	Introduction string `json:"introduction" binding:"required" db:"introduction"`
-	CreatedTime  string `json:"createdTime" db:"created_time"`
-	Content      string `json:"content" binding:"required" db:"content"`
-	ImgUrl       string `json:"imgUrl" binging:"required" db:"img_url"`
-	IfTop        bool   `json:"ifTop" db:"if_top"`
-	IfRecommend  bool   `json:"ifRecommend" db:"if_recommend"`
+	ID           int      `json:"id" db:"id"`
+	Name         string   `json:"name" binding:"required" db:"name"`
+	KindID       int      `json:"kindID" binding:"required" db:"kind_id"`
+	LabelIds     []int    `json:"labelIds" bind:"required"`
+	Introduction string   `json:"introduction" binding:"required" db:"introduction"`
+	CreatedTime  string   `json:"createdTime" db:"created_time"`
+	Content      string   `json:"content" binding:"required" db:"content"`
+	ImgUrl       string   `json:"imgUrl" binging:"required" db:"img_url"`
+	IfTop        bool     `json:"ifTop" binging:"required" db:"if_top"`
+	IfRecommend  bool     `json:"ifRecommend"  binging:"required" db:"if_recommend"`
+	Keywords     []string `json:"keywords"`
 }
