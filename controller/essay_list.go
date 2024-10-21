@@ -22,8 +22,8 @@ func ResponseEssayListHandler(c *gin.Context) {
 	}
 	query.PageSize = int(pageSize64)
 
-	lID, _ := strconv.ParseInt(c.Query("label_id"), 10, 64)
-	KID, _ := strconv.ParseInt(c.Query("kind_id"), 10, 64)
+	lID, _ := strconv.ParseInt(c.Query("labelID"), 10, 64)
+	KID, _ := strconv.ParseInt(c.Query("kindID"), 10, 64)
 
 	query.LabelID = int(lID)
 	query.KindID = int(KID)

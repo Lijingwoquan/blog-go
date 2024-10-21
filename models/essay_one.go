@@ -31,5 +31,5 @@ type EssayParams struct {
 type EssayUpdateParams struct {
 	EssayParams
 	OldKindID   int   `json:"oldKindID" binding:"required"`
-	OldLabelIds []int `json:"OldLabelIds" binding:"required"`
+	OldLabelIds []int `json:"oldLabelIds" binding:"required"`
 }

@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	"github.com/jmoiron/sqlx"
+	"strings"
 	"sync"
 )
 
@@ -115,7 +116,6 @@ func getNearbyEssays(data *[]models.EssayData, kID int, eID int) error {
 	return db.Select(data, sqlStr, kID, eID, kID, eID)
 }
 
-// CreateEssay 主函数
 func CreateEssay(e *models.EssayParams) error {
 	var err error
 
@@ -151,7 +151,6 @@ func CreateEssay(e *models.EssayParams) error {
 	})
 }
 
-// 插入文章
 func insertEssay(tx *sqlx.Tx, e *models.EssayParams) (sql.Result, error) {
 	sqlStr := `
         INSERT INTO essay(name, kind_id, if_top, content, if_recommend, introduction, created_time, img_url) 
@@ -164,7 +163,6 @@ func insertEssay(tx *sqlx.Tx, e *models.EssayParams) (sql.Result, error) {
 	return result, nil
 }
 
-// 插入文章标签关联
 func insertEssayLabels(tx *sqlx.Tx, eid int, lIDs []int) error {
 	// 构建批量插入的SQL和参数
 	sqlStr := `
@@ -202,7 +200,6 @@ func insertEssayLabels(tx *sqlx.Tx, eid int, lIDs []int) error {
 	return nil
 }
 
-// 更新分类文章计数
 func updateKindEssayCount(tx *sqlx.Tx, kid int, ifAdd bool) error {
 	var sqlStr string
 	sqlStr = `
@@ -277,7 +274,7 @@ func UpdateEssay(data *models.EssayUpdateParams) error {
 		// 判断是否需要更新kind表
 		if data.OldKindID != data.KindID {
 			// 原来的kind减1
-			if err = updateKindEssayCount(tx, data.KindID, false); err != nil {
+			if err = updateKindEssayCount(tx, data.OldKindID, false); err != nil {
 				return fmt.Errorf("updateKindEssayCount failed,err:%w", err)
 			}
 			// 新的kind加1
@@ -315,59 +312,64 @@ func updateEssay(tx *sqlx.Tx, data *models.EssayUpdateParams) error {
 }
 
 func updateEssayLabel(tx *sqlx.Tx, data *models.EssayUpdateParams) error {
-	// 分治 分别拿到需要添加的label和需要删除的label
-	var needAddLabelsIds = make([]int, 5)
-	var needRemoveLabelsIds = make([]int, 5)
+	// 1. 分治：获取需要添加和删除的标签
+	var needAddLabelsIds = make([]int, 0, 5)
+	var needRemoveLabelsIds = make([]int, 0, 5)
 	var oldLabelMap = make(map[int]bool, 5)
 	var newLabelMap = make(map[int]bool, 5)
 
-	for _, id := range (*data).OldLabelIds {
+	// 构建新旧标签的map
+	for _, id := range data.OldLabelIds {
 		oldLabelMap[id] = true
 	}
-	for _, id := range (*data).LabelIds {
+	for _, id := range data.LabelIds {
 		newLabelMap[id] = true
 	}
-	for _, id := range (*data).OldLabelIds {
-		if _, ok := newLabelMap[id]; !ok {
+
+	// 找出需要删除和添加的标签
+	for id := range oldLabelMap {
+		if !newLabelMap[id] {
 			needRemoveLabelsIds = append(needRemoveLabelsIds, id)
 		}
 	}
-	for _, id := range (*data).LabelIds {
-		if _, ok := oldLabelMap[id]; !ok {
+	for id := range newLabelMap {
+		if !oldLabelMap[id] {
 			needAddLabelsIds = append(needAddLabelsIds, id)
 		}
 	}
 
-	// 批量添加标签
-	if len(needAddLabelsIds) > 0 {
-		addSql := `
-        INSERT INTO essay_label (essay_id, label_id)
-        VALUES (:essay_id, :label_id)
-        `
-		var addParams []map[string]interface{}
-		for _, labelID := range needAddLabelsIds {
-			addParams = append(addParams, map[string]interface{}{
-				"essay_id": data.ID,
-				"label_id": labelID,
-			})
-		}
-
-		_, err := tx.NamedExec(addSql, addParams)
-		if err != nil {
-			return fmt.Errorf("failed to batch insert essay labels: %w", err)
-		}
-	}
-
-	// 批量删除标签
+	// 2. 批量删除标签
 	if len(needRemoveLabelsIds) > 0 {
 		deleteSql := `DELETE FROM essay_label WHERE essay_id = ? AND label_id IN (?)`
 		query, args, err := sqlx.In(deleteSql, data.ID, needRemoveLabelsIds)
 		if err != nil {
-			return fmt.Errorf("failed to construct delete query: %w", err)
+			return fmt.Errorf("construct delete query failed,err: %w", err)
 		}
+		query = tx.Rebind(query) // 重要：处理不同数据库的占位符
 		_, err = tx.Exec(query, args...)
 		if err != nil {
-			return fmt.Errorf("failed to batch delete essay labels: %w", err)
+			return fmt.Errorf("delete tags in batches failed,err: %w", err)
+		}
+	}
+
+	// 3. 批量添加标签
+	if len(needAddLabelsIds) > 0 {
+		// 构造批量插入的VALUES部分
+		valueStrings := make([]string, 0, len(needAddLabelsIds))
+		valueArgs := make([]interface{}, 0, len(needAddLabelsIds)*2)
+
+		for _, labelID := range needAddLabelsIds {
+			valueStrings = append(valueStrings, "(?, ?)")
+			valueArgs = append(valueArgs, data.ID, labelID)
+		}
+
+		addSql := fmt.Sprintf(`
+            INSERT INTO essay_label (essay_id, label_id) 
+            VALUES %s`, strings.Join(valueStrings, ","))
+
+		_, err := tx.Exec(addSql, valueArgs...)
+		if err != nil {
+			return fmt.Errorf("add tags in batches failed: %w", err)
 		}
 	}
 
