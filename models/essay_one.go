@@ -27,3 +27,9 @@ type EssayParams struct {
 	IfRecommend  bool     `json:"ifRecommend"  binging:"required" db:"if_recommend"`
 	Keywords     []string `json:"keywords"`
 }
+
+type EssayUpdateParams struct {
+	EssayParams
+	OldKindID   int   `json:"oldKindID" binding:"required"`
+	OldLabelIds []int `json:"OldLabelIds" binding:"required"`
+}

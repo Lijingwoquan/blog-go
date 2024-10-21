@@ -78,9 +78,11 @@ func getEssayContent(data *models.EssayContent) error {
 
 func getEssayLabelList(data *[]models.LabelData, eid int) error {
 	sqlStr := `
-		SELECT el.label_id AS id ,el.label_name as name
+		SELECT el.label_id AS id ,l.name as name
 		FROM essay_label el
-		WHERE essay_id = ?`
+		LEFT OUTER JOIN label l on l.id = el.label_id
+		WHERE essay_id = ?
+		`
 	return db.Select(data, sqlStr, eid)
 }
 
@@ -166,8 +168,8 @@ func insertEssay(tx *sqlx.Tx, e *models.EssayParams) (sql.Result, error) {
 func insertEssayLabels(tx *sqlx.Tx, eid int, lIDs []int) error {
 	// 构建批量插入的SQL和参数
 	sqlStr := `
-        INSERT INTO essay_label (essay_id, label_id, label_name)
-        SELECT ?, l.id, l.name 
+        INSERT INTO essay_label (essay_id, label_id)
+        SELECT ?, l.id 
         FROM label l
         WHERE l.id IN (?)
     `
@@ -269,18 +271,13 @@ func deleteLabels(tx *sqlx.Tx, eid int) error {
 	return nil
 }
 
-func UpdateEssay(data *models.EssayParams) error {
+func UpdateEssay(data *models.EssayUpdateParams) error {
 	return withTx(func(tx *sqlx.Tx) error {
 		var err error
-		var okid int
-		// 先查essay表 得到kind_id
-		if okid, err = getEssayKindID(tx, data.ID); err != nil {
-			return fmt.Errorf("getEssayKindID failed,err:%w", err)
-		}
 		// 判断是否需要更新kind表
-		if okid != data.KindID {
+		if data.OldKindID != data.KindID {
 			// 原来的kind减1
-			if err = updateKindEssayCount(tx, okid, false); err != nil {
+			if err = updateKindEssayCount(tx, data.KindID, false); err != nil {
 				return fmt.Errorf("updateKindEssayCount failed,err:%w", err)
 			}
 			// 新的kind加1
@@ -289,29 +286,21 @@ func UpdateEssay(data *models.EssayParams) error {
 			}
 		}
 
-		// 更新essay_label
-		// 删除原来的essay_label表关联的数据 然后重建?
-
 		// 更新essay表
 		if err = updateEssay(tx, data); err != nil {
 			return fmt.Errorf("updateEssay failed,err%w", err)
+		}
+
+		// 更新essay_label
+		if err = updateEssayLabel(tx, data); err != nil {
+			return err
 		}
 		return err
 	})
 
 }
 
-func getEssayKindID(tx *sqlx.Tx, eid int) (kid int, err error) {
-	sqlStr := `SELECT kind_id FROM essay WHERE id = ?`
-
-	if err := tx.QueryRow(sqlStr, eid).Scan(&kid); err != nil {
-		return 0, err
-	}
-
-	return kid, nil
-}
-
-func updateEssay(tx *sqlx.Tx, data *models.EssayParams) error {
+func updateEssay(tx *sqlx.Tx, data *models.EssayUpdateParams) error {
 	sqlStr := `UPDATE essay SET 
                name = :name,
                kind_id = :kind_id,
@@ -325,7 +314,62 @@ func updateEssay(tx *sqlx.Tx, data *models.EssayParams) error {
 	return err
 }
 
-func updateEssayLabel(tx *sqlx.Tx, data *models.EssayParams) error {
+func updateEssayLabel(tx *sqlx.Tx, data *models.EssayUpdateParams) error {
+	// 分治 分别拿到需要添加的label和需要删除的label
+	var needAddLabelsIds = make([]int, 5)
+	var needRemoveLabelsIds = make([]int, 5)
+	var oldLabelMap = make(map[int]bool, 5)
+	var newLabelMap = make(map[int]bool, 5)
+
+	for _, id := range (*data).OldLabelIds {
+		oldLabelMap[id] = true
+	}
+	for _, id := range (*data).LabelIds {
+		newLabelMap[id] = true
+	}
+	for _, id := range (*data).OldLabelIds {
+		if _, ok := newLabelMap[id]; !ok {
+			needRemoveLabelsIds = append(needRemoveLabelsIds, id)
+		}
+	}
+	for _, id := range (*data).LabelIds {
+		if _, ok := oldLabelMap[id]; !ok {
+			needAddLabelsIds = append(needAddLabelsIds, id)
+		}
+	}
+
+	// 批量添加标签
+	if len(needAddLabelsIds) > 0 {
+		addSql := `
+        INSERT INTO essay_label (essay_id, label_id)
+        VALUES (:essay_id, :label_id)
+        `
+		var addParams []map[string]interface{}
+		for _, labelID := range needAddLabelsIds {
+			addParams = append(addParams, map[string]interface{}{
+				"essay_id": data.ID,
+				"label_id": labelID,
+			})
+		}
+
+		_, err := tx.NamedExec(addSql, addParams)
+		if err != nil {
+			return fmt.Errorf("failed to batch insert essay labels: %w", err)
+		}
+	}
+
+	// 批量删除标签
+	if len(needRemoveLabelsIds) > 0 {
+		deleteSql := `DELETE FROM essay_label WHERE essay_id = ? AND label_id IN (?)`
+		query, args, err := sqlx.In(deleteSql, data.ID, needRemoveLabelsIds)
+		if err != nil {
+			return fmt.Errorf("failed to construct delete query: %w", err)
+		}
+		_, err = tx.Exec(query, args...)
+		if err != nil {
+			return fmt.Errorf("failed to batch delete essay labels: %w", err)
+		}
+	}
 
 	return nil
 }

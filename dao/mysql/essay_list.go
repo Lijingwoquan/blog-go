@@ -21,7 +21,10 @@ func GetRecommendEssayList(data *[]models.EssayData) error {
 
 func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error {
 	var wg sync.WaitGroup
-	var errChan = make(chan error, 2)
+	taskCount := 2
+	var errChan = make(chan error, taskCount)
+	wg.Add(taskCount)
+
 	// 计算偏移量
 	offset := (query.Page - 1) * query.PageSize
 	where := make([]string, 0)
@@ -43,7 +46,6 @@ func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error 
 
 	args = append(args, query.PageSize, offset)
 
-	wg.Add(1)
 	go func() {
 		defer wg.Done()
 		if err := getList(data, whereClause, args); err != nil {
@@ -52,7 +54,6 @@ func GetEssayList(data *models.EssayListAndPage, query models.EssayQuery) error 
 		}
 	}()
 
-	wg.Add(1)
 	go func() {
 		defer wg.Done()
 		if err := getCount(data, query.PageSize, whereClause, args); err != nil {
@@ -79,11 +80,12 @@ func getList(data *models.EssayListAndPage, whereClause string, args []interface
 	baseSelect := `
         SELECT e.id, e.name, e.kind_id, e.if_recommend, e.if_top, e.introduction, e.created_time, e.visited_times, e.img_url,
             k.name AS kind_name,
-            GROUP_CONCAT(el.label_id) AS label_ids,
-            GROUP_CONCAT(el.label_name) AS label_names
+           	COALESCE(GROUP_CONCAT(el.label_id), '') AS label_ids,
+        	COALESCE(GROUP_CONCAT(l.name), '') AS label_names
         FROM essay e
         LEFT JOIN kind k ON e.kind_id = k.id
         LEFT JOIN essay_label el ON e.id = el.essay_id
+        LEFT JOIN label l ON l.id = el.label_id  
         `
 
 	groupBy := "GROUP BY e.id"
@@ -143,10 +145,12 @@ func GetAllEssay(data *[]models.EssayData) error {
 	sqlStr := `
 		SELECT e.id, e.name, e.created_time, e.img_url,e.kind_id,
 		       k.name AS kind_name,
-		       GROUP_CONCAT(el.label_id) AS label_ids ,GROUP_CONCAT(el.label_name) AS label_names
+		    COALESCE(GROUP_CONCAT(el.label_id), '') AS label_ids,
+            COALESCE(GROUP_CONCAT(l.name), '') AS label_names
 		FROM essay e
-		LEFT JOIN kind k on e.kind_id = k.id
-		LEFT JOIN essay_label el on e.id = el.essay_id
+		LEFT JOIN kind k ON e.kind_id = k.id
+		LEFT JOIN essay_label el ON e.id = el.essay_id
+		LEFT JOIN label l ON l.id = el.label_id
 		GROUP BY e.id
 		ORDER BY e.id DESC
 	`

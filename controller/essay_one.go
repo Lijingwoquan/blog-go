@@ -75,7 +75,7 @@ func DeleteEssayHandler(c *gin.Context) {
 
 func UpdateEssayHandler(c *gin.Context) {
 	//1.获取参数
-	var essay = new(models.EssayParams)
+	var essay = new(models.EssayUpdateParams)
 	if err := c.ShouldBindJSON(essay); err != nil {
 		zap.L().Error("c.ShouldBindJSON(essay) failed", zap.Error(err))
 		ResponseError(c, CodeParamInvalid)

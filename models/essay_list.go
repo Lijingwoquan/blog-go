@@ -5,7 +5,7 @@ type EssayData struct {
 	Name         string      `json:"name" db:"name"`
 	LabelList    []LabelData `json:"labelList,omitempty"`
 	KindName     string      `json:"kindName,omitempty" db:"kind_name"`
-	KindID       int         `json:"kindID" db:"kind_id"`
+	KindID       int         `json:"kindID,omitempty" db:"kind_id"`
 	Introduction string      `json:"introduction,omitempty" db:"introduction"`
 	CreatedTime  string      `json:"createdTime" db:"created_time"`
 	VisitedTimes int64       `json:"visitedTimes,omitempty" db:"visited_times"`

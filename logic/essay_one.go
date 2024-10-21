@@ -27,7 +27,7 @@ func DeleteEssay(id int) error {
 	return mysql.DeleteEssay(id)
 }
 
-func UpdateEssay(e *models.EssayParams) error {
+func UpdateEssay(e *models.EssayUpdateParams) error {
 	//更新数据
 	if err := mysql.UpdateEssay(e); err != nil {
 		return err
