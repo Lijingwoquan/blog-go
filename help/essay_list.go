@@ -6,7 +6,7 @@ import (
 	"blog/models"
 )
 
-func ResponseDataAboutEssayList(essayList *[]models.DataAboutEssay) (err error) {
+func ResponseDataAboutEssayList(essayList *[]models.EssayData) (err error) {
 	if err = mysql.GetAllEssay(essayList); err != nil {
 		return err
 	}

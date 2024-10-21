@@ -156,7 +156,6 @@ func createEssayTable() (err error) {
 =======
 		id INT AUTO_INCREMENT PRIMARY KEY,
 		name VARCHAR(60) NOT NULL,
-		eid BIGINT NOT NULL ,
 		kind_id INT NOT NULL,
 		content TEXT NOT NULL,
 		introduction VARCHAR(180) NOT NULL,
@@ -165,6 +164,7 @@ func createEssayTable() (err error) {
 		createdTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		updatedTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		ifRecommend BOOL NOT NULL DEFAULT FALSE,
+		ifTop BOOL NOT NULL  DEFAULT FALSE,
 		FOREIGN KEY (kind_id) REFERENCES kind(id)
             ON DELETE RESTRICT
             ON UPDATE CASCADE

@@ -47,7 +47,11 @@ func Logout(token string) error {
 		return err
 	}
 	//2.将该token储存在数据库中
+<<<<<<< HEAD
 	return mysql.Logout(token, MyClaims.ExpiresAt)
+=======
+	return mysql.Logout(token, MyClaims.ExpiresAt.Unix())
+>>>>>>> dev
 }
 
 func UpdateUserMsg(user *models.UserParams, id int64) error {

@@ -9,12 +9,12 @@ import (
 )
 
 const (
-	updateEssaySuccess = "修改文章成功"
+	createEssaySuccess = "添加文章成功"
 	deleteEssaySuccess = "删除文章成功"
-	addEssaySuccess    = "添加文章成功"
+	updateEssaySuccess = "修改文章成功"
 )
 
-func ResponseDataAboutEssayHandler(c *gin.Context) {
+func ResponseEssayDataHandler(c *gin.Context) {
 	//1.参数处理
 	queryID := c.Query("id")
 	id, err := strconv.Atoi(queryID)
@@ -25,8 +25,9 @@ func ResponseDataAboutEssayHandler(c *gin.Context) {
 	}
 
 	//2.业务处理
-	var essay = new(models.EssayData)
-	if err = logic.GetEssayData(essay, id); err != nil {
+	var essay = new(models.EssayContent)
+	essay.Id = id
+	if err = logic.GetEssayData(essay); err != nil {
 		zap.L().Error("logic.GetEssayData(essay, id) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
@@ -35,7 +36,7 @@ func ResponseDataAboutEssayHandler(c *gin.Context) {
 	ResponseSuccess(c, essay)
 }
 
-func AddEssayHandler(c *gin.Context) {
+func CreateEssayHandler(c *gin.Context) {
 	//1.参数处理
 	var essay = new(models.EssayParams)
 	if err := c.ShouldBindJSON(essay); err != nil {
@@ -45,31 +46,12 @@ func AddEssayHandler(c *gin.Context) {
 	}
 	//2.业务处理
 	if err := logic.CreateEssay(essay); err != nil {
-		zap.L().Error("mysql.CreateEssay(essay) failed", zap.Error(err))
+		zap.L().Error("logic.CreateEssay(essay) failed", zap.Error(err))
 		ResponseError(c, CodeServeBusy)
 		return
 	}
 	//3.返回响应
-	ResponseSuccess(c, addEssaySuccess)
-}
-
-func UpdateEssayMSgHandler(c *gin.Context) {
-	//1.获取参数
-	var data = new(models.UpdateEssayMsgParams)
-	if err := c.ShouldBindJSON(data); err != nil {
-		zap.L().Error("c.ShouldBindJSON(data) failed", zap.Error(err))
-		ResponseError(c, CodeParamInvalid)
-		return
-	}
-
-	//2.业务处理
-	if err := logic.UpdateEssayMsg(data); err != nil {
-		zap.L().Error("mysql.UpdateEssay(data) failed", zap.Error(err))
-		ResponseError(c, CodeServeBusy)
-		return
-	}
-	//3.返回响应
-	ResponseSuccess(c, updateEssaySuccess)
+	ResponseSuccess(c, createEssaySuccess)
 }
 
 func DeleteEssayHandler(c *gin.Context) {
@@ -89,4 +71,23 @@ func DeleteEssayHandler(c *gin.Context) {
 	}
 	//3.返回响应
 	ResponseSuccess(c, deleteEssaySuccess)
+}
+
+func UpdateEssayHandler(c *gin.Context) {
+	//1.获取参数
+	var essay = new(models.EssayUpdateParams)
+	if err := c.ShouldBindJSON(essay); err != nil {
+		zap.L().Error("c.ShouldBindJSON(essay) failed", zap.Error(err))
+		ResponseError(c, CodeParamInvalid)
+		return
+	}
+
+	//2.业务处理
+	if err := logic.UpdateEssay(essay); err != nil {
+		zap.L().Error("logic.UpdateEssay(essay) failed", zap.Error(err))
+		ResponseError(c, CodeServeBusy)
+		return
+	}
+	//3.返回响应
+	ResponseSuccess(c, updateEssaySuccess)
 }

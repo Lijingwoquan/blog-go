@@ -2,127 +2,376 @@ package mysql
 
 import (
 	"blog/models"
-	"blog/pkg/snowflake"
 	"blog/utils"
 	"database/sql"
-	"errors"
 	"fmt"
+	"github.com/jmoiron/sqlx"
+	"strings"
+	"sync"
 )
 
-func GetEssayData(data *models.EssayData, id int) (err error) {
-	sqlStr := `SELECT content,name,id,introduction,kind,createdTime,updatedTime,eid,imgUrl FROM essay where id = ?`
+const (
+	invalidLabelIds = "labels参数无效"
+	essayNoExist    = "该文章不存在"
+)
 
-	var advertiseMsg sql.NullString
-	var advertiseImg sql.NullString
-	var advertiseHref sql.NullString
+func GetEssayData(data *models.EssayContent) error {
+	if err := getEssay(data); err != nil {
+		return fmt.Errorf("getEssay failed,err:%w", err)
+	}
 
-	if err = db.QueryRow(sqlStr, id).Scan(&data.Content, &data.Name, &data.Id, &data.Introduction, &data.Kind, &data.CreatedTime, &data.Eid, &data.ImgUrl, &advertiseMsg, &advertiseImg, &advertiseHref); err != nil {
+	data.NearEssayList = make([]models.EssayData, 0, 5)
+	if err := getNearbyEssays(&data.NearEssayList, data.KindID, data.Id); err != nil {
+		return fmt.Errorf("getNearbyEssays failed,err:%w", err)
+	}
+	return nil
+}
+
+func getEssay(data *models.EssayContent) error {
+	var wg sync.WaitGroup
+	taskCount := 3
+	wg.Add(taskCount)
+	var errChan = make(chan error, taskCount)
+	go func() {
+		defer wg.Done()
+		if err := getEssayContent(data); err != nil {
+			errChan <- fmt.Errorf("getEssayContent failed,err:%w", err)
+			return
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		if err := getEssayLabelList(&((*data).LabelList), data.Id); err != nil {
+			errChan <- fmt.Errorf("getEssayLabelList failed,err:%w", err)
+			return
+		}
+	}()
+
+	go func() {
+		defer wg.Done()
+		if err := increaseEssayCount(data.Id); err != nil {
+			errChan <- fmt.Errorf("increaseEssayCount failed,err:%w", err)
+			return
+		}
+	}()
+
+	wg.Wait()
+	close(errChan)
+	for err := range errChan {
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func getEssayContent(data *models.EssayContent) error {
+	sqlStr := `
+		SELECT e.id,e.name,e.kind_id, e.content, e.introduction, e.created_time, e.visited_times,
+			k.name AS kind_name
+		FROM essay e
+		LEFT JOIN kind k on e.kind_id = k.id
+		where e.id = ?
+		`
+	return db.Get(data, sqlStr, data.Id)
+}
+
+func getEssayLabelList(data *[]models.LabelData, eid int) error {
+	sqlStr := `
+		SELECT el.label_id AS id ,l.name as name
+		FROM essay_label el
+		LEFT OUTER JOIN label l on l.id = el.label_id
+		WHERE essay_id = ?
+		`
+	return db.Select(data, sqlStr, eid)
+}
+
+func increaseEssayCount(id int) error {
+	sqlStr := `
+	UPDATE essay SET visited_times = visited_times + 1
+		WHERE id = ?`
+	_, err := db.Exec(sqlStr, id)
+	return err
+}
+
+func getNearbyEssays(data *[]models.EssayData, kID int, eID int) error {
+	sqlStr := `
+		(SELECT e.id, e.name, e.kind_id, e.introduction, e.created_time, e.img_url,
+		 	k.name AS kind_name
+			FROM essay e
+			LEFT JOIN kind k on k.id = e.kind_id
+			WHERE e.kind_id = ? AND e.id < ?
+			ORDER BY e.id
+			LIMIT 2)
+		UNION ALL
+		(SELECT e.id, e.name, e.kind_id, e.introduction, e.created_time, e.img_url,
+		 	k.name AS kindName
+			FROM essay e
+			LEFT JOIN kind k on k.id = e.kind_id
+			WHERE e.kind_id = ? AND e.id > ?
+			ORDER BY e.id
+		LIMIT 2)
+  `
+	return db.Select(data, sqlStr, kID, eID, kID, eID)
+}
+
+func CreateEssay(e *models.EssayParams) error {
+	var err error
+
+	if len(e.LabelIds) == 0 {
+		return fmt.Errorf(invalidLabelIds)
+	}
+
+	if e.CreatedTime, err = utils.GetChineseTime(); err != nil {
+		return fmt.Errorf("get chinese time failed: %w", err)
+	}
+
+	return withTx(func(tx *sqlx.Tx) error {
+		result, err := insertEssay(tx, e)
+		if err != nil {
+			return fmt.Errorf("insert essay failed: %w", err)
+		}
+
+		eid64, err := result.LastInsertId()
+		if err != nil {
+			return err
+		}
+
+		eid := int(eid64)
+
+		if err := insertEssayLabels(tx, eid, e.LabelIds); err != nil {
+			return fmt.Errorf("insert essay label failed: %w", err)
+		}
+
+		if err := updateKindEssayCount(tx, e.KindID, true); err != nil {
+			return fmt.Errorf("update kind essay_count failed: %w", err)
+		}
+		return nil
+	})
+}
+
+func insertEssay(tx *sqlx.Tx, e *models.EssayParams) (sql.Result, error) {
+	sqlStr := `
+        INSERT INTO essay(name, kind_id, if_top, content, if_recommend, introduction, created_time, img_url) 
+        VALUES (:name, :kind_id, :if_top, :content, :if_recommend, :introduction, :created_time, :img_url)
+    `
+	result, err := tx.NamedExec(sqlStr, e)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
+func insertEssayLabels(tx *sqlx.Tx, eid int, lIDs []int) error {
+	// 构建批量插入的SQL和参数
+	sqlStr := `
+        INSERT INTO essay_label (essay_id, label_id)
+        SELECT ?, l.id 
+        FROM label l
+        WHERE l.id IN (?)
+    `
+
+	// 通过sqlx.In来处理IN查询
+	query, args, err := sqlx.In(sqlStr, eid, lIDs)
+	if err != nil {
 		return err
 	}
 
-	if data.Last, data.Next, err = GetAdjacentEssay(id, data.Kind); err != nil {
+	// 将SQL转换为底层数据库驱动可执行的格式
+	query = tx.Rebind(query)
+
+	result, err := tx.Exec(query, args...)
+	if err != nil {
 		return err
 	}
+
+	// 检查影响的行数是否符合预期
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	// 如果影响的行数与传入的标签ID数量不匹配,说明有无效的标签ID
+	if int(affected) != len(lIDs) {
+		return fmt.Errorf(invalidLabelIds)
+	}
+
+	return nil
+}
+
+func updateKindEssayCount(tx *sqlx.Tx, kid int, ifAdd bool) error {
+	var sqlStr string
+	sqlStr = `
+        UPDATE kind 
+        SET essay_count = essay_count  - 1
+        WHERE id = ?`
+
+	if ifAdd {
+		sqlStr = `
+        UPDATE kind 
+        SET essay_count = essay_count + 1
+        WHERE id = ?`
+	}
+
+	_, err := tx.Exec(sqlStr, kid)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
 func DeleteEssay(id int) error {
-	sqlStr := `DELETE  FROM essay WHERE id=?`
-	result, err := db.Exec(sqlStr, id)
+	return withTx(func(tx *sqlx.Tx) error {
+		if err := deleteLabels(tx, id); err != nil {
+			return fmt.Errorf("deleteLabels failed,err:%w", err)
+		}
+		kid, err := deleteEssay(tx, id)
+		if err != nil {
+			return fmt.Errorf("deleteEssay failed,err:%w", err)
+		}
+
+		if err := updateKindEssayCount(tx, kid, false); err != nil {
+			return fmt.Errorf("updateKindEssayCount failed,err:%w", err)
+		}
+
+		return nil
+	})
+}
+
+func deleteEssay(tx *sqlx.Tx, eid int) (kid int, err error) {
+	sqlStr1 := `SELECT kind_id FROM essay WHERE id = ?`
+	sqlStr2 := `DELETE FROM essay WHERE id = ?`
+
+	if err = tx.QueryRow(sqlStr1, eid).Scan(&kid); err != nil {
+		return 0, err
+	}
+
+	result, err := tx.Exec(sqlStr2, eid)
 	if err != nil {
-		return err
+		return 0, err
 	}
-	var RowsAffected int64
-	if RowsAffected, err = result.RowsAffected(); err != nil {
-		return err
+
+	affected, err := result.RowsAffected()
+	if err = noAffectedRowErr(affected, err, essayNoExist); err != nil {
+		return 0, err
 	}
-	if RowsAffected == 0 {
-		return errors.New(essayNotExist)
+	return kid, err
+}
+
+func deleteLabels(tx *sqlx.Tx, eid int) error {
+	sqlStr := `DELETE FROM essay_label WHERE essay_id = ?`
+	if _, err := tx.Exec(sqlStr, eid); err != nil {
+		return err
 	}
 	return nil
 }
 
-func GetAdjacentEssay(currentID int, currentKind string) (models.AdjacentEssay, models.AdjacentEssay, error) {
-	var lastEssay, nextEssay models.AdjacentEssay
-	var lastID, nextID sql.NullInt64
-	var lastName, nextName sql.NullString
+func UpdateEssay(data *models.EssayUpdateParams) error {
+	return withTx(func(tx *sqlx.Tx) error {
+		var err error
+		// 判断是否需要更新kind表
+		if data.OldKindID != data.KindID {
+			// 原来的kind减1
+			if err = updateKindEssayCount(tx, data.OldKindID, false); err != nil {
+				return fmt.Errorf("updateKindEssayCount failed,err:%w", err)
+			}
+			// 新的kind加1
+			if err = updateKindEssayCount(tx, data.KindID, true); err != nil {
+				return fmt.Errorf("updateKindEssayCount failed,err:%w", err)
+			}
+		}
 
-	sqlStr := `
-        SELECT 
-            (SELECT id FROM essay WHERE id < ? AND kind = ? ORDER BY id DESC LIMIT 1) AS last_id,
-            (SELECT name FROM essay WHERE id < ? AND kind = ? ORDER BY id DESC LIMIT 1) AS last_name,
-            (SELECT id FROM essay WHERE id > ? AND kind = ? ORDER BY id  LIMIT 1) AS next_id,
-            (SELECT name FROM essay WHERE id > ? AND kind = ? ORDER BY id  LIMIT 1) AS next_name
-    `
+		// 更新essay表
+		if err = updateEssay(tx, data); err != nil {
+			return fmt.Errorf("updateEssay failed,err%w", err)
+		}
 
-	args := []interface{}{currentID, currentKind, currentID, currentKind, currentID, currentKind, currentID, currentKind}
-
-	err := db.QueryRow(sqlStr, args...).Scan(&lastID, &lastName, &nextID, &nextName)
-	if err != nil {
-		return models.AdjacentEssay{}, models.AdjacentEssay{}, err
-	}
-
-	lastEssay = models.AdjacentEssay{Id: int(lastID.Int64), Name: lastName.String}
-	nextEssay = models.AdjacentEssay{Id: int(nextID.Int64), Name: nextName.String}
-
-	return lastEssay, nextEssay, nil
-}
-
-func GetEssaySnowflakeID(id int) (eid int64, err error) {
-	sqlStr := `SELECT eid FROM essay WHERE id = ?`
-	if err = db.Get(&eid, sqlStr, id); err != nil {
-		return 0, fmt.Errorf("no essay found with id %d", id)
-	}
-	return eid, nil
-}
-
-// CheckEssayExist 检测文章是否存在
-func CheckEssayExist(c *models.EssayParams) error {
-	var err error
-	sqlStr := `SELECT COUNT(*) FROM essay WHERE  kind = ? AND  name = ? `
-	var count int
-	if err = db.Get(&count, sqlStr, c.Kind, c.Name); err != nil {
+		// 更新essay_label
+		if err = updateEssayLabel(tx, data); err != nil {
+			return err
+		}
 		return err
-	}
+	})
 
-	if count > 0 {
-		return errors.New(essayExist)
-	}
-	return nil
 }
 
-// CreateEssay 添加新文章
-func CreateEssay(e *models.EssayParams) (erd int64, err error) {
-	var formattedTime string
-	if formattedTime, err = utils.GetChineseTime(); err != nil {
-		return 0, err
-	}
-	eid := snowflake.GenID()
-	sqlStr := `INSERT INTO essay(kind,name,content,Introduction,createdTime,updatedTime,eid,imgUrl) values(?,?,?,?,?,?,?,?)`
-	if _, err = db.Exec(sqlStr, e.Kind, e.Name, e.Content, e.Introduction, formattedTime, formattedTime, eid, e.ImgUrl); err != nil {
-		return 0, err
-	}
-	return eid, err
+func updateEssay(tx *sqlx.Tx, data *models.EssayUpdateParams) error {
+	sqlStr := `UPDATE essay SET 
+               name = :name,
+               kind_id = :kind_id,
+               introduction = :introduction,
+               content = :content,
+               img_url = :img_url,
+               if_top = :if_top,
+               if_recommend = :if_recommend
+               WHERE id = :id`
+	_, err := tx.NamedExec(sqlStr, data)
+	return err
 }
 
-// UpdateEssayMsg 更新文章基本信息
-func UpdateEssayMsg(data *models.UpdateEssayMsgParams) error {
-	var err error
-	var formattedTime string
-	if formattedTime, err = utils.GetChineseTime(); err != nil {
-		return err
+func updateEssayLabel(tx *sqlx.Tx, data *models.EssayUpdateParams) error {
+	// 1. 分治：获取需要添加和删除的标签
+	var needAddLabelsIds = make([]int, 0, 5)
+	var needRemoveLabelsIds = make([]int, 0, 5)
+	var oldLabelMap = make(map[int]bool, 5)
+	var newLabelMap = make(map[int]bool, 5)
+
+	// 构建新旧标签的map
+	for _, id := range data.OldLabelIds {
+		oldLabelMap[id] = true
 	}
-	sqlStr := `UPDATE essay SET name= ?,kind = ? ,content = ?,introduction=?,updatedTime=?,imgUrl=?,advertiseMsg=?,advertiseImg=?,advertiseHref = ? WHERE id = ?`
-	result, err := db.Exec(
-		sqlStr,
-		data.Name, data.Kind, data.Content, data.Introduction, formattedTime, data.ImgUrl, data.AdvertiseMsg, data.AdvertiseImg, data.AdvertiseHref,
-		data.Id)
-	if err != nil {
-		return err
+	for _, id := range data.LabelIds {
+		newLabelMap[id] = true
 	}
-	var rowsAffected int64
-	if rowsAffected, err = result.RowsAffected(); rowsAffected == 0 {
-		return errors.New(essayNotExist)
+
+	// 找出需要删除和添加的标签
+	for id := range oldLabelMap {
+		if !newLabelMap[id] {
+			needRemoveLabelsIds = append(needRemoveLabelsIds, id)
+		}
 	}
+	for id := range newLabelMap {
+		if !oldLabelMap[id] {
+			needAddLabelsIds = append(needAddLabelsIds, id)
+		}
+	}
+
+	// 2. 批量删除标签
+	if len(needRemoveLabelsIds) > 0 {
+		deleteSql := `DELETE FROM essay_label WHERE essay_id = ? AND label_id IN (?)`
+		query, args, err := sqlx.In(deleteSql, data.ID, needRemoveLabelsIds)
+		if err != nil {
+			return fmt.Errorf("construct delete query failed,err: %w", err)
+		}
+		query = tx.Rebind(query) // 重要：处理不同数据库的占位符
+		_, err = tx.Exec(query, args...)
+		if err != nil {
+			return fmt.Errorf("delete tags in batches failed,err: %w", err)
+		}
+	}
+
+	// 3. 批量添加标签
+	if len(needAddLabelsIds) > 0 {
+		// 构造批量插入的VALUES部分
+		valueStrings := make([]string, 0, len(needAddLabelsIds))
+		valueArgs := make([]interface{}, 0, len(needAddLabelsIds)*2)
+
+		for _, labelID := range needAddLabelsIds {
+			valueStrings = append(valueStrings, "(?, ?)")
+			valueArgs = append(valueArgs, data.ID, labelID)
+		}
+
+		addSql := fmt.Sprintf(`
+            INSERT INTO essay_label (essay_id, label_id) 
+            VALUES %s`, strings.Join(valueStrings, ","))
+
+		_, err := tx.Exec(addSql, valueArgs...)
+		if err != nil {
+			return fmt.Errorf("add tags in batches failed: %w", err)
+		}
+	}
+
 	return nil
 }

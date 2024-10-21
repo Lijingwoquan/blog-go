@@ -3,7 +3,6 @@ package controller
 import (
 	"blog/logic"
 	"blog/models"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"strconv"
@@ -37,6 +36,7 @@ func ResponseEssayListHandler(c *gin.Context) {
 	}
 	query.PageSize = int(pageSize64)
 
+<<<<<<< HEAD
 <<<<<<< HEAD:controller/data.go
 	query.Classify = c.Query("classify")
 
@@ -46,13 +46,15 @@ func ResponseEssayListHandler(c *gin.Context) {
 =======
 	lID, _ := strconv.ParseInt(c.Query("label_id"), 10, 64)
 	KID, _ := strconv.ParseInt(c.Query("kind_id"), 10, 64)
+=======
+	lID, _ := strconv.ParseInt(c.Query("labelID"), 10, 64)
+	KID, _ := strconv.ParseInt(c.Query("kindID"), 10, 64)
+>>>>>>> dev
 
 	query.LabelID = int(lID)
 	query.KindID = int(KID)
 
-	fmt.Println(query)
-
-	var essayListAndPage = new(models.DataAboutEssayListAndPage)
+	var essayListAndPage = new(models.EssayListAndPage)
 	if err := logic.GetEssayList(essayListAndPage, query); err != nil {
 >>>>>>> dev:controller/essay_list.go
 		zap.L().Error("logic.GetDataAboutClassifyEssayMsg(essayList) failed", zap.Error(err))
@@ -72,7 +74,7 @@ func ResponseDataAboutSearchKeyword(c *gin.Context) {
 		return
 	}
 
-	var essayList = new([]models.DataAboutEssay)
+	var essayList = new([]models.EssayData)
 	//2.逻辑处理
 	if err := logic.GetDataByKeyword(essayList, searchParam); err != nil {
 		zap.L().Error("logic.IncreaseSearchKeyword(keyword) failed", zap.Error(err))

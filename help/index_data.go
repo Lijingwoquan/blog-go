@@ -5,6 +5,7 @@ import (
 	"blog/models"
 )
 
+<<<<<<< HEAD
 // ResponseDataAboutIndex 返回首页数据
 func ResponseDataAboutIndex(DataAboutIndex *models.DataAboutIndex) (err error) {
 	var kindList = new([]models.DataAboutKind)
@@ -13,6 +14,21 @@ func ResponseDataAboutIndex(DataAboutIndex *models.DataAboutIndex) (err error) {
 	}
 	var classifyList = new([]models.DataAboutClassify)
 	if err = getClassifyAndDetails(classifyList); err != nil {
+=======
+// ResponseIndexData 返回首页数据
+func ResponseIndexData(DataAboutIndex *models.IndexData) (err error) {
+	var kindList = new([]models.KindData)
+	if err = mysql.GetKindList(kindList); err != nil {
+		return err
+	}
+	var labelList = new([]models.LabelData)
+	if err = mysql.GetLabelList(labelList); err != nil {
+		return err
+	}
+
+	var essayList = new([]models.EssayData)
+	if err = mysql.GetRecommendEssayList(essayList); err != nil {
+>>>>>>> dev
 		return err
 	}
 

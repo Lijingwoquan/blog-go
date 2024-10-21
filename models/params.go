@@ -7,6 +7,7 @@ type UserParams struct {
 	Email      string `json:"email" binding:"required"`
 }
 
+<<<<<<< HEAD
 type ClassifyParams struct {
 	Kind   string `json:"kind" binding:"required"`
 	Name   string `json:"name" binding:"required"`
@@ -38,17 +39,28 @@ type UpdateEssayMsgParams struct {
 }
 
 type UpdateKindParams struct {
+=======
+type LabelParams struct {
+	ID   int    `json:"id" db:"id"`
+	Name string `json:"name" binding:"required" db:"name"`
+}
+
+type KindParams struct {
+>>>>>>> dev
 	Name string `json:"name" binding:"required" db:"name"`
 	Icon string `json:"icon" binding:"required" db:"icon"`
 	ID   int    `json:"id" binding:"required" db:"id"`
 }
 
+<<<<<<< HEAD
 type UpdateClassifyParams struct {
 	Name   string `json:"name" binding:"required" db:"name"`
 	Router string `json:"router" binding:"required" db:"router"`
 	ID     int    `json:"id" binding:"required" db:"id"`
 }
 
+=======
+>>>>>>> dev
 type EssayQuery struct {
 	Page     int
 	PageSize int
