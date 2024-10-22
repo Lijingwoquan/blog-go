@@ -13,12 +13,13 @@ func CreateKind(k *models.KindParams) error {
 	return err
 }
 
-func DeleteKind(k *models.KindParams) (err error) {
-
+func DeleteKind(id int) error {
+	sqlStr := `DELETE FROM kind WHERE id = ?`
+	_, err := db.Exec(sqlStr, id)
 	return err
 }
 
-func UpdateKind(k *models.KindUpdateParams) (err error) {
+func UpdateKind(k *models.KindUpdateParams) error {
 
-	return err
+	return nil
 }

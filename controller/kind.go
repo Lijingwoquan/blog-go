@@ -5,6 +5,7 @@ import (
 	"blog/models"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+	"strconv"
 )
 
 const (
@@ -31,7 +32,22 @@ func CreateKindHandler(c *gin.Context) {
 }
 
 func DeleteKindHandler(c *gin.Context) {
-
+	//1.获取参数
+	idS := c.Query("id")
+	id, err := strconv.Atoi(idS)
+	if err != nil {
+		zap.L().Error("strconv.Atoi(idS) failed,err:", zap.Error(err))
+		ResponseError(c, CodeParamInvalid)
+		return
+	}
+	//2.逻辑处理
+	if err = logic.DeleteKind(id); err != nil {
+		zap.L().Error("logic.DeleteKind(id) failed,err:", zap.Error(err))
+		ResponseError(c, CodeServeBusy)
+		return
+	}
+	//3.返回响应
+	ResponseSuccess(c, deleteKindSuccess)
 }
 
 func UpdateKindHandler(c *gin.Context) {
