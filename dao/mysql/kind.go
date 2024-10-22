@@ -20,6 +20,7 @@ func DeleteKind(id int) error {
 }
 
 func UpdateKind(k *models.KindUpdateParams) error {
-
-	return nil
+	sqlStr := `UPDATE kind SET name = :name,icon = :icon WHERE id = :id`
+	_, err := db.NamedExec(sqlStr, k)
+	return err
 }
