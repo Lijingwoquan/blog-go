@@ -16,8 +16,14 @@ type EssayData struct {
 	IfTop        bool        `json:"ifTop" db:"if_top"`
 }
 
-// EssayListAndPage 分页查询相关
 type EssayListAndPage struct {
 	EssayList []EssayData `json:"essayList,omitempty"`
 	TotalPage int         `json:"totalPage,omitempty"`
+}
+
+type EssayQuery struct {
+	Page     int
+	PageSize int
+	LabelID  int
+	KindID   int
 }

@@ -17,7 +17,7 @@ func GetLabelList(data *[]models.LabelData) error {
 
 func CreateLabel(l *models.LabelParams) error {
 	sqlStr := `INSERT INTO label (name) VALUES(:name)`
-	result, err := db.Exec(sqlStr, l)
+	result, err := db.NamedExec(sqlStr, l)
 	if err != nil {
 		return err
 	}

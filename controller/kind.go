@@ -12,7 +12,9 @@ const (
 )
 
 func CreateKindHandler(c *gin.Context) {
-
+	//if err := c.ShouldBindJSON(); err != nil {
+	//
+	//}
 }
 
 func DeleteKindHandler(c *gin.Context) {
