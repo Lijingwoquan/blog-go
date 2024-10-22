@@ -2,12 +2,8 @@ package mysql
 
 import (
 	"blog/models"
-)
-
-const (
-	createLabelFailed = "创建label失败"
-	updateLabelFailed = "更新label失败"
-	deleteLabelFailed = "删除label失败"
+	"fmt"
+	"github.com/jmoiron/sqlx"
 )
 
 func GetLabelList(data *[]models.LabelData) error {
@@ -22,15 +18,44 @@ func CreateLabel(l *models.LabelParams) error {
 		return err
 	}
 	affect, err := result.RowsAffected()
-	return noAffectedRowErr(affect, err, createLabelFailed)
+	return noAffectedRowErr(affect, err, "create label failed")
 }
 
-func UpdateLabel(l *models.LabelParams) (err error) {
-
-	return err
+func DeleteLabel(id int) error {
+	return withTx(func(tx *sqlx.Tx) error {
+		if err := deleteLabelInEssayLabel(tx, id); err != nil {
+			return fmt.Errorf("deleteLabelFromEssayLabel failed,err:%w", err)
+		}
+		if err := deleteLabelInLabel(tx, id); err != nil {
+			return fmt.Errorf("deleteLabelFromLabel failed,err:%w", err)
+		}
+		return nil
+	})
 }
 
-func DeleteLabel(l *models.LabelParams) (err error) {
+func deleteLabelInLabel(tx *sqlx.Tx, id int) error {
+	// 删除label
+	sqlStr := `DELETE FROM label WHERE id = ?`
+	ret, err := tx.Exec(sqlStr, id)
+	if err != nil {
+		return err
+	}
+	affect, err := ret.RowsAffected()
+	fmt.Println(err)
+	return noAffectedRowErr(affect, err, "have not change any row")
+}
 
-	return err
+func deleteLabelInEssayLabel(tx *sqlx.Tx, id int) error {
+	sqlStr := `DELETE FROM essay_label WHERE label_id = ?`
+	ret, err := tx.Exec(sqlStr, id)
+	if err != nil {
+		return err
+	}
+	affect, err := ret.RowsAffected()
+	return noAffectedRowErr(affect, err, "delete label within essay_label failed,err")
+}
+
+func UpdateLabel(l *models.LabelUpdateParams) error {
+
+	return nil
 }
