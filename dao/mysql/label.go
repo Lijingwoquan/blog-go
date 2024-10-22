@@ -36,26 +36,22 @@ func DeleteLabel(id int) error {
 func deleteLabelInLabel(tx *sqlx.Tx, id int) error {
 	// 删除label
 	sqlStr := `DELETE FROM label WHERE id = ?`
-	ret, err := tx.Exec(sqlStr, id)
-	if err != nil {
-		return err
-	}
-	affect, err := ret.RowsAffected()
-	fmt.Println(err)
-	return noAffectedRowErr(affect, err, "have not change any row")
+	_, err := tx.Exec(sqlStr, id)
+	return err
 }
 
 func deleteLabelInEssayLabel(tx *sqlx.Tx, id int) error {
 	sqlStr := `DELETE FROM essay_label WHERE label_id = ?`
-	ret, err := tx.Exec(sqlStr, id)
-	if err != nil {
-		return err
-	}
-	affect, err := ret.RowsAffected()
-	return noAffectedRowErr(affect, err, "delete label within essay_label failed,err")
+	_, err := tx.Exec(sqlStr, id)
+	return err
 }
 
 func UpdateLabel(l *models.LabelUpdateParams) error {
-
-	return nil
+	sqlStr := `UPDATE label SET name = :name WHERE id = :id`
+	ret, err := db.NamedExec(sqlStr, l)
+	if err != nil {
+		return fmt.Errorf("update label failed,err:%w", err)
+	}
+	affect, err := ret.RowsAffected()
+	return noAffectedRowErr(affect, err, "have not label change")
 }
