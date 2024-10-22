@@ -5,7 +5,15 @@ import (
 	"blog/models"
 )
 
-// UpdateKind 更新总纲逻辑
-func UpdateKind(k *models.KindParams) (err error) {
+func CreateKind(k *models.KindParams) (err error) {
+	return mysql.CreateKind(k)
+}
+
+func DeleteKind(k *models.KindParams) (err error) {
+
+	return err
+}
+
+func UpdateKind(k *models.KindUpdateParams) (err error) {
 	return mysql.UpdateKind(k)
 }

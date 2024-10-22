@@ -9,8 +9,9 @@ import (
 )
 
 const (
-	createLabelSuccess    = "添加分类成功"
-	updateClassifySuccess = "修改分类成功"
+	createLabelSuccess = "创建label成功"
+	updateLabelSuccess = "修改label成功"
+	deleteLabelSuccess = "删除label成功"
 )
 
 func CreateLabelHandler(c *gin.Context) {
@@ -48,7 +49,7 @@ func DeleteLabelHandler(c *gin.Context) {
 		return
 	}
 	//3.返回响应
-	ResponseSuccess(c, createLabelSuccess)
+	ResponseSuccess(c, deleteLabelSuccess)
 }
 
 func UpdateLabelHandler(c *gin.Context) {
@@ -66,5 +67,5 @@ func UpdateLabelHandler(c *gin.Context) {
 		return
 	}
 	//3.返回响应
-	ResponseSuccess(c, updateClassifySuccess)
+	ResponseSuccess(c, updateLabelSuccess)
 }
